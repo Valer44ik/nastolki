@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Campaign calculator</title>
+        <link rel="stylesheet" href="startACampaign.css">
+        <style>
+            th{
+                text-align: center;
+                padding: 10x;
+                border: 1px solid rgb(190, 190, 190);
+            }
+        </style>
+    </head>
+    <body> 
+        <header>
+            <h1>Start a campaign</h1>
+        </header>
+        <main>
+            <label for="Enter campaign name">Enter campaign name:
+                <input type="text" name="campaignName" id="campaignName">
+            </label>
+            
+            <label for="Choose campaign type">Choose campaign type:
+                <select side="xxx">
+                    <option value="custom">custom:</option>
+                    <option value="lore">lore:</option>
+                </select>
+            </label>
+            
+
+            <label for="Choose a side">Choose a side:
+                <select side="player1">
+                    <option value="side1">side1</option>
+                    <option value="side2">side2</option>
+                </select>
+            </label>
+            
+            
+            <label for="select formation order">Select formation order:
+                <select formorder="xxx">
+                    <option value="lance">lance</option>
+                    <option value="star">star</option>
+                </select>
+            </label>
+            
+
+            <label for="Enter the name for the player">Enter the name for the player:
+                <input type="text" name="playerUsername" id="playerUsername">
+            </label>
+            
+
+            <label for="Start battle value">Start battle value:</label>
+            <div id="battleValue"></div>
+
+            <label for="Start pilot characteristics">Start pilot characteristics:</label>
+            <div id="pilotCharacteristics"></div>
+
+            <label for="Number of pilots">Number of pilots:</label>
+            <div id="numPilots"></div>
+
+            <button class="saveButton">Save campaign</button>
+        </main>
+
+</html>
