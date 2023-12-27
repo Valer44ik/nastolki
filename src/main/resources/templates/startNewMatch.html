@@ -34,13 +34,13 @@
       </td>
       <td>
         <form action="/SubmitForm" method="post">
-          <select id="mechCHasis_id" name="mechChasis">
+          <select id="mechChasis_id" name="mechChasis">
             <!--<option th:each="option : ${option}" th:value="${option}" th:text="${option}"></option>
             -->
             <option value="">Select Chasis</option>
             <option th:each="mechChasis : ${mechChases}"
-                    th:value="${mechChasis.name}"
-                    th:text="${mechChasis.name}"></option>
+                    th:value="${mechChasis.chasisName}"
+                    th:text="${mechChasis.chasisName}"></option>
           </select>
         </form>
       </td>

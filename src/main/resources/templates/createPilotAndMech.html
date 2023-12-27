@@ -13,7 +13,15 @@
   <form action="/createPilotAndMech" method="post">
     <label>Create a mech:
       <label>Create a chasis:
-        <input type="text" name="name" placeholder="Enter Chasis">
+        <select id="mechChasis_id" name="mechChasis">
+          <option value="">Select Chasis</option>
+          <option th:each="mechChasis : ${mechChases}"
+                  th:value="${mechChasis.chasisName}"
+                  th:text="${mechChasis.chasisName}"></option>
+        </select>
+      </label>
+      <label>Enter mech weight:
+        <input type="text" name="modelWeight" placeholder="Enter mech weight">
       </label>
       <label>Enter a mech name
         <input type="text" name="mechName" placeholder="Enter mech name">

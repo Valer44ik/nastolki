@@ -20,7 +20,7 @@ public class selectController {
         this.pilotService = pilotService;
         this.mechChasisService = mechChasisService;
     }
-
+/*
     @GetMapping("/startNewMatch")
     public String selectPilot(Model model) {
         model.addAttribute("title", "start new match");
@@ -31,7 +31,8 @@ public class selectController {
 
         List<MechChasis> mechChasis = new ArrayList<>();
         List<MechChasis> mechChases = mechChasisService.getAllMechChasis();
+        model.addAttribute("mechChases", mechChases);
         return "startNewMatch";
     }
-
+*/
 }

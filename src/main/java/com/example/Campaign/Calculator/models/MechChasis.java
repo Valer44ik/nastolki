@@ -13,8 +13,15 @@ public class MechChasis {
 
     private String chasisName, description;
 
-    public MechChasis(String chasisName) {
+    private int chasisWeight;
+
+    public String getChasisName() {
+        return chasisName;
+    }
+
+    public MechChasis(String chasisName, int chasisWeight) {
         this.chasisName = chasisName;
+        this.chasisWeight = chasisWeight;
     }
 
     public MechChasis() {

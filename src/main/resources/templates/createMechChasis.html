@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Campaign calculator</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<header>
+  <h1>Create Mech Chasis</h1>
+</header>
+<main>
+  <form action="/createMechChasis" method="post">
+    <label>Create a mech chasis:
+      <label>Enter Chasis name:
+        <input type="text" name="chasisName" placeholder="Enter chasis name">
+      </label>
+      <label>Enter chasis weight:
+        <input type="text" name="chasisWeight" placeholder="Enter chasis weight">
+      </label>
+      <button type="submit">Submit chasis</button>
+    </label>
+  </form>
+  <form action="/startNewMatch" method="get">
+    <button type="submit">return</button>
+  </form>
+</main>
+</body>
+</html>

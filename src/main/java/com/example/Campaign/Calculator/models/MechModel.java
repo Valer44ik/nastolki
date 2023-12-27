@@ -21,8 +21,11 @@ public class MechModel {
 
     private String modelName, description;
 
-    public MechModel(String modelName) {
+    private int modelWeight;
+
+    public MechModel(String modelName, int modelWeight) {
         this.modelName = modelName;
+        this.modelWeight = modelWeight;
     }
 
     public MechModel() {
