@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"l>
+<head>
+    <meta charset="utf-8">
+    <title th:text="${title} ?: 'Default Title'"></title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<header>
+    <h1>Choose a campaign</h1>
+</header>
+<main>
+    <table id="companyList">
+        <thead>
+            <tr>
+                <th>
+                    <label>Campaign name</label>
+                </th>
+                <th>
+                    <label>Date</label>
+                </th>
+                <th>
+                    <label>isEnded</label>
+                </th>
+                <th>
+                    <label>Continue campaign</label>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>Campaign1</td>
+            <td>29.07.2023</td>
+            <td>Ended</td>
+            <td>
+                <form action="/campaignSheet" method="get">
+                    <button type="submit">Watch</button>
+                </form>
+            </td>
+        </tr>
+        <tr>
+            <td>Campaign2</td>
+            <td>04.10.2023</td>
+            <td>Not Ended</td>
+            <td>
+                <button class="buttonNotEnded" onclick="buttonNotEnded(this)">Continue</button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <form action="/startACampaign" method="get">
+        <button type="submit">Start new campaign</button>
+    </form>
+</main>
+</body>
+</html>

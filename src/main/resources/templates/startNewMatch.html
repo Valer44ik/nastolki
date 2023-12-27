@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Campaign calculator</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<header>
+  <h1>Start new match</h1>
+</header>
+<main>
+  <table>
+    <thead>
+    <tr>
+      <th>Choose a pilot</th>
+      <th>Choose chasis or pilot</th>
+      <th>Mech group</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>
+        <form action="/SubmitForm" method="post">
+          <select id="pilot_id" name="pilot">
+            <!--<option th:each="option : ${option}" th:value="${option}" th:text="${option}"></option>
+            -->
+            <option value="">Select Pilot</option>
+            <option th:each="pilot : ${pilots}"
+                    th:value="${pilot.name}"
+                    th:text="${pilot.name}"></option>
+          </select>
+        </form>
+      </td>
+      <td>
+        <form action="/SubmitForm" method="post">
+          <select id="mechCHasis_id" name="mechChasis">
+            <!--<option th:each="option : ${option}" th:value="${option}" th:text="${option}"></option>
+            -->
+            <option value="">Select Chasis</option>
+            <option th:each="mechChasis : ${mechChases}"
+                    th:value="${mechChasis.name}"
+                    th:text="${mechChasis.name}"></option>
+          </select>
+        </form>
+      </td>
+      <td>
+        <select group="group1">
+          <option value="lance">lance</option>
+          <option value="star">star</option>
+        </select>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <form action="/SubmitForm" method="post">
+        <select id="pilot2_id" name="pilot">
+          <!--<option th:each="option : ${option}" th:value="${option}" th:text="${option}"></option>
+          -->
+          <option value="">Select pilot</option>
+          <option th:each="pilot : ${pilots}"
+                  th:value="${pilot.name}"
+                  th:text="${pilot.name}"></option>
+        </select>
+        </form>
+      </td>
+      <td>
+        <select chasis="chasis2">
+          <option value="A1">A1</option>
+          <option value="A2">A2</option>
+        </select>
+      </td>
+      <td>
+        <select group="group2">
+          <option value="lance">lance</option>
+          <option value="star">star</option>
+        </select>
+      </td>
+    </tr>
+    </tbody>
+    <tfoot>
+    <tr>
+      <td>303</td>
+      <td>490</td>
+      <td></td>
+    </tr>
+    </tfoot>
+  </table>
+  <table>
+    <thead>
+    <tr>
+      <th>Main tasks</th>
+      <th>Secondary tasks</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>Defeat an opponent</td>
+      <td>Get 5 points</td>
+    </tr>
+    <tr>
+      <td>Capture 2 bases</td>
+      <td>defeat 5 soldiers</td>
+    </tr>
+    </tbody>
+  </table>
+
+  <button class="startAFirstMatchButton" onclick="startAFirstMatchButton(this)">Submit</button>
+
+  <form action="/createPilotAndMech" method="get">
+    <button type="submit">create pilot and mech</button>
+  </form>
+
+</main>
+</body>
+</html>
