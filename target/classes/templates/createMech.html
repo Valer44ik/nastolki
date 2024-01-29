@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Campaign calculator</title>
+    <link rel="stylesheet" href="/style.css">
+  </head>
+  <body>
+    <header>
+      <h1>Create mech</h1>
+    </header>
+    <main>
+      <form action="/createMech" method="post">
+        <label>Create a mech:
+          <label>Choose chasis:
+            <form action="/SubmitForm" method="post">
+              <select id="mechChasis_id" name="mechChasis">
+                <option value="">Select Chasis</option>
+                <option th:each="mechChasis : ${mechChases}"
+                        th:value="${mechChasis.chasisName}"
+                        th:text="${mechChasis.chasisName}"></option>
+              </select>
+            </form>
+          </label>
+          <label>Enter mech weight:
+            <input type="text" name="modelWeight" placeholder="Enter mech weight">
+          </label>
+          <label>Enter a mech name
+            <input type="text" name="mechName" placeholder="Enter mech name">
+          </label>
+          <button type="submit">Submit</button>
+        </label>
+      </form>
+      <form action="/createMechChasis" method="get">
+        <button type="submit">Create chasis</button>
+      </form>
+      <form action="/assignPilotToMech" method="get">
+        <button type="submit">return</button>
+      </form>
+    </main>
+  </body>
+</html>

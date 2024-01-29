@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Campaign calculator</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <header>
+        <h1>Create pilot</h1>
+    </header>
+    <main>
+        <form action="/createPilot" method="post">
+            <label>Create a pilot:
+                <label>Enter a name
+                    <input type="text" name="pilotName" id="pilotName">
+                </label>
+                <label>Enter a surname
+                    <input type="text" name="pilotSurname" id="pilotSurname">
+                </label>
+                <label>Enter a nickname
+                    <input type="text" name="pilotNickname" id="pilotNickname">
+                </label>
+            </label>
+            <button type="submit">Submit</button>
+        </form>
+        <form action="/assignPilotToMech" method="get">
+            <button type="submit">return</button>
+        </form>
+    </main>
+</body>
+</html>
