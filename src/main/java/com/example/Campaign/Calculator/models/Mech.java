@@ -12,8 +12,7 @@ public class Mech {
     @JoinColumn(name = "mechModel_id")
     private MechModel mechModel_id;
 
-    public Mech(Long mech_id, MechModel mechModel_id, MechStatus mechStatus_id, int battleValue) {
-        this.mech_id = mech_id;
+    public Mech(MechModel mechModel_id, MechStatus mechStatus_id, int battleValue) {
         this.mechModel_id = mechModel_id;
         this.mechStatus_id = mechStatus_id;
         this.battleValue = battleValue;

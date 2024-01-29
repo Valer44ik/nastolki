@@ -1,12 +1,6 @@
 package com.example.Campaign.Calculator.models;
 
-import com.example.Campaign.Calculator.repo.PilotRepository;
-import com.example.Campaign.Calculator.repo.PilotService;
 import jakarta.persistence.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Entity
 @Table(name = "pilot")
@@ -16,15 +10,15 @@ public class Pilot {
     @Column(name = "pilot_id")
     private Long pilot_id;
 
-    private String name;
+    private String name, nickname, surname;
 
     @ManyToOne
-    @JoinColumn(name = "rank_id")
-    private Rank rank_id;
+    @JoinColumn(name = "pilotRank_id")
+    private PilotRank pilotRank_id;
 
     @ManyToOne
-    @JoinColumn(name = "status_id")
-    private Status status_id;
+    @JoinColumn(name = "pilotStatus_id")
+    private PilotStatus pilotStatus_id;
 
     public Long getPilot_id() {
         return pilot_id;
@@ -38,26 +32,29 @@ public class Pilot {
         this.name = name;
     }
 
-    public Rank getRank_id() {
-        return rank_id;
+    public PilotRank getRank_id() {
+        return pilotRank_id;
     }
 
-    public void setRank_id(Rank rank_id) {
-        this.rank_id = rank_id;
+    public void setRank_id(PilotRank rank_id) {
+        this.pilotRank_id = rank_id;
     }
 
-    public Status getStatus_id() {
-        return status_id;
+    public PilotStatus getStatus_id() {
+        return pilotStatus_id;
     }
 
-    public void setStatus_id(Status status_id) {
-        this.status_id = status_id;
+    public void setStatus_id(PilotStatus status_id) {
+        this.pilotStatus_id = status_id;
     }
 
-    public Pilot(String name, Rank rank_id, Status status_id) {
+    public Pilot(String name, String pilotSurname, String pilotNickname ,PilotRank pilotRank_id,
+                 PilotStatus pilotStatus_id) {
         this.name = name;
-        this.rank_id = rank_id;
-        this.status_id = status_id;
+        this.surname = pilotSurname;
+        this.nickname = pilotNickname;
+        this.pilotRank_id = pilotRank_id;
+        this.pilotStatus_id = pilotStatus_id;
     }
 
     public Pilot() {

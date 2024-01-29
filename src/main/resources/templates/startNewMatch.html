@@ -23,20 +23,16 @@
       <td>
         <form action="/SubmitForm" method="post">
           <select id="pilot_id" name="pilot">
-            <!--<option th:each="option : ${option}" th:value="${option}" th:text="${option}"></option>
-            -->
             <option value="">Select Pilot</option>
-            <option th:each="pilot : ${pilots}"
-                    th:value="${pilot.name}"
-                    th:text="${pilot.name}"></option>
+              <option th:each="pilot : ${pilots}"
+                      th:value="${pilot.name}"
+                      th:text="${pilot.name}"></option>
           </select>
         </form>
       </td>
       <td>
         <form action="/SubmitForm" method="post">
           <select id="mechChasis_id" name="mechChasis">
-            <!--<option th:each="option : ${option}" th:value="${option}" th:text="${option}"></option>
-            -->
             <option value="">Select Chasis</option>
             <option th:each="mechChasis : ${mechChases}"
                     th:value="${mechChasis.chasisName}"
@@ -107,8 +103,8 @@
 
   <button class="startAFirstMatchButton" onclick="startAFirstMatchButton(this)">Submit</button>
 
-  <form action="/createPilotAndMech" method="get">
-    <button type="submit">create pilot and mech</button>
+  <form action="/assignPilotToMech" method="get">
+    <button type="submit">Assign pilot to mech</button>
   </form>
 
 </main>

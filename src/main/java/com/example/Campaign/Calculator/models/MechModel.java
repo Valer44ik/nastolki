@@ -31,4 +31,10 @@ public class MechModel {
     public MechModel() {
 
     }
+
+    public Long getMechModel_id() {
+        return mechModel_id;
+    }
+
+
 }

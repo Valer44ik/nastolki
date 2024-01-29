@@ -1,9 +1,7 @@
 package com.example.Campaign.Calculator.Controllers;
 
 import com.example.Campaign.Calculator.models.*;
-import com.example.Campaign.Calculator.repo.MechChasisRepository;
-import com.example.Campaign.Calculator.repo.MechChasisService;
-import com.example.Campaign.Calculator.repo.PilotService;
+import com.example.Campaign.Calculator.repo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,16 +15,27 @@ import java.util.List;
 @Controller
 public class campaignController {
 
-    private final PilotService pilotService;
-    private final MechChasisService mechChasisService;
-
-    public campaignController(PilotService pilotService, MechChasisService mechChasisService) {
-        this.pilotService = pilotService;
-        this.mechChasisService = mechChasisService;
-    }
-
     @Autowired
     private MechChasisRepository mechChasisRepository;
+
+    @Autowired
+    private MechModelRepository mechModelRepository;
+
+    @Autowired
+    private MechStatusRepository mechStatusRepository;
+
+    @Autowired
+    private MechRepository mechRepository;
+
+    @Autowired
+    private PilotStatusRepository pilotStatusRepository;
+
+    @Autowired
+    private PilotRepository pilotRepository;
+
+    @Autowired
+    private PilotRankRepository pilotRankRepository;
+
 
     @GetMapping("/")
     public String mainPage(Model model)
@@ -49,47 +58,45 @@ public class campaignController {
         return "campaignSheet";
     }
 
-    @GetMapping("/startNewMatch11")
-    public String startNewMatch(Model model)
-    {
-        model.addAttribute("title", "start new match");
-        return "startNewMatch";
-    }
-
-    @GetMapping("/createPilotAndMech")
+    @GetMapping("/assignPilotToMech")
     public String createPilotAndMech(Model model)
     {
-        model.addAttribute("title", "create pilot and mech");
-        return "createPilotAndMech";
-    }
-
-    @GetMapping("/startNewMatch")
-    public String selectPilot(Model model) {
-        model.addAttribute("title", "start new match");
+        model.addAttribute("title", "Assign pilot to mech");
 
         List<Pilot> pilot = new ArrayList<>();
-        List<Pilot> pilots = pilotService.getAllPilots();
+        List<Pilot> pilots = (List<Pilot>) pilotRepository.findAll();
         model.addAttribute("pilots", pilots);
 
-        List<MechChasis> mechChasis = new ArrayList<>();
-        List<MechChasis> mechChases = mechChasisService.getAllMechChasis();
-        model.addAttribute("mechChases", mechChases);
-        return "startNewMatch";
+        List<Mech> mech = new ArrayList<>();
+        List<Mech> mechs = (List<Mech>) mechRepository.findAll();
+        model.addAttribute("mechs", mechs);
+
+        return "assignPilotToMech";
     }
 
-    @PostMapping("/createPilotAndMech")
-    public String pilotMechAdd(@RequestParam String modelName, @RequestParam String chasisName,
-                               @RequestParam int modelWeigth, @RequestParam int battleValue,
-                               Model model) {
-        MechModel mechModel = new MechModel(modelName, modelWeigth);
-        MechClass mechClass = new MechClass();
-       // MechChasis mechChasis = new MechChasis(chasisName);
+    @PostMapping("/assignPilotToMech")
+    public String assignPilotToMech(Model model) {
+
 
 
 
         Mech mech = new Mech();
-      //  postRepository.save(post);
-        return "redirect:/blog";
+        //  postRepository.save(post);
+        return "redirect:/";
+    }
+
+    @GetMapping("/startNewMatch")
+    public String startNewMatch(Model model) {
+        model.addAttribute("title", "start new match");
+
+        List<Pilot> pilot = new ArrayList<>();
+        List<Pilot> pilots = (List<Pilot>) pilotRepository.findAll();
+        model.addAttribute("pilots", pilots);
+
+        List<MechChasis> mechChasis = new ArrayList<>();
+        List<MechChasis> mechChases = (List<MechChasis>) mechChasisRepository.findAll();
+        model.addAttribute("mechChases", mechChases);
+        return "startNewMatch";
     }
 
     @GetMapping("/createMechChasis")
@@ -100,9 +107,66 @@ public class campaignController {
     }
 
     @PostMapping("/createMechChasis")
-    public String createChasis(@RequestParam String chasisName, @RequestParam int chasisWeight, Model model){
+    public String createChasis(@RequestParam String chasisName,
+                               @RequestParam int chasisWeight, Model model){
         MechChasis mechChasis = new MechChasis(chasisName, chasisWeight);
         mechChasisRepository.save(mechChasis);
         return "/createMechChasis";
     }
+
+    @GetMapping("/createMech")
+    public String createMech(Model model)
+    {
+        model.addAttribute("title", "create mech");
+        List<MechChasis> mechChasis = new ArrayList<>();
+        List<MechChasis> mechChases = (List<MechChasis>) mechChasisRepository.findAll();
+        model.addAttribute("mechChases", mechChases);
+        return "createMech";
+    }
+
+    @PostMapping("/createMech")
+    public String createMech(@RequestParam String modelName, @RequestParam int modelWeight,
+                             @RequestParam int battleValue, Model model) {
+        MechModel mechModel = new MechModel(modelName, modelWeight);
+        long modelId = mechModel.getMechModel_id();
+        mechModelRepository.save(mechModel);
+
+        MechStatus mechStatus = mechStatusRepository.findByName("Ready");
+        if (mechStatus == null) {
+            mechStatus = new MechStatus("Ready");
+            mechStatusRepository.save(mechStatus);
+        }
+
+        Mech mech = new Mech(mechModel, mechStatus, battleValue);
+        mechRepository.save(mech);
+        return "/createMech";
+    }
+
+    @GetMapping("/createPilot")
+    public String createPilot(Model model)
+    {
+        model.addAttribute("title", "create pilot");
+        return "createPilot";
+    }
+
+    @PostMapping("/createPilot")
+    public String createPilot(@RequestParam String pilotName, @RequestParam String pilotSurname,
+                              @RequestParam String pilotNickname,  Model model) {
+        PilotStatus pilotStatus = pilotStatusRepository.findByName("Ready");
+        if (pilotStatus == null) {
+            pilotStatus = new PilotStatus("Ready");
+            pilotStatusRepository.save(pilotStatus);
+        }
+
+        PilotRank pilotRank = pilotRankRepository.findByName("novice");
+        if (pilotRank == null) {
+            pilotRank = new PilotRank("novice");
+            pilotStatusRepository.save(pilotStatus);
+        }
+
+        Pilot pilot = new Pilot(pilotName, pilotSurname, pilotNickname, pilotRank, pilotStatus);
+        pilotRepository.save(pilot);
+        return "redirect:/assignPilotToMech";
+    }
+
 }
