@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class campaignController {
@@ -59,7 +60,7 @@ public class campaignController {
     }
 
     @GetMapping("/assignPilotToMech")
-    public String createPilotAndMech(Model model)
+    public String showPilotAndMech(Model model)
     {
         model.addAttribute("title", "Assign pilot to mech");
 
@@ -75,14 +76,27 @@ public class campaignController {
     }
 
     @PostMapping("/assignPilotToMech")
-    public String assignPilotToMech(Model model) {
+    public String assignPilotToMech(@RequestParam Long pilot_id, @RequestParam Long mech_id, Model model) {
+        // Retrieve the pilot and mech entities from the database
+        Optional<Pilot> optionalPilot = pilotRepository.findById(pilot_id);
+        Optional<Mech> optionalMech = mechRepository.findById(mech_id);
 
+        if (optionalPilot.isPresent() && optionalMech.isPresent()) {
+            Pilot pilot = optionalPilot.get();
+            Mech mech = optionalMech.get();
 
+            // Assign the pilot to the mech
+            mech.setPilot(pilot);
+            mechRepository.save(mech);
 
+            pilot.setHasMech(true);
 
-        Mech mech = new Mech();
-        //  postRepository.save(post);
-        return "redirect:/";
+            return "redirect:/startNewMatch";
+        }
+        else {
+            model.addAttribute("errorMessage", "Pilot or Mech not found");
+            return "assignPilotToMech";
+        }
     }
 
     @GetMapping("/startNewMatch")
@@ -125,11 +139,12 @@ public class campaignController {
     }
 
     @PostMapping("/createMech")
-    public String createMech(@RequestParam String modelName, @RequestParam int modelWeight,
+    public String createMech(@RequestParam int modelWeight, @RequestParam String mechName,
                              @RequestParam int battleValue, Model model) {
-        MechModel mechModel = new MechModel(modelName, modelWeight);
-        long modelId = mechModel.getMechModel_id();
+        MechModel mechModel = new MechModel(modelWeight);
         mechModelRepository.save(mechModel);
+        long modelId = mechModel.getMechModel_id();
+
 
         MechStatus mechStatus = mechStatusRepository.findByName("Ready");
         if (mechStatus == null) {
@@ -137,7 +152,7 @@ public class campaignController {
             mechStatusRepository.save(mechStatus);
         }
 
-        Mech mech = new Mech(mechModel, mechStatus, battleValue);
+        Mech mech = new Mech(mechName, mechStatus, mechModel, battleValue);
         mechRepository.save(mech);
         return "/createMech";
     }

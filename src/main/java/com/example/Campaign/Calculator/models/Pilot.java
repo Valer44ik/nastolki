@@ -12,6 +12,8 @@ public class Pilot {
 
     private String name, nickname, surname;
 
+    private boolean hasMech;
+
     @ManyToOne
     @JoinColumn(name = "pilotRank_id")
     private PilotRank pilotRank_id;
@@ -19,6 +21,9 @@ public class Pilot {
     @ManyToOne
     @JoinColumn(name = "pilotStatus_id")
     private PilotStatus pilotStatus_id;
+
+    @OneToOne(mappedBy = "pilot_id", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Mech mech;
 
     public Long getPilot_id() {
         return pilot_id;
@@ -32,29 +37,18 @@ public class Pilot {
         this.name = name;
     }
 
-    public PilotRank getRank_id() {
-        return pilotRank_id;
+    public void setHasMech(boolean hasMech) {
+        this.hasMech = hasMech;
     }
 
-    public void setRank_id(PilotRank rank_id) {
-        this.pilotRank_id = rank_id;
-    }
-
-    public PilotStatus getStatus_id() {
-        return pilotStatus_id;
-    }
-
-    public void setStatus_id(PilotStatus status_id) {
-        this.pilotStatus_id = status_id;
-    }
-
-    public Pilot(String name, String pilotSurname, String pilotNickname ,PilotRank pilotRank_id,
+    public Pilot(String name, String pilotSurname, String pilotNickname , PilotRank pilotRank_id,
                  PilotStatus pilotStatus_id) {
         this.name = name;
         this.surname = pilotSurname;
         this.nickname = pilotNickname;
         this.pilotRank_id = pilotRank_id;
         this.pilotStatus_id = pilotStatus_id;
+        hasMech = false;
     }
 
     public Pilot() {

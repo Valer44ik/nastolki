@@ -23,13 +23,12 @@ public class MechModel {
 
     private int modelWeight;
 
-    public MechModel(String modelName, int modelWeight) {
-        this.modelName = modelName;
-        this.modelWeight = modelWeight;
-    }
-
     public MechModel() {
 
+    }
+
+    public MechModel(int modelWeight) {
+        this.modelWeight = modelWeight;
     }
 
     public Long getMechModel_id() {

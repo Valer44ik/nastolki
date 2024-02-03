@@ -16,31 +16,33 @@
     <tr>
       <th>Pilot</th>
       <th>Mech</th>
+      <th>Assign</th>
     </tr>
     </thead>
     <tbody>
-    <tr>
-      <td>
-        <form action="/SubmitForm" method="post">
-          <select id="pilot_id" name="pilot">
-            <option value="">Select Pilot</option>
-            <option th:each="pilot : ${pilots}"
-                    th:value="${pilot.name}"
-                    th:text="${pilot.name}"></option>
-          </select>
-        </form>
-      </td>
-      <td>
-        <form action="/SubmitForm" method="post">
-          <select id="mech_id" name="mech">
-            <option value="">Select Mech</option>
-            <option th:each="mech : ${mechs}"
-                    th:value="${mech.name}"
-                    th:text="${mech.name}"></option>
-          </select>
-        </form>
-      </td>
-    </tr>
+    <form action="/assignPilotToMech" method="post">
+      <tr>
+        <td>
+            <select id="pilot_id" name="pilot_id">
+              <option value="">Select Pilot</option>
+              <option th:each="pilot : ${pilots}"
+                      th:value="${pilot.pilot_id}"
+                      th:text="${pilot.name}"></option>
+            </select>
+        </td>
+        <td>
+            <select id="mech_id" name="mech_id">
+              <option value="">Select Mech</option>
+              <option th:each="mech : ${mechs}"
+                      th:value="${mech.mech_id}"
+                      th:text="${mech.name}"></option>
+            </select>
+        </td>
+        <td>
+            <button type="submit">Assign</button>
+        </td>
+      </tr>
+    </form>
     </tbody>
   </table>
   <form action="/startNewMatch" method="get">
