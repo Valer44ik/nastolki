@@ -10,7 +10,6 @@
       <h1>Create mech</h1>
     </header>
     <main>
-
         <label>Create a mech:
           <label>Choose chasis:
             <select id="mechChasis_id" name="mechChasis">
@@ -21,18 +20,18 @@
             </select>
           </label>
           <form action="/createMech" method="post">
-          <label>Enter mech weight:
-            <input type="number" name="modelWeight" placeholder="Enter mech weight">
-          </label>
-          <label>Enter a mech name
-            <input type="text" name="mechName" placeholder="Enter mech name">
-          </label>
-          <label>Enter a mech battle value
-            <input type="number" name="battleValue" placeholder="Enter mech battle value">
-          </label>
-          <button type="submit">Submit</button>
+            <label>Enter mech weight:
+              <input type="number" name="modelWeight" placeholder="Enter mech weight">
+            </label>
+            <label>Enter a mech name
+              <input type="text" name="mechName" placeholder="Enter mech name">
+            </label>
+            <label>Enter a mech battle value
+              <input type="number" name="battleValue" placeholder="Enter mech battle value">
+            </label>
+            <button type="submit">Submit</button>
+          </form>
         </label>
-      </form>
       <form action="/createMechChasis" method="get">
         <button type="submit">Create chasis</button>
       </form>

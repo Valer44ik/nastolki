@@ -4,54 +4,40 @@
   <meta charset="utf-8">
   <title>Campaign calculator</title>
   <link rel="stylesheet" href="/style.css">
-  <style>
-    th{
-      text-align: center;
-      border: 1px solid rgb(190, 190, 190);
-    }
-  </style>
 </head>
 <body>
-<header>
-  <h1>Start a campaign</h1>
-</header>
-<main>
-  <label>Enter campaign name:
-    <input type="text" name="campaignName" id="campaignName">
-  </label>
-
-  <label>Choose campaign type:
-    <select side="xxx">
-      <option value="custom">custom:</option>
-      <option value="lore">lore:</option>
-    </select>
-  </label>
-
-  <label>Select formation order:
-    <select formorder="xxx">
-      <option value="lance">lance</option>
-      <option value="star">star</option>
-    </select>
-  </label>
-
-
-  <label>Enter the name for the player:
-    <input type="text" name="playerUsername" id="playerUsername">
-  </label>
-
-
-  <label>Start battle value:</label>
-  <div id="battleValue"></div>
-
-  <label>Start pilot characteristics:</label>
-  <div id="pilotCharacteristics"></div>
-
-  <label>Number of pilots:</label>
-  <div id="numPilots"></div>
-
-  <form action="/" method="get">
-    <button type="submit">Save campaign</button>
-  </form>
-</main>
+  <header>
+    <h1>Start a campaign</h1>
+  </header>
+  <main>
+    <form action="/startACampaign" method="post">
+      <label>Enter campaign name:
+        <input type="text" name="campaignName" id="campaignName">
+      </label>
+      <label>Choose campaign type:
+        <select id="campaignType" name="campaignType">
+          <option value="">Select type</option>
+          <option th:each="campaignType : ${campaignTypes}"
+                  th:value="${campaignType}"
+                  th:text="${campaignType}"></option>
+        </select>
+      </label>
+      <label>Select formation order:
+        <select id="formationOrder" name="formationOrder">
+          <option value="">Select formation order</option>
+          <option th:each="formationOrder : ${formationOrders}"
+                  th:value="${formationOrder}"
+                  th:text="${formationOrder}"></option>
+        </select>
+      </label>
+      <label>Start battle value:
+        <input type="number" name="battleValue" placeholder="Enter battle value">
+      </label>
+      <button type="submit">create</button>
+    </form>
+    <form action="/" method="get">
+      <button type="submit">return</button>
+    </form>
+  </main>
 </body>
 </html>

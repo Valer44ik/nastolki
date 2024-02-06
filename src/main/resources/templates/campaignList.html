@@ -10,7 +10,7 @@
     <h1>Choose a campaign</h1>
 </header>
 <main>
-    <table id="companyList">
+    <table>
         <thead>
             <tr>
                 <th>
@@ -28,24 +28,16 @@
             </tr>
         </thead>
         <tbody>
-        <tr>
-            <td>Campaign1</td>
-            <td>29.07.2023</td>
-            <td>Ended</td>
-            <td>
-                <form action="/campaignSheet" method="get">
-                    <button type="submit">Watch</button>
-                </form>
-            </td>
-        </tr>
-        <tr>
-            <td>Campaign2</td>
-            <td>04.10.2023</td>
-            <td>Not Ended</td>
-            <td>
-                <button class="buttonNotEnded" onclick="buttonNotEnded(this)">Continue</button>
-            </td>
-        </tr>
+            <tr th:each="campaign : ${campaigns}">
+                <td th:text="${campaign.campaignName}"></td>
+                <td th:text="${campaign.startDate}"></td>
+                <td th:text="${campaign.isEnded}"></td>
+                <td>
+                    <form action="/campaignSheet" method="get">
+                        <button type="submit">Watch</button>
+                    </form>
+                </td>
+            </tr>
         </tbody>
     </table>
     <form action="/startACampaign" method="get">

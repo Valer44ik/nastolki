@@ -2,33 +2,62 @@ package com.example.Campaign.Calculator.models;
 
 import jakarta.persistence.*;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
+@Table(name = "campaign")
 public class Campaign {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "campaign_id")
     private Long campaign_id;
 
-    private String campaignName, campaignType, formationOrder;
+    private String campaignName;
     private int battleValue, numOfPilots;
-    private Date startDate;
+    private LocalDate startDate;
+    private boolean isEnded;
 
     @OneToMany(mappedBy = "campaign_id")
     private Set<Game> games = new HashSet<>();
 
-    public Campaign(String name, String campaignType, String formationOrder, int battleValue, int numOfPilots, Date startDate) {
+    @Enumerated(EnumType.STRING)
+    private FormationOrder formationOrder;
+
+    @Enumerated(EnumType.STRING)
+    private CampaignType campaignType;
+
+    public String getCampaignName() {
+        return campaignName;
+    }
+
+    public LocalDate getStartDate() {
+        return startDate;
+    }
+
+    public boolean isEnded() {
+        return isEnded;
+    }
+
+    public Campaign(String name, CampaignType campaignType, FormationOrder formationOrder, int battleValue,
+                    LocalDate startDate) {
         this.campaignName = name;
         this.campaignType = campaignType;
         this.formationOrder = formationOrder;
         this.battleValue = battleValue;
-        this.numOfPilots = numOfPilots;
         this.startDate = startDate;
+        isEnded = false;
+        if(formationOrder == FormationOrder.star){
+            numOfPilots = 4;
+        }
+        else{
+            numOfPilots = 5;
+        }
     }
 
     public Campaign() {
 
     }
 }
+
