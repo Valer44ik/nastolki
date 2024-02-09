@@ -19,8 +19,8 @@ public class Campaign {
     private LocalDate startDate;
     private boolean isEnded;
 
-    @OneToMany(mappedBy = "campaign_id")
-    private Set<Game> games = new HashSet<>();
+    @OneToMany(mappedBy = "campaign")
+    private Set<Match1> matches = new HashSet<>();
 
     @Enumerated(EnumType.STRING)
     private FormationOrder formationOrder;
@@ -38,6 +38,10 @@ public class Campaign {
 
     public boolean isEnded() {
         return isEnded;
+    }
+
+    public Long getCampaign_id() {
+        return campaign_id;
     }
 
     public Campaign(String name, CampaignType campaignType, FormationOrder formationOrder, int battleValue,

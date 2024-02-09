@@ -33,7 +33,8 @@
                 <td th:text="${campaign.startDate}"></td>
                 <td th:text="${campaign.isEnded}"></td>
                 <td>
-                    <form action="/campaignSheet" method="get">
+                    <form action="/matchList" method="get">
+                        <input type="hidden" name="campaign_id" th:value="${campaign.campaign_id}">
                         <button type="submit">Watch</button>
                     </form>
                 </td>

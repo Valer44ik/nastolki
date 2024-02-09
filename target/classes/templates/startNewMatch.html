@@ -22,11 +22,81 @@
     <tr>
       <td>
         <form action="/SubmitForm" method="post">
-          <select id="pilot_id" name="pilot">
+          <select id="pilot_id1" name="pilot">
             <option value="">Select Pilot</option>
               <option th:each="pilot : ${pilots}"
                       th:value="${pilot.name}"
                       th:text="${pilot.name}"></option>
+          </select>
+        </form>
+      </td>
+      <td>
+        <form action="/SubmitForm" method="post">
+          <select id="mechChasis_id1" name="mechChasis">
+            <option value="">Select Chasis</option>
+            <option th:each="mechChasis : ${mechChases}"
+                    th:value="${mechChasis.chasisName}"
+                    th:text="${mechChasis.chasisName}"></option>
+          </select>
+        </form>
+      </td>
+      <td>
+        <select group="group1">
+          <option value="lance">lance</option>
+          <option value="star">star</option>
+        </select>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <form action="/SubmitForm" method="post">
+        <select id="pilot_id2" name="pilot">
+          <option value="">Select pilot</option>
+          <option th:each="pilot : ${pilots}"
+                  th:value="${pilot.name}"
+                  th:text="${pilot.name}"></option>
+        </select>
+        </form>
+      </td>
+      <td>
+        <select chasis="chasis2">
+          <option value="A1">A1</option>
+          <option value="A2">A2</option>
+        </select>
+      </td>
+      <td>
+        <select group="group2">
+          <option value="lance">lance</option>
+          <option value="star">star</option>
+        </select>
+      </td>
+    </tr>
+    </tbody>
+    <tfoot>
+    <tr>
+      <td>303</td>
+      <td>490</td>
+      <td></td>
+    </tr>
+    </tfoot>
+  </table>
+  <table>
+    <thead>
+    <tr>
+      <th>Choose a pilot</th>
+      <th>Choose chasis or pilot</th>
+      <th>Mech group</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>
+        <form action="/SubmitForm" method="post">
+          <select id="pilot_id" name="pilot">
+            <option value="">Select Pilot</option>
+            <option th:each="pilot : ${pilots}"
+                    th:value="${pilot.name}"
+                    th:text="${pilot.name}"></option>
           </select>
         </form>
       </td>
@@ -50,14 +120,12 @@
     <tr>
       <td>
         <form action="/SubmitForm" method="post">
-        <select id="pilot2_id" name="pilot">
-          <!--<option th:each="option : ${option}" th:value="${option}" th:text="${option}"></option>
-          -->
-          <option value="">Select pilot</option>
-          <option th:each="pilot : ${pilots}"
-                  th:value="${pilot.name}"
-                  th:text="${pilot.name}"></option>
-        </select>
+          <select id="pilot2_id" name="pilot">
+            <option value="">Select pilot</option>
+            <option th:each="pilot : ${pilots}"
+                    th:value="${pilot.name}"
+                    th:text="${pilot.name}"></option>
+          </select>
         </form>
       </td>
       <td>

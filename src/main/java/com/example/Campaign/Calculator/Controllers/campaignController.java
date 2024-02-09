@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.ArrayList;
 import java.util.List;
 import java.time.LocalDate;
+import java.util.Optional;
 
 @Controller
 public class campaignController {
@@ -24,6 +25,9 @@ public class campaignController {
 
     @Autowired
     private CampaignRepository campaignRepository;
+
+    @Autowired
+    private MatchRepository matchRepository;
 
     @GetMapping("/")
     public String mainPage(Model model)
@@ -64,7 +68,7 @@ public class campaignController {
     public String campaignSheet(Model model)
     {
         model.addAttribute("title", "campaign sheet");
-        return "campaignSheet";
+        return "match";
     }
 
     @GetMapping("/startNewMatch")
@@ -79,5 +83,31 @@ public class campaignController {
         List<MechChasis> mechChases = (List<MechChasis>) mechChasisRepository.findAll();
         model.addAttribute("mechChases", mechChases);
         return "startNewMatch";
+    }
+
+    @PostMapping("/startNewMatch")
+    public String createMatch(Model model) {
+
+
+
+        return "matchList";
+    }
+
+    @GetMapping("/matchList")
+    public String matchList(@RequestParam Long campaign_id, Model model) {
+        model.addAttribute("title", "match list");
+        Optional<Campaign> optionalCampaign = campaignRepository.findById(campaign_id);
+
+        if(optionalCampaign.isPresent()){
+            Campaign campaign = optionalCampaign.get();
+            List<Match1> matches = matchRepository.findByCampaign(campaign);
+            model.addAttribute("matches", matches);
+
+            return "matchList";
+        }
+        else {
+            model.addAttribute("errorMessage", "Campaign not found");
+            return "campaignList";
+        }
     }
 }

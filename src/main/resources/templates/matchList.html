@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="utf-8">
+    <title th:text="${title} ?: 'Default Title'"></title>
+    <link rel="stylesheet" href="/style.css">
+  </head>
+    <body>
+    <header>
+      <h1>Choose a match</h1>
+    </header>
+    <main>
+      <table>
+        <thead>
+          <tr>
+            <th>
+              <label>Match name</label>
+            </th>
+            <th>
+              <label>Date</label>
+            </th>
+            <th>
+              <label>isEnded</label>
+            </th>
+            <th>
+              <label>Continue match</label>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="match : ${matches}">
+            <td th:text="${match.name}"></td>
+            <td th:text="${match.startDate}"></td>
+            <td th:text="${match.isEnded}"></td>
+            <td>
+              <form action="/match" method="get">
+                <button type="submit">Watch</button>
+              </form>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <form action="/startNewMatch" method="get">
+        <button type="submit">Start new match</button>
+      </form>
+    </main>
+  </body>
+</html>
