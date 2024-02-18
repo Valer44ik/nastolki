@@ -41,6 +41,7 @@
         </tbody>
       </table>
       <form action="/startNewMatch" method="get">
+        <input type="hidden" name="campaign_id" th:value="${campaign_id}">
         <button type="submit">Start new match</button>
       </form>
     </main>

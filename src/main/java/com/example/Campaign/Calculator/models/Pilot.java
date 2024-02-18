@@ -2,6 +2,9 @@ package com.example.Campaign.Calculator.models;
 
 import jakarta.persistence.*;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
 @Table(name = "pilot")
 public class Pilot {
@@ -22,6 +25,17 @@ public class Pilot {
     @JoinColumn(name = "pilotStatus_id")
     private PilotStatus pilotStatus_id;
 
+    @ManyToOne
+    @JoinColumn(name = "match_id")
+    private Match1 match_id;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "playerPilot",
+            joinColumns = @JoinColumn(name = "pilot_id", referencedColumnName = "pilot_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "user_id"))
+    private Set<User> users = new HashSet<>();
+
     @OneToOne(mappedBy = "pilot_id", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Mech mech;
 
@@ -39,6 +53,10 @@ public class Pilot {
 
     public void setHasMech(boolean hasMech) {
         this.hasMech = hasMech;
+    }
+
+    public void setUser(User user) {
+        users.add(user);
     }
 
     public Pilot(String name, String pilotSurname, String pilotNickname , PilotRank pilotRank_id,

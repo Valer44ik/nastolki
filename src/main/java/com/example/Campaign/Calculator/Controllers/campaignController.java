@@ -29,6 +29,9 @@ public class campaignController {
     @Autowired
     private MatchRepository matchRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
     @GetMapping("/")
     public String mainPage(Model model)
     {
@@ -72,8 +75,13 @@ public class campaignController {
     }
 
     @GetMapping("/startNewMatch")
-    public String startNewMatch(Model model) {
+    public String startNewMatch(@RequestParam Long campaign_id, Model model) {
         model.addAttribute("title", "start new match");
+
+        Campaign campaign = campaignRepository.findById(campaign_id).orElse(null);
+        assert campaign != null;
+        int numOfPilots = campaign.getNumOfPilots();
+        model.addAttribute("numOfPilots", numOfPilots);
 
         List<Pilot> pilot = new ArrayList<>();
         List<Pilot> pilots = (List<Pilot>) pilotRepository.findAll();
@@ -82,13 +90,43 @@ public class campaignController {
         List<MechChasis> mechChasis = new ArrayList<>();
         List<MechChasis> mechChases = (List<MechChasis>) mechChasisRepository.findAll();
         model.addAttribute("mechChases", mechChases);
+
+        model.addAttribute("campaign_id", campaign_id);
+
         return "startNewMatch";
     }
 
     @PostMapping("/startNewMatch")
-    public String createMatch(Model model) {
+    public String createMatch(@RequestParam List<Pilot> pilots, @RequestParam List<MechChasis> mechChasis,
+                              @RequestParam List<String> mainTasksText, @RequestParam List<String> secondaryTasksText,
+                              @RequestParam User user1, @RequestParam User user2, Model model) {
+        List<Pilot> firstUserPilots = null;
+        List<Pilot> secondUserPilots = null;
 
+        int halfSize = pilots.size()/2;
 
+        for(int i = 0; i < halfSize; i++) {
+            firstUserPilots.add(pilots.get(i));
+        }
+        for(int i = halfSize; i < pilots.size(); i++) {
+            secondUserPilots.add(pilots.get(i));
+        }
+
+        for(Pilot pilot : firstUserPilots) {
+            pilot.setUser(user1);
+        }
+
+        for(Pilot pilot : secondUserPilots) {
+            pilot.setUser(user2);
+        }
+
+        List<MainTask> mainTasks = null;
+        MainTask mainTask;
+
+        for(String text : mainTasksText) {
+            mainTask = new MainTask(text);
+            mainTasks.add(mainTask);
+        }
 
         return "matchList";
     }
@@ -103,6 +141,7 @@ public class campaignController {
             List<Match1> matches = matchRepository.findByCampaign(campaign);
             model.addAttribute("matches", matches);
 
+            model.addAttribute("campaign_id", campaign_id);
             return "matchList";
         }
         else {

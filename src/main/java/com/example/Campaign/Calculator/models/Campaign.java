@@ -44,6 +44,10 @@ public class Campaign {
         return campaign_id;
     }
 
+    public int getNumOfPilots() {
+        return numOfPilots;
+    }
+
     public Campaign(String name, CampaignType campaignType, FormationOrder formationOrder, int battleValue,
                     LocalDate startDate) {
         this.campaignName = name;
