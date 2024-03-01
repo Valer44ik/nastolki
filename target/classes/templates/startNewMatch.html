@@ -24,16 +24,16 @@
               <select name="pilot">
                 <option value="">Select Pilot</option>
                 <option th:each="pilot : ${pilots}"
-                        th:value="${pilot.name}"
+                        th:value="${pilot.pilot_id}"
                         th:text="${pilot.name}"></option>
               </select>
             </td>
             <td>
-              <select name="mechChasis">
-                <option value="">Select Chasis</option>
-                <option th:each="mechChasis : ${mechChases}"
-                        th:value="${mechChasis.chasisName}"
-                        th:text="${mechChasis.chasisName}"></option>
+              <select name="mech">
+                <option value="">Select Mech</option>
+                <option th:each="mech : ${mechs}"
+                        th:value="${mech.mech_id}"
+                        th:text="${mech.name}"></option>
               </select>
             </td>
           </tr>
@@ -58,7 +58,7 @@
               <select name="pilot">
                 <option value="">Select Pilot</option>
                 <option th:each="pilot : ${pilots}"
-                        th:value="${pilot.name}"
+                        th:value="${pilot.pilot_id}"
                         th:text="${pilot.name}"></option>
               </select>
             </td>

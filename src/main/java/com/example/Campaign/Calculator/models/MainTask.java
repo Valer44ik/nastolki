@@ -14,10 +14,15 @@ public class MainTask {
 
     private String text;
 
+    public void setMatch_id(Match1 match_id) {
+        this.match_id = match_id;
+    }
+
     public MainTask(String text) {
         this.text = text;
     }
 
     public MainTask() {
     }
+
 }

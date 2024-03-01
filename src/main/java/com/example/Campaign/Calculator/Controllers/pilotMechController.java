@@ -37,9 +37,10 @@ public class pilotMechController {
     private PilotRepository pilotRepository;
 
     @GetMapping("/assignPilotToMech")
-    public String showPilotAndMech(Model model)
+    public String showPilotAndMech(@RequestParam Long campaign_id, Model model)
     {
         model.addAttribute("title", "Assign pilot to mech");
+        model.addAttribute("campaign_id", campaign_id);
 
         List<Pilot> pilot = new ArrayList<>();
         List<Pilot> pilots = (List<Pilot>) pilotRepository.findAll();
@@ -75,9 +76,10 @@ public class pilotMechController {
     }
 
     @GetMapping("/createMechChasis")
-    public String createMechChasis(Model model)
+    public String createMechChasis(@RequestParam Long campaign_id, Model model)
     {
         model.addAttribute("title", "create mech chasis");
+        model.addAttribute("campaign_id", campaign_id);
         return "createMechChasis";
     }
 
@@ -90,9 +92,10 @@ public class pilotMechController {
     }
 
     @GetMapping("/createMech")
-    public String createMech(Model model)
+    public String createMech(@RequestParam Long campaign_id, Model model)
     {
         model.addAttribute("title", "create mech");
+        model.addAttribute("campaign_id", campaign_id);
         List<MechChasis> mechChasis = new ArrayList<>();
         List<MechChasis> mechChases = (List<MechChasis>) mechChasisRepository.findAll();
         model.addAttribute("mechChases", mechChases);
@@ -119,9 +122,10 @@ public class pilotMechController {
     }
 
     @GetMapping("/createPilot")
-    public String createPilot(Model model)
+    public String createPilot(@RequestParam Long campaign_id, Model model)
     {
         model.addAttribute("title", "create pilot");
+        model.addAttribute("campaign_id", campaign_id);
         return "createPilot";
     }
 
@@ -143,5 +147,21 @@ public class pilotMechController {
         Pilot pilot = new Pilot(pilotName, pilotSurname, pilotNickname, pilotRank, pilotStatus);
         pilotRepository.save(pilot);
         return "redirect:/assignPilotToMech";
+    }
+
+    @GetMapping("/pilotInfoScreen")
+    public String viewPilot(@RequestParam Long campaign_id, Model model) {
+        model.addAttribute("title", "Pilot Info Screen");
+        model.addAttribute("campaign_id", campaign_id);
+
+        return "pilotInfoScreen";
+    }
+
+    @GetMapping("/mechInfoScreen")
+    public String viewMech(@RequestParam Long campaign_id, Model model) {
+        model.addAttribute("title", "Mech Info Screen");
+        model.addAttribute("campaign_id", campaign_id);
+
+        return "mechInfoScreen";
     }
 }

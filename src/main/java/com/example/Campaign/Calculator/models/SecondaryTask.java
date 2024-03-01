@@ -14,6 +14,10 @@ public class SecondaryTask {
 
     private String text;
 
+    public void setMatch_id(Match1 match_id) {
+        this.match_id = match_id;
+    }
+
     public SecondaryTask(String text) {
         this.text = text;
     }

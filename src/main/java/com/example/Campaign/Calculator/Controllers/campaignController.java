@@ -32,6 +32,16 @@ public class campaignController {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private MainTaskRepository mainTaskRepository;
+
+    @Autowired
+    private SecondaryTaskRepository secondaryTaskRepository;
+
+    @Autowired
+    private MechRepository mechRepository;
+
+
     @GetMapping("/")
     public String mainPage(Model model)
     {
@@ -83,13 +93,11 @@ public class campaignController {
         int numOfPilots = campaign.getNumOfPilots();
         model.addAttribute("numOfPilots", numOfPilots);
 
-        List<Pilot> pilot = new ArrayList<>();
         List<Pilot> pilots = (List<Pilot>) pilotRepository.findAll();
         model.addAttribute("pilots", pilots);
 
-        List<MechChasis> mechChasis = new ArrayList<>();
-        List<MechChasis> mechChases = (List<MechChasis>) mechChasisRepository.findAll();
-        model.addAttribute("mechChases", mechChases);
+        List<Mech> mechs = (List<Mech>) mechRepository.findAll();
+        model.addAttribute("mechs", mechs);
 
         model.addAttribute("campaign_id", campaign_id);
 
@@ -97,36 +105,61 @@ public class campaignController {
     }
 
     @PostMapping("/startNewMatch")
-    public String createMatch(@RequestParam List<Pilot> pilots, @RequestParam List<MechChasis> mechChasis,
+    public String createMatch(@RequestParam List<Pilot> pilots, @RequestParam List<Mech> mechs,
                               @RequestParam List<String> mainTasksText, @RequestParam List<String> secondaryTasksText,
                               @RequestParam User user1, @RequestParam User user2, Model model) {
+        Match1 match = new Match1();
+
         List<Pilot> firstUserPilots = null;
         List<Pilot> secondUserPilots = null;
-
+        List<Mech> firstUserMechs = null;
+        List<Mech> secondUserMechs = null;
         int halfSize = pilots.size()/2;
-
         for(int i = 0; i < halfSize; i++) {
             firstUserPilots.add(pilots.get(i));
+            Mech mech = mechs.get(i);
+            mech.setPilot(pilots.get(i));
+            mechRepository.save(mech);
+            firstUserMechs.add(mech);
         }
         for(int i = halfSize; i < pilots.size(); i++) {
             secondUserPilots.add(pilots.get(i));
+            Mech mech = mechs.get(i);
+            mech.setPilot(pilots.get(i));
+            mechRepository.save(mech);
+            firstUserMechs.add(mech);
         }
 
+        assert firstUserPilots != null;
         for(Pilot pilot : firstUserPilots) {
             pilot.setUser(user1);
+            pilotRepository.save(pilot);
         }
-
+        assert secondUserPilots != null;
         for(Pilot pilot : secondUserPilots) {
             pilot.setUser(user2);
+            pilotRepository.save(pilot);
         }
 
         List<MainTask> mainTasks = null;
+        List<SecondaryTask> secondaryTasks = null;
         MainTask mainTask;
+        SecondaryTask secondaryTask;
 
         for(String text : mainTasksText) {
             mainTask = new MainTask(text);
+            mainTask.setMatch_id(match);
+            mainTaskRepository.save(mainTask);
             mainTasks.add(mainTask);
         }
+        for(String text : secondaryTasksText) {
+            secondaryTask = new SecondaryTask(text);
+            secondaryTask.setMatch_id(match);
+            secondaryTaskRepository.save(secondaryTask);
+            secondaryTasks.add(secondaryTask);
+        }
+
+        matchRepository.save(match);
 
         return "matchList";
     }
@@ -148,5 +181,23 @@ public class campaignController {
             model.addAttribute("errorMessage", "Campaign not found");
             return "campaignList";
         }
+    }
+
+    @GetMapping("/match")
+    public String viewMatch(@RequestParam Long campaign_id, @RequestParam Long match_id, Model model) {
+        model.addAttribute("title", "match");
+        model.addAttribute("campaign_id", campaign_id);
+        model.addAttribute("match_id", match_id);
+
+        Campaign campaign = campaignRepository.findById(campaign_id).orElse(null);
+        assert campaign != null;
+        int numOfPilots = campaign.getNumOfPilots();
+        model.addAttribute("numOfPilots", numOfPilots);
+
+        Match1 match = matchRepository.findById(match_id).orElse(null);
+        assert match != null;
+        List<Pilot> pilots = pilotRepository.findByMatch(match);
+
+        return "match";
     }
 }

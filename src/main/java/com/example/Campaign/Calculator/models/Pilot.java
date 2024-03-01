@@ -39,10 +39,6 @@ public class Pilot {
     @OneToOne(mappedBy = "pilot_id", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Mech mech;
 
-    public Long getPilot_id() {
-        return pilot_id;
-    }
-
     public String getName() {
         return name;
     }

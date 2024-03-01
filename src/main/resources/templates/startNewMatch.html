@@ -21,7 +21,7 @@
           <tbody>
           <tr th:each="i : ${#numbers.sequence(1, numOfPilots)}">
             <td>
-              <select name="pilot">
+              <select name="pilot" id = "mySelect">
                 <option value="">Select Pilot</option>
                 <option th:each="pilot : ${pilots}"
                         th:value="${pilot.pilot_id}"
@@ -29,11 +29,11 @@
               </select>
             </td>
             <td>
-              <select name="mechChasis">
-                <option value="">Select Chasis</option>
-                <option th:each="mechChasis : ${mechChases}"
-                        th:value="${mechChasis.chasisName}"
-                        th:text="${mechChasis.chasisName}"></option>
+              <select name="mech">
+                <option value="">Select Mech</option>
+                <option th:each="mech : ${mechs}"
+                        th:value="${mech.mech_id}"
+                        th:text="${mech.name}"></option>
               </select>
             </td>
           </tr>
@@ -63,11 +63,11 @@
               </select>
             </td>
             <td>
-              <select name="mechChasis">
-                <option value="">Select Chasis</option>
-                <option th:each="mechChasis : ${mechChases}"
-                        th:value="${mechChasis.chasisName}"
-                        th:text="${mechChasis.chasisName}"></option>
+              <select id="mech_id" name="mech_id">
+                <option value="">Select Mech</option>
+                <option th:each="mech : ${mechs}"
+                        th:value="${mech.mech_id}"
+                        th:text="${mech.name}"></option>
               </select>
             </td>
           </tr>
