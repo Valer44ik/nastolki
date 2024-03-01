@@ -196,7 +196,7 @@ public class campaignController {
 
         Match1 match = matchRepository.findById(match_id).orElse(null);
         assert match != null;
-        List<Pilot> pilots = pilotRepository.findByMatch(match);
+        //List<Pilot> pilots = pilotRepository.findByMatch(match);
 
         return "match";
     }
