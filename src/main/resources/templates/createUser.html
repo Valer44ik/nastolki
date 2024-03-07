@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Campaign calculator</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<header>
+  <h1>Create User</h1>
+</header>
+<main>
+  <form action="/createUser" method="post">
+    <label>Create a user:
+      <label>Enter user nickname
+        <input type="text" name="nickname" id="nickname">
+      </label>
+      <label>Enter login
+        <input type="text" name="login" id="login">
+      </label>
+      <label>Enter email
+        <input type="text" name="email" id="email">
+      </label>
+      <label>Enter password
+        <input type="text" name="password" id="password">
+      </label>
+    </label>
+    <button type="submit">Submit</button>
+  </form>
+  <form action="/assignPilotToMech" method="get">
+    <button type="submit">return</button>
+  </form>
+</main>
+</body>
+</html>

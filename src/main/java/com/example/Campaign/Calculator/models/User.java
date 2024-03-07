@@ -22,6 +22,17 @@ public class User {
     @ManyToMany(mappedBy = "users")
     private Set<Pilot> pilots = new HashSet<>();
 
+    @ManyToMany(mappedBy = "users")
+    private Set<Campaign> campaigns = new HashSet<>();
+
+    public Long getUser_id() {
+        return user_id;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
     public User() {
     }
 }

@@ -2,7 +2,7 @@ package com.example.Campaign.Calculator.models;
 
 import jakarta.persistence.*;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -12,7 +12,7 @@ public class Match1 {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long match_id;
 
-    private Date startDate, endDate;
+    private LocalDate startDate, endDate;
 
     private String notes, name;
 
@@ -22,7 +22,7 @@ public class Match1 {
     @JoinColumn(name = "campaign")
     private Campaign campaign;
 
-    @OneToMany(mappedBy = "match_id")
+    @OneToMany(mappedBy = "match")
     private Set<Pilot> pilots = new HashSet<>();
 
     @OneToMany(mappedBy = "match_id")
@@ -38,7 +38,7 @@ public class Match1 {
             inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "user_id"))
     private Set<User> users = new HashSet<>();
 
-    public Date getStartDate() {
+    public LocalDate getStartDate() {
         return startDate;
     }
 
@@ -50,11 +50,10 @@ public class Match1 {
         return isEnded;
     }
 
-    public Match1(Long match_id, Date startDate, String name, Campaign campaign) {
-        this.match_id = match_id;
+    public Match1(LocalDate startDate, String name, boolean isEnded, Campaign campaign) {
         this.startDate = startDate;
-        this.isEnded = false;
         this.name = name;
+        this.isEnded = isEnded;
         this.campaign = campaign;
     }
 

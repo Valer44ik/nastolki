@@ -36,50 +36,10 @@ public class pilotMechController {
     @Autowired
     private PilotRepository pilotRepository;
 
-    @GetMapping("/assignPilotToMech")
-    public String showPilotAndMech(@RequestParam Long campaign_id, Model model)
-    {
-        model.addAttribute("title", "Assign pilot to mech");
-        model.addAttribute("campaign_id", campaign_id);
-
-        List<Pilot> pilot = new ArrayList<>();
-        List<Pilot> pilots = (List<Pilot>) pilotRepository.findAll();
-        model.addAttribute("pilots", pilots);
-
-        List<Mech> mech = new ArrayList<>();
-        List<Mech> mechs = (List<Mech>) mechRepository.findAll();
-        model.addAttribute("mechs", mechs);
-
-        return "assignPilotToMech";
-    }
-
-    @PostMapping("/assignPilotToMech")
-    public String assignPilotToMech(@RequestParam Long pilot_id, @RequestParam Long mech_id, Model model) {
-        Optional<Pilot> optionalPilot = pilotRepository.findById(pilot_id);
-        Optional<Mech> optionalMech = mechRepository.findById(mech_id);
-
-        if (optionalPilot.isPresent() && optionalMech.isPresent()) {
-            Pilot pilot = optionalPilot.get();
-            Mech mech = optionalMech.get();
-
-            mech.setPilot(pilot);
-            mechRepository.save(mech);
-
-            pilot.setHasMech(true);
-
-            return "redirect:/startNewMatch";
-        }
-        else {
-            model.addAttribute("errorMessage", "Pilot or Mech not found");
-            return "assignPilotToMech";
-        }
-    }
-
     @GetMapping("/createMechChasis")
-    public String createMechChasis(@RequestParam Long campaign_id, Model model)
+    public String createMechChasis(Model model)
     {
         model.addAttribute("title", "create mech chasis");
-        model.addAttribute("campaign_id", campaign_id);
         return "createMechChasis";
     }
 
@@ -92,10 +52,9 @@ public class pilotMechController {
     }
 
     @GetMapping("/createMech")
-    public String createMech(@RequestParam Long campaign_id, Model model)
+    public String createMech(Model model)
     {
         model.addAttribute("title", "create mech");
-        model.addAttribute("campaign_id", campaign_id);
         List<MechChasis> mechChasis = new ArrayList<>();
         List<MechChasis> mechChases = (List<MechChasis>) mechChasisRepository.findAll();
         model.addAttribute("mechChases", mechChases);
@@ -122,10 +81,9 @@ public class pilotMechController {
     }
 
     @GetMapping("/createPilot")
-    public String createPilot(@RequestParam Long campaign_id, Model model)
+    public String createPilot(Model model)
     {
         model.addAttribute("title", "create pilot");
-        model.addAttribute("campaign_id", campaign_id);
         return "createPilot";
     }
 

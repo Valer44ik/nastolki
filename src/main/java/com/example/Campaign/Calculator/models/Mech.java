@@ -32,6 +32,10 @@ public class Mech {
         return name;
     }
 
+    public int getBattleValue() {
+        return battleValue;
+    }
+
     public Long getMech_id() {
         return mech_id;
     }

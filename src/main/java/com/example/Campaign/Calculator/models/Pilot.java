@@ -26,8 +26,8 @@ public class Pilot {
     private PilotStatus pilotStatus_id;
 
     @ManyToOne
-    @JoinColumn(name = "match_id")
-    private Match1 match_id;
+    @JoinColumn(name = "match")
+    private Match1 match;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
@@ -53,6 +53,18 @@ public class Pilot {
 
     public void setUser(User user) {
         users.add(user);
+    }
+
+    public Mech getMech() {
+        return mech;
+    }
+
+    public Long getPilot_id() {
+        return pilot_id;
+    }
+
+    public void setMatch(Match1 match) {
+        this.match = match;
     }
 
     public Pilot(String name, String pilotSurname, String pilotNickname , PilotRank pilotRank_id,

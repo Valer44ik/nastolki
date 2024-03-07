@@ -22,6 +22,13 @@ public class Campaign {
     @OneToMany(mappedBy = "campaign")
     private Set<Match1> matches = new HashSet<>();
 
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "userCampaign",
+            joinColumns = @JoinColumn(name = "campaign_id", referencedColumnName = "campaign_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "user_id"))
+    private Set<User> users = new HashSet<>();
+
     @Enumerated(EnumType.STRING)
     private FormationOrder formationOrder;
 
@@ -46,6 +53,14 @@ public class Campaign {
 
     public int getNumOfPilots() {
         return numOfPilots;
+    }
+
+    public Set<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(Set<User> users) {
+        this.users = users;
     }
 
     public Campaign(String name, CampaignType campaignType, FormationOrder formationOrder, int battleValue,

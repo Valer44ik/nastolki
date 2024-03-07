@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Campaign calculator</title>
+    <link rel="stylesheet" href="/style.css">
+  </head>
+  <body>
+    <header>
+      <h1>Start first match</h1>
+    </header>
+    <main>
+      <form action="/startNewMatch" method="post">
+        <label>Enter match name:
+          <input type="text" name="matchName" placeholder="Enter match name">
+        </label>
+        <table>
+          <thead>
+          <tr>
+            <th>Choose a pilot</th>
+            <th>Choose chasis or pilot</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr th:each="i : ${#numbers.sequence(1, numOfPilots)}">
+            <td>
+              <select name="pilot" id = "mySelect">
+                <option value="">Select Pilot</option>
+                <option th:each="pilot : ${pilots}"
+                        th:value="${pilot.pilot_id}"
+                        th:text="${pilot.name}"></option>
+              </select>
+            </td>
+            <td>
+              <select name="mech">
+                <option value="">Select Mech</option>
+                <option th:each="mech : ${mechs}"
+                        th:value="${mech.mech_id}"
+                        th:text="${mech.name}"></option>
+              </select>
+            </td>
+          </tr>
+          </tbody>
+          <tfoot>
+          <tr>
+            <td>303</td>
+            <td>490</td>
+          </tr>
+          </tfoot>
+        </table>
+        <table>
+          <thead>
+          <tr>
+            <th>Choose a pilot</th>
+            <th>Choose chasis or pilot</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr th:each="i : ${#numbers.sequence(1, numOfPilots)}">
+            <td>
+              <select name="pilot">
+                <option value="">Select Pilot</option>
+                <option th:each="pilot : ${pilots}"
+                        th:value="${pilot.pilot_id}"
+                        th:text="${pilot.name}"></option>
+              </select>
+            </td>
+            <td>
+              <select id="mech_id" name="mech_id">
+                <option value="">Select Mech</option>
+                <option th:each="mech : ${mechs}"
+                        th:value="${mech.mech_id}"
+                        th:text="${mech.name}"></option>
+              </select>
+            </td>
+          </tr>
+          </tbody>
+          <tfoot>
+          <tr>
+            <td>303</td>
+            <td>490</td>
+          </tr>
+          </tfoot>
+        </table>
+        <table>
+          <thead>
+          <tr>
+            <th>Main tasks</th>
+            <th>Secondary tasks</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td>
+              <label>
+                <input type="text" name="mainTasks" placeholder="Enter task">
+              </label>
+            </td>
+            <td>
+              <label>
+                <input type="text" name="mainTasks" placeholder="Enter task">
+              </label>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label>
+                <input type="text" name="secondaryTasks" placeholder="Enter task">
+              </label>
+            </td>
+            <td>
+              <label>
+                <input type="text" name="secondaryTasks" placeholder="Enter task">
+              </label>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+        <input type="hidden" name="campaign_id" th:value="${campaign_id}">
+        <button type="submit">Submit</button>
+      </form>
+      <form action="/matchList" method="get">
+        <input type="hidden" name="campaign_id" th:value="${campaign_id}">
+        <button type="submit">return</button>
+      </form>
+    </main>
+  </body>
+</html>

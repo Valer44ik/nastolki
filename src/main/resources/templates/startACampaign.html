@@ -30,6 +30,22 @@
                   th:text="${formationOrder}"></option>
         </select>
       </label>
+      <label>Choose user1:
+        <select name="firstUser_id">
+          <option value="">Select user</option>
+          <option th:each="user : ${users}"
+                   th:value="${user.user_id}"
+                   th:text="${user.nickname}"></option>
+        </select>
+      </label>
+      <label>Choose user2:
+        <select name="secondUser_id">
+          <option value="">Select user</option>
+          <option th:each="user : ${users}"
+                  th:value="${user.user_id}"
+                  th:text="${user.nickname}"></option>
+        </select>
+      </label>
       <label>Start battle value:
         <input type="number" name="battleValue" placeholder="Enter battle value">
       </label>

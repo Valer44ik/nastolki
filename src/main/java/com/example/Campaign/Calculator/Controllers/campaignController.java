@@ -9,16 +9,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.time.LocalDate;
-import java.util.Optional;
 
 @Controller
 public class campaignController {
-
-    @Autowired
-    private MechChasisRepository mechChasisRepository;
 
     @Autowired
     private PilotRepository pilotRepository;
@@ -63,30 +58,37 @@ public class campaignController {
 
         model.addAttribute("formationOrders", FormationOrder.values());
 
+        List<User> users = (List<User>) userRepository.findAll();
+        model.addAttribute("users", users);
+
         return "startACampaign";
     }
 
     @PostMapping("/startACampaign")
     public String createCampaign(@RequestParam String campaignName, @RequestParam CampaignType campaignType,
-                                 @RequestParam FormationOrder formationOrder, @RequestParam int battleValue, Model model)
+                                 @RequestParam FormationOrder formationOrder, @RequestParam Long firstUser_id,
+                                 @RequestParam Long secondUser_id, @RequestParam int battleValue, Model model)
     {
         model.addAttribute("title", "start a campaign");
+
         LocalDate startDate = LocalDate.now();
         Campaign campaign = new Campaign(campaignName, campaignType, formationOrder, battleValue, startDate);
+
+        User firstUser = userRepository.findById(firstUser_id).orElse(null);
+        User secondUser = userRepository.findById(secondUser_id).orElse(null);
+        Set<User> users = new HashSet<>();
+        users.add(firstUser);
+        users.add(secondUser);
+
+        campaign.setUsers(users);
+
         campaignRepository.save(campaign);
         return "startACampaign";
     }
 
-    @GetMapping("/campaignSheet")
-    public String campaignSheet(Model model)
-    {
-        model.addAttribute("title", "campaign sheet");
-        return "match";
-    }
-
-    @GetMapping("/startNewMatch")
-    public String startNewMatch(@RequestParam Long campaign_id, Model model) {
-        model.addAttribute("title", "start new match");
+    @GetMapping("/startFirstMatch")
+    public String startFirstMatch(@RequestParam Long campaign_id, Model model) {
+        model.addAttribute("title", "start first match");
 
         Campaign campaign = campaignRepository.findById(campaign_id).orElse(null);
         assert campaign != null;
@@ -101,14 +103,25 @@ public class campaignController {
 
         model.addAttribute("campaign_id", campaign_id);
 
-        return "startNewMatch";
+        return "startFirstMatch";
     }
 
-    @PostMapping("/startNewMatch")
-    public String createMatch(@RequestParam List<Pilot> pilots, @RequestParam List<Mech> mechs,
-                              @RequestParam List<String> mainTasksText, @RequestParam List<String> secondaryTasksText,
-                              @RequestParam User user1, @RequestParam User user2, Model model) {
-        Match1 match = new Match1();
+    @PostMapping("/startFirstMatch")
+    public String createFirstMatch(@RequestParam String matchName, @RequestParam List<Pilot> pilots,
+                              @RequestParam List<Mech> mechs, @RequestParam List<String> mainTasksText,
+                              @RequestParam List<String> secondaryTasksText, @RequestParam Long campaign_id ,
+                              Model model) {
+        Campaign campaign = campaignRepository.findById(campaign_id).orElse(null);
+        assert campaign != null;
+        Set<User> set = campaign.getUsers();
+        List<User> users = new ArrayList<>(set);
+        User user1 = users.get(0);
+        User user2 = users.get(1);
+
+        LocalDate startdate = LocalDate.now();
+        boolean isEnded = false;
+
+        Match1 match = new Match1(startdate, matchName, isEnded, campaign);
 
         List<Pilot> firstUserPilots = null;
         List<Pilot> secondUserPilots = null;
@@ -127,17 +140,19 @@ public class campaignController {
             Mech mech = mechs.get(i);
             mech.setPilot(pilots.get(i));
             mechRepository.save(mech);
-            firstUserMechs.add(mech);
+            secondUserMechs.add(mech);
         }
 
         assert firstUserPilots != null;
         for(Pilot pilot : firstUserPilots) {
             pilot.setUser(user1);
+            pilot.setMatch(match);
             pilotRepository.save(pilot);
         }
         assert secondUserPilots != null;
         for(Pilot pilot : secondUserPilots) {
             pilot.setUser(user2);
+            pilot.setMatch(match);
             pilotRepository.save(pilot);
         }
 
@@ -162,6 +177,26 @@ public class campaignController {
         matchRepository.save(match);
 
         return "matchList";
+    }
+
+    @GetMapping("/startNewMatch")
+    public String startNewMatch(@RequestParam Long campaign_id, Model model) {
+        model.addAttribute("title", "start new match");
+
+        Campaign campaign = campaignRepository.findById(campaign_id).orElse(null);
+        assert campaign != null;
+        int numOfPilots = campaign.getNumOfPilots();
+        model.addAttribute("numOfPilots", numOfPilots);
+
+        List<Pilot> pilots = (List<Pilot>) pilotRepository.findAll();
+        model.addAttribute("pilots", pilots);
+
+        List<Mech> mechs = (List<Mech>) mechRepository.findAll();
+        model.addAttribute("mechs", mechs);
+
+        model.addAttribute("campaign_id", campaign_id);
+
+        return "startFirstMatch";
     }
 
     @GetMapping("/matchList")
@@ -196,7 +231,8 @@ public class campaignController {
 
         Match1 match = matchRepository.findById(match_id).orElse(null);
         assert match != null;
-        //List<Pilot> pilots = pilotRepository.findByMatch(match);
+        List<Pilot> pilots = pilotRepository.findByMatch(match);
+        model.addAttribute("pilots", pilots);
 
         return "match";
     }

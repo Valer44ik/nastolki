@@ -13,41 +13,33 @@
     <table>
       <thead>
         <tr>
-          <th> Pilot list </th>
-          <th> Pilot battle value </th>
-          <th></th>
-          <th> Mech list </th>
-          <th> Mech battle value </th>
-          <th></th>
+          <th>Pilot list </th>
+          <th>Pilot battle value </th>
+          <th>View pilot</th>
+          <th>Mech list </th>
+          <th>Mech battle value </th>
+          <th>View Mech</th>
         </tr>
       </thead>
       <tbody>
-        <tr th:each="i : ${#numbers.sequence(1, numOfPilots)}">
-          <td>
-            <select name="pilot">
-              <option value="">Select Pilot</option>
-              <option th:each="pilot : ${pilots}"
-                      th:value="${pilot.pilot_id}"
-                      th:text="${pilot.name}"></option>
-            </select>
-          </td>
+        <tr th:each="pilot : ${pilots}">
+          <td th:text="${pilot.name}"></td>
           <td>512</td>
           <td>
-            <form action="pilotInfoScreen" method="get">
-              <button class="viewPilotButton" onclick="viewPilotButton(this)">view</button>
+            <form action="/pilotInfoScreen" method="get">
+              <input type="hidden" name="campaign_id" th:value="${campaign_id}">
+              <input type="hidden" name="pilot_id" th:value="${pilot.pilot_id}">
+              <button type="submit">View Pilot</button>
             </form>
           </td>
+          <td th:text="${pilot.mech.name}"></td>
+          <td th:text="${pilot.mech.battleValue}"></td>
           <td>
-            <select id="mech_id" name="mech_id">
-              <option value="">Select Mech</option>
-              <option th:each="mech : ${mechs}"
-                      th:value="${mech.mech_id}"
-                      th:text="${mech.name}"></option>
-            </select>
-          </td>
-          <td>3281</td>
-          <td>
-            <button class="viewMechButton" onclick="viewMechButton(this)">view</button>
+            <form action="/mechInfoScreen" method="get">
+              <input type="hidden" name="campaign_id" th:value="${campaign_id}">
+              <input type="hidden" name="mech_id" th:value="${pilot.mech.mech_id}">
+              <button type="submit">View mech</button>
+            </form>
           </td>
         </tr>
       </tbody>
@@ -58,9 +50,11 @@
       </tfoot>
     </table>
     <form action="/startNewMatch" method="get">
+      <input type="hidden" name="campaign_id" th:value="${campaign_id}">
       <button type="submit">new match</button>
     </form>
     <form action="/campaignList" method="get">
+      <input type="hidden" name="campaign_id" th:value="${campaign_id}">
       <button type="submit">return</button>
     </form>
   </body>
