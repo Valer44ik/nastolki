@@ -8,7 +8,8 @@ public class MechModel {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long mechModel_id;
 
-    @OneToOne(mappedBy = "mechModel_id", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "mech")
     private Mech mech;
 
     @OneToOne(fetch = FetchType.LAZY)

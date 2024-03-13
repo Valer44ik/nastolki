@@ -36,6 +36,9 @@ public class campaignController {
     @Autowired
     private MechRepository mechRepository;
 
+    @Autowired
+    private MechChasisRepository mechChasisRepository;
+
 
     @GetMapping("/")
     public String mainPage(Model model)
@@ -185,18 +188,19 @@ public class campaignController {
 
         Campaign campaign = campaignRepository.findById(campaign_id).orElse(null);
         assert campaign != null;
-        int numOfPilots = campaign.getNumOfPilots();
-        model.addAttribute("numOfPilots", numOfPilots);
 
-        List<Pilot> pilots = (List<Pilot>) pilotRepository.findAll();
+        List<Pilot> pilots = pilotRepository.findByCampaign(campaign);
         model.addAttribute("pilots", pilots);
 
-        List<Mech> mechs = (List<Mech>) mechRepository.findAll();
+        List<Mech> mechs = mechRepository.findByCampaign(campaign);
         model.addAttribute("mechs", mechs);
+
+        List<MechChasis> mechChases = mechChasisRepository.selectUnassignedChases();
+        model.addAttribute("mechsChases", mechChases);
 
         model.addAttribute("campaign_id", campaign_id);
 
-        return "startFirstMatch";
+        return "startNewMatch";
     }
 
     @GetMapping("/matchList")

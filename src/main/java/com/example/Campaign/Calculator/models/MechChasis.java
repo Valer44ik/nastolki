@@ -8,8 +8,9 @@ public class MechChasis {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long mechChasis_id;
 
-    @OneToOne(mappedBy = "mechChasis_id", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private MechModel mechModel;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "mechModel_id")
+    private MechModel mechModel_id;
 
     private String chasisName, description;
 
@@ -17,6 +18,10 @@ public class MechChasis {
 
     public String getChasisName() {
         return chasisName;
+    }
+
+    public Long getMechChasis_id() {
+        return mechChasis_id;
     }
 
     public MechChasis(String chasisName, int chasisWeight) {

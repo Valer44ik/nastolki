@@ -16,6 +16,7 @@ public class PilotStatus {
     private Set<Pilot> pilots = new HashSet<>();
 
     private String name;
+    private String health;
 
     public PilotStatus(Object pilotStatusId, String name) {
     }

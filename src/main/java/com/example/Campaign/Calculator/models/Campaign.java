@@ -22,6 +22,12 @@ public class Campaign {
     @OneToMany(mappedBy = "campaign")
     private Set<Match1> matches = new HashSet<>();
 
+    @OneToMany(mappedBy = "campaign")
+    private Set<Mech> mechs = new HashSet<>();
+
+    @OneToMany(mappedBy = "campaign")
+    private Set<Pilot> pilots = new HashSet<>();
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "userCampaign",

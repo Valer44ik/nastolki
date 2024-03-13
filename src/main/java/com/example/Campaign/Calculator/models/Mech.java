@@ -12,9 +12,8 @@ public class Mech {
 
     private int battleValue, weight;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "mechModel_id")
-    private MechModel mechModel_id;
+    @OneToOne(mappedBy = "mech", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private MechModel mechModel;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "pilot_id")
@@ -23,6 +22,11 @@ public class Mech {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "mechStatus_id")
     private MechStatus mechStatus_id;
+
+    @ManyToOne
+    @JoinColumn(name = "campaign")
+    private Campaign campaign;
+
 
     public void setPilot(Pilot pilot_id) {
         this.pilot_id = pilot_id;
@@ -40,10 +44,21 @@ public class Mech {
         return mech_id;
     }
 
-    public Mech(String name, MechStatus mechStatus_id, MechModel mechModel_id, int battleValue) {
+    public MechModel getMechModel() {
+        return mechModel;
+    }
+
+    public MechModel getMechModel_id() {
+        return mechModel;
+    }
+
+    public MechStatus getMechStatus_id() {
+        return mechStatus_id;
+    }
+
+    public Mech(String name, MechStatus mechStatus_id, int battleValue) {
         this.name = name;
         this.mechStatus_id = mechStatus_id;
-        this.mechModel_id = mechModel_id;
         this.battleValue = battleValue;
     }
 

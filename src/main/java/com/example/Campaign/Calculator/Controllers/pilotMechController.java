@@ -75,7 +75,7 @@ public class pilotMechController {
             mechStatusRepository.save(mechStatus);
         }
 
-        Mech mech = new Mech(mechName, mechStatus, mechModel, battleValue);
+        Mech mech = new Mech(mechName, mechStatus, battleValue);
         mechRepository.save(mech);
         return "/createMech";
     }

@@ -29,6 +29,10 @@ public class Pilot {
     @JoinColumn(name = "match")
     private Match1 match;
 
+    @ManyToOne
+    @JoinColumn(name = "campaign")
+    private Campaign campaign;
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "playerPilot",
