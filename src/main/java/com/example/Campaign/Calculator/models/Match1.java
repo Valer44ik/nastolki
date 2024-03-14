@@ -22,13 +22,13 @@ public class Match1 {
     @JoinColumn(name = "campaign")
     private Campaign campaign;
 
-    @OneToMany(mappedBy = "match")
+    @OneToMany(mappedBy = "match1")
     private Set<Pilot> pilots = new HashSet<>();
 
-    @OneToMany(mappedBy = "match_id")
+    @OneToMany(mappedBy = "match")
     private Set<MainTask> mainTasks = new HashSet<>();
 
-    @OneToMany(mappedBy = "match_id")
+    @OneToMany(mappedBy = "match")
     private Set<SecondaryTask> secondaryTasks = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.EAGER)

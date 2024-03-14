@@ -12,14 +12,11 @@ public class PilotStatus {
     @Column(name = "pilotStatus_id")
     private Long pilotStatus_id;
 
-    @OneToMany(mappedBy = "pilotStatus_id")
+    @OneToMany(mappedBy = "pilotStatus")
     private Set<Pilot> pilots = new HashSet<>();
 
     private String name;
     private String health;
-
-    public PilotStatus(Object pilotStatusId, String name) {
-    }
 
     public PilotStatus() {
     }
@@ -32,7 +29,7 @@ public class PilotStatus {
         return name;
     }
 
-    public Object getPilotStatus_id() {
+    public Long getPilotStatus_id() {
         return pilotStatus_id;
     }
 

@@ -9,19 +9,27 @@ public class MechChasis {
     private Long mechChasis_id;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "mechModel_id")
-    private MechModel mechModel_id;
+    @JoinColumn(name = "mech")
+    private Mech mech;
 
     private String chasisName, description;
 
     private int chasisWeight;
 
+    public Long getMechChasis_id() {
+        return mechChasis_id;
+    }
+
     public String getChasisName() {
         return chasisName;
     }
 
-    public Long getMechChasis_id() {
-        return mechChasis_id;
+    public void setMech(Mech mech) {
+        this.mech = mech;
+    }
+
+    public Mech getMech() {
+        return mech;
     }
 
     public MechChasis(String chasisName, int chasisWeight) {

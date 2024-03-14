@@ -10,7 +10,7 @@ import java.util.List;
 
 @Repository
 public interface PilotRepository extends CrudRepository<Pilot, Long> {
-   List<Pilot> findByMatch(Match1 match);
+   List<Pilot> findByMatch1(Match1 match);
 
    List<Pilot> findByCampaign(Campaign campaign);
 }

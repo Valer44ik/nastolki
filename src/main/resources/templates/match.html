@@ -44,10 +44,28 @@
         </tr>
       </tbody>
       <tfoot>
-      <tr>
-        <td colspan="4">Total battle value: TBV </td>
-      </tr>
+        <tr>
+          <td colspan="4">Total battle value: TBV </td>
+        </tr>
       </tfoot>
+    </table>
+    <table>
+      <thead>
+      <tr>
+        <th>Main Tasks</th>
+        <th>Completed</th>
+        <th>Secondary Tasks</th>
+        <th>Completed</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="idx : ${#numbers.sequence(0, mainTasks.size())}">
+        <td th:text="${mainTasks[idx].text}"></td>
+        <td><input type="checkbox" th:field="${mainTasks[idx].completed}"></td>
+        <td th:text="${secondaryTasks[idx].text}"></td>
+        <td><input type="checkbox" th:field="${secondaryTasks[idx].completed}"></td>
+      </tr>
+      </tbody>
     </table>
     <form action="/startNewMatch" method="get">
       <input type="hidden" name="campaign_id" th:value="${campaign_id}">

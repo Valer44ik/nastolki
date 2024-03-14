@@ -10,9 +10,18 @@ public class MechClass {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long mechClass_id;
 
-    @OneToMany(mappedBy = "mechClass_id")
-    private Set<MechModel> mechModels = new HashSet<>();
+    @OneToMany(mappedBy = "mechClass")
+    private Set<Mech> mechs = new HashSet<>();
 
     private String className;
     private int minWeight, maxWeight;
+
+    public MechClass(String className, int minWeight, int maxWeight) {
+        this.className = className;
+        this.minWeight = minWeight;
+        this.maxWeight = maxWeight;
+    }
+
+    public MechClass() {
+    }
 }

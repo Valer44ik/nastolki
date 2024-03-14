@@ -10,7 +10,7 @@ import java.util.List;
 
 @Repository
 public interface MechChasisRepository extends CrudRepository<MechChasis, Long> {
-    @Query("SELECT m FROM MechChasis m WHERE m.mechModel_id IS NULL")
+    @Query("SELECT m FROM MechChasis m WHERE m.mech IS NULL")
     List<MechChasis> selectUnassignedChases();
 }
 

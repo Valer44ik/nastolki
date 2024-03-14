@@ -9,17 +9,32 @@ public class MainTask {
     private Long mainTask_id;
 
     @ManyToOne
-    @JoinColumn(name = "match_id")
-    private Match1 match_id;
+    @JoinColumn(name = "match")
+    private Match1 match;
 
     private String text;
 
-    public void setMatch_id(Match1 match_id) {
-        this.match_id = match_id;
+    private Boolean isCompleted;
+
+    public void setMatch(Match1 match) {
+        this.match = match;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public Boolean getCompleted() {
+        return isCompleted;
+    }
+
+    public void setCompleted(Boolean completed) {
+        isCompleted = completed;
     }
 
     public MainTask(String text) {
         this.text = text;
+        this.isCompleted = false;
     }
 
     public MainTask() {

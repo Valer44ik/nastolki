@@ -11,14 +11,10 @@ public class PilotRank {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long pilotRank_id;
 
-    @OneToMany(mappedBy = "pilotRank_id")
+    @OneToMany(mappedBy = "pilotRank")
     private Set<Pilot> pilots = new HashSet<>();
 
     private String name;
-
-    public PilotRank(String name) {
-        this.name = name;
-    }
 
     public Long getPilotRank_id() {
         return pilotRank_id;
@@ -28,8 +24,7 @@ public class PilotRank {
         return name;
     }
 
-    public PilotRank(Long pilotRank_id, String name) {
-        this.pilotRank_id = pilotRank_id;
+    public PilotRank(String name) {
         this.name = name;
     }
 

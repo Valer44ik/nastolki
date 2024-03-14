@@ -7,7 +7,7 @@
 </head>
 <body>
 <header>
-    <h1>Start first match</h1>
+    <h1>Start new match</h1>
 </header>
 <main>
     <form action="/startNewMatch" method="post">
@@ -16,70 +16,61 @@
         </label>
         <table>
             <thead>
-            <tr>
-                <th>Choose a pilot</th>
-                <th>Choose chasis or pilot</th>
-            </tr>
+                <tr>
+                    <th>Your pilots</th>
+                    <th>Your mechs</th>
+                    <th>Choose chasis you want to change</th>
+                </tr>
             </thead>
             <tbody>
-            <tr th:each="i : ${#numbers.sequence(1, numOfPilots)}">
-                <td>
-                    <select name="pilot" id = "mySelect">
-                        <option value="">Select Pilot</option>
-                        <option th:each="pilot : ${pilots}"
-                                th:value="${pilot.pilot_id}"
-                                th:text="${pilot.name}"></option>
-                    </select>
-                </td>
-                <td>
-                    <select name="mech">
-                        <option value="">Select Mech</option>
-                        <option th:each="mech : ${mechs}"
-                                th:value="${mech.mech_id}"
-                                th:text="${mech.name}"></option>
-                    </select>
-                </td>
-            </tr>
+                <tr th:each="idx : ${#numbers.sequence(0, pilots.size())}">
+                    <td th:text="${pilots[idx].name}"></td>
+                    <td th:text="${mechs[idx].name}"></td>
+                    <td>
+                        <select name="mechChasis_id">
+                            <option value="">Select Mech Chasis</option>
+                            <option th:each="mechChasis : ${mechsChases}"
+                                    th:value="${mechChasis.mechChasis_id}"
+                                    th:text="${mechChasis.chasisName}"
+                                    th:selected="${pilots[idx].mech.mechChasis_id}"></option>
+                        </select>
+                    </td>
+                </tr>
             </tbody>
             <tfoot>
-            <tr>
-                <td>303</td>
-                <td>490</td>
-            </tr>
+                <tr>
+                    <td>303</td>
+                    <td>490</td>
+                </tr>
             </tfoot>
         </table>
         <table>
             <thead>
-            <tr>
-                <th>Choose a pilot</th>
-                <th>Choose chasis or pilot</th>
-            </tr>
+                <tr>
+                    <th>Your pilots</th>
+                    <th>Your mechs</th>
+                    <th>Choose chasis you want to change</th>
+                </tr>
             </thead>
             <tbody>
-            <tr th:each="i : ${#numbers.sequence(1, numOfPilots)}">
-                <td>
-                    <select name="pilot">
-                        <option value="">Select Pilot</option>
-                        <option th:each="pilot : ${pilots}"
-                                th:value="${pilot.pilot_id}"
-                                th:text="${pilot.name}"></option>
-                    </select>
-                </td>
-                <td>
-                    <select id="mech_id" name="mech_id">
-                        <option value="">Select Mech</option>
-                        <option th:each="mech : ${mechs}"
-                                th:value="${mech.mech_id}"
-                                th:text="${mech.name}"></option>
-                    </select>
-                </td>
-            </tr>
+                <tr th:each="pilot : ${pilots}">
+                    <td th:text="pilot.name"></td>
+                    <td th:text="pilot.mech.name"></td>
+                    <td>
+                        <select name="mechChasis_id">
+                            <option value="">Select Mech Chasis</option>
+                            <option th:each="mechChasis : ${mechsChases}"
+                                    th:value="${mechChasis.mechChasis_id}"
+                                    th:text="${mechChasis.chasisName}"></option>
+                        </select>
+                    </td>
+                </tr>
             </tbody>
             <tfoot>
-            <tr>
-                <td>303</td>
-                <td>490</td>
-            </tr>
+                <tr>
+                    <td>303</td>
+                    <td>490</td>
+                </tr>
             </tfoot>
         </table>
         <table>

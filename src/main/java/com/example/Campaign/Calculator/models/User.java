@@ -33,6 +33,13 @@ public class User {
         return nickname;
     }
 
+    public User(String nickname, String email, String login, String password) {
+        this.nickname = nickname;
+        this.email = email;
+        this.login = login;
+        this.password = password;
+    }
+
     public User() {
     }
 }

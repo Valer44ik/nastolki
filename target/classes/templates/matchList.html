@@ -40,14 +40,17 @@
           </tr>
         </tbody>
       </table>
-        <form th:if="${matches.isEmpty()}" th:action="@{/startFirstMatch}" method="get">
-          <input type="hidden" name="campaign_id" th:value="${campaign_id}">
-          <button type="submit">Start first match</button>
-        </form>
-        <form th:unless="${matches.isEmpty()}" th:action="@{/startNewMatch}" method="get">
-          <input type="hidden" name="campaign_id" th:value="${campaign_id}">
-          <button type="submit">Start new match</button>
-        </form>
+      <form th:if="${matches.isEmpty()}" th:action="@{/startFirstMatch}" method="get">
+        <input type="hidden" name="campaign_id" th:value="${campaign_id}">
+        <button type="submit">Start first match</button>
+      </form>
+      <form th:unless="${matches.isEmpty()}" th:action="@{/startNewMatch}" method="get">
+        <input type="hidden" name="campaign_id" th:value="${campaign_id}">
+        <button type="submit">Start new match</button>
+      </form>
+      <form action="/" method="get">
+        <button type="submit">Return</button>
+      </form>
     </main>
   </body>
 </html>

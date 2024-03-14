@@ -18,16 +18,16 @@ public class Pilot {
     private boolean hasMech;
 
     @ManyToOne
-    @JoinColumn(name = "pilotRank_id")
-    private PilotRank pilotRank_id;
+    @JoinColumn(name = "pilotRank")
+    private PilotRank pilotRank;
 
     @ManyToOne
-    @JoinColumn(name = "pilotStatus_id")
-    private PilotStatus pilotStatus_id;
+    @JoinColumn(name = "pilotStatus")
+    private PilotStatus pilotStatus;
 
     @ManyToOne
-    @JoinColumn(name = "match")
-    private Match1 match;
+    @JoinColumn(name = "match1")
+    private Match1 match1;
 
     @ManyToOne
     @JoinColumn(name = "campaign")
@@ -40,7 +40,7 @@ public class Pilot {
             inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "user_id"))
     private Set<User> users = new HashSet<>();
 
-    @OneToOne(mappedBy = "pilot_id", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "pilot", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Mech mech;
 
     public String getName() {
@@ -67,8 +67,8 @@ public class Pilot {
         return pilot_id;
     }
 
-    public void setMatch(Match1 match) {
-        this.match = match;
+    public void setMatch(Match1 match1) {
+        this.match1 = match1;
     }
 
     public Pilot(String name, String pilotSurname, String pilotNickname , PilotRank pilotRank_id,
@@ -76,9 +76,9 @@ public class Pilot {
         this.name = name;
         this.surname = pilotSurname;
         this.nickname = pilotNickname;
-        this.pilotRank_id = pilotRank_id;
-        this.pilotStatus_id = pilotStatus_id;
-        hasMech = false;
+        this.pilotRank = pilotRank_id;
+        this.pilotStatus = pilotStatus_id;
+        this.hasMech = false;
     }
 
     public Pilot() {

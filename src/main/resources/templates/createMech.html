@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8">
     <title>Campaign calculator</title>
@@ -10,18 +10,18 @@
       <h1>Create mech</h1>
     </header>
     <main>
-        <label>Create a mech:
-          <label>Choose chasis:
-            <select id="mechChasis_id" name="mechChasis">
-              <option value="">Select Chasis</option>
-              <option th:each="mechChasis : ${mechChases}"
-                      th:value="${mechChasis.chasisName}"
-                      th:text="${mechChasis.chasisName}"></option>
-            </select>
+      <form action="/createMech" method="post">
+        <label>Create a mech:</label>
+        <label>Choose chasis:
+          <select id="mechChasis_id" name="mechChasis_id">
+            <option value="">Select Chasis</option>
+            <option th:each="mechChasis : ${mechChases}"
+                    th:value="${mechChasis.mechChasis_id}"
+                    th:text="${mechChasis.chasisName}"></option>
+          </select>
           </label>
-          <form action="/createMech" method="post">
             <label>Enter mech weight:
-              <input type="number" name="modelWeight" placeholder="Enter mech weight">
+              <input type="number" name="weight" placeholder="Enter mech weight">
             </label>
             <label>Enter a mech name
               <input type="text" name="mechName" placeholder="Enter mech name">
@@ -30,8 +30,7 @@
               <input type="number" name="battleValue" placeholder="Enter mech battle value">
             </label>
             <button type="submit">Submit</button>
-          </form>
-        </label>
+      </form>
       <form action="/createMechChasis" method="get">
         <button type="submit">Create chasis</button>
       </form>

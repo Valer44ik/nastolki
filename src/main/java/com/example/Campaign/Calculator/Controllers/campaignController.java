@@ -166,13 +166,13 @@ public class campaignController {
 
         for(String text : mainTasksText) {
             mainTask = new MainTask(text);
-            mainTask.setMatch_id(match);
+            mainTask.setMatch(match);
             mainTaskRepository.save(mainTask);
             mainTasks.add(mainTask);
         }
         for(String text : secondaryTasksText) {
             secondaryTask = new SecondaryTask(text);
-            secondaryTask.setMatch_id(match);
+            secondaryTask.setMatch(match);
             secondaryTaskRepository.save(secondaryTask);
             secondaryTasks.add(secondaryTask);
         }
@@ -235,9 +235,29 @@ public class campaignController {
 
         Match1 match = matchRepository.findById(match_id).orElse(null);
         assert match != null;
-        List<Pilot> pilots = pilotRepository.findByMatch(match);
+        List<Pilot> pilots = pilotRepository.findByMatch1(match);
         model.addAttribute("pilots", pilots);
 
+        List<MainTask> mainTasks = mainTaskRepository.findByMatch(match);
+        List<SecondaryTask> secondaryTasks = secondaryTaskRepository.findByMatch(match);
+
+        model.addAttribute("mainTasks", mainTasks);
+        model.addAttribute("secondaryTasks", secondaryTasks);
+
         return "match";
+    }
+
+    @GetMapping("/createUser")
+    public String createUser(Model model) {
+        model.addAttribute("title", "createUser");
+        return "createUser";
+    }
+
+    @PostMapping("/createUser")
+    public String createUser(@RequestParam String nickname, @RequestParam String login,
+                             @RequestParam String email, @RequestParam String password) {
+        User user = new User(nickname, email, login, password);
+        userRepository.save(user);
+        return "createUser";
     }
 }

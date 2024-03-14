@@ -12,24 +12,28 @@ public class Mech {
 
     private int battleValue, weight;
 
-    @OneToOne(mappedBy = "mech", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private MechModel mechModel;
-
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "pilot_id")
-    private Pilot pilot_id;
+    @JoinColumn(name = "pilot")
+    private Pilot pilot;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "mechStatus_id")
-    private MechStatus mechStatus_id;
+    @JoinColumn(name = "mechStatus")
+    private MechStatus mechStatus;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "mechChasis")
+    private MechChasis mechChasis;
+
+    @ManyToOne
+    @JoinColumn(name = "mechClass")
+    private MechClass mechClass;
 
     @ManyToOne
     @JoinColumn(name = "campaign")
     private Campaign campaign;
 
-
-    public void setPilot(Pilot pilot_id) {
-        this.pilot_id = pilot_id;
+    public void setPilot(Pilot pilot) {
+        this.pilot = pilot;
     }
 
     public String getName() {
@@ -44,22 +48,20 @@ public class Mech {
         return mech_id;
     }
 
-    public MechModel getMechModel() {
-        return mechModel;
-    }
-
-    public MechModel getMechModel_id() {
-        return mechModel;
-    }
-
     public MechStatus getMechStatus_id() {
-        return mechStatus_id;
+        return mechStatus;
     }
 
-    public Mech(String name, MechStatus mechStatus_id, int battleValue) {
+    public MechChasis getMechChasis() {
+        return mechChasis;
+    }
+
+    public Mech(String name, MechStatus mechStatus, MechClass mechClass, int battleValue, int weight) {
         this.name = name;
-        this.mechStatus_id = mechStatus_id;
+        this.mechStatus = mechStatus;
+        this.mechClass = mechClass;
         this.battleValue = battleValue;
+        this.weight = weight;
     }
 
     public Mech() {

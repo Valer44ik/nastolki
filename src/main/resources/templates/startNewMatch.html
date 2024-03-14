@@ -23,16 +23,16 @@
                 </tr>
             </thead>
             <tbody>
-                <tr th:each="pilot : ${pilots}">
-                    <td th:text="pilot.name"></td>
-                    <td th:text="pilot.mech_id.name"></td>
+                <tr th:each="idx : ${#numbers.sequence(0, pilots.size())}">
+                    <td th:text="${pilots[idx].name}"></td>
+                    <td th:text="${mechs[idx].name}"></td>
                     <td>
                         <select name="mechChasis_id">
                             <option value="">Select Mech Chasis</option>
                             <option th:each="mechChasis : ${mechsChases}"
                                     th:value="${mechChasis.mechChasis_id}"
                                     th:text="${mechChasis.chasisName}"
-                                    th:selected="${pilot.mech_id.mechModel_id.modelName}"></option>
+                                    th:selected="${pilots[idx].mech.mechChasis_id}"></option>
                         </select>
                     </td>
                 </tr>
