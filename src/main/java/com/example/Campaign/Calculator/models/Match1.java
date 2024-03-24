@@ -1,6 +1,8 @@
 package com.example.Campaign.Calculator.models;
 
+import com.example.Campaign.Calculator.repo.MatchRepository;
 import jakarta.persistence.*;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDate;
 import java.util.HashSet;
@@ -23,20 +25,22 @@ public class Match1 {
     private Campaign campaign;
 
     @OneToMany(mappedBy = "match1")
-    private Set<Pilot> pilots = new HashSet<>();
-
-    @OneToMany(mappedBy = "match")
     private Set<MainTask> mainTasks = new HashSet<>();
 
-    @OneToMany(mappedBy = "match")
+    @OneToMany(mappedBy = "match1")
     private Set<SecondaryTask> secondaryTasks = new HashSet<>();
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "matchPlayer",
-            joinColumns = @JoinColumn(name = "match_id", referencedColumnName = "match_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "user_id"))
-    private Set<User> users = new HashSet<>();
+    @ManyToMany
+    @JoinTable(name = "match_pilot_mech",
+            joinColumns = @JoinColumn(name = "match_id"),
+            inverseJoinColumns = @JoinColumn(name = "pilot_id"))
+    private Set<Pilot> pilots = new HashSet<>();
+
+    @ManyToMany
+    @JoinTable(name = "match_pilot_mech",
+            joinColumns = @JoinColumn(name = "match_id"),
+            inverseJoinColumns = @JoinColumn(name = "mech_id"))
+    private Set<Mech> mechs = new HashSet<>();
 
     public LocalDate getStartDate() {
         return startDate;
@@ -48,6 +52,18 @@ public class Match1 {
 
     public boolean isEnded() {
         return isEnded;
+    }
+
+    public Long getMatch_id() {
+        return match_id;
+    }
+
+    public void setPilots(Set<Pilot> pilots) {
+        this.pilots = pilots;
+    }
+
+    public void setMechs(Set<Mech> mechs) {
+        this.mechs = mechs;
     }
 
     public Match1(LocalDate startDate, String name, boolean isEnded, Campaign campaign) {

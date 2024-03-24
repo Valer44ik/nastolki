@@ -8,5 +8,5 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.List;
 
 public interface SecondaryTaskRepository extends CrudRepository<SecondaryTask, Long> {
-    List<SecondaryTask> findByMatch(Match1 match);
+    List<SecondaryTask> findByMatch1(Match1 match1);
 }

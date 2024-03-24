@@ -1,5 +1,6 @@
 package com.example.Campaign.Calculator.models;
 
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -22,17 +23,10 @@ public class Campaign {
     @OneToMany(mappedBy = "campaign")
     private Set<Match1> matches = new HashSet<>();
 
-    @OneToMany(mappedBy = "campaign")
-    private Set<Mech> mechs = new HashSet<>();
-
-    @OneToMany(mappedBy = "campaign")
-    private Set<Pilot> pilots = new HashSet<>();
-
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "userCampaign",
-            joinColumns = @JoinColumn(name = "campaign_id", referencedColumnName = "campaign_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "user_id"))
+    @ManyToMany
+    @JoinTable(name = "campaign_user",
+            joinColumns = @JoinColumn(name = "campaign_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
     private Set<User> users = new HashSet<>();
 
     @Enumerated(EnumType.STRING)
@@ -61,12 +55,12 @@ public class Campaign {
         return numOfPilots;
     }
 
-    public Set<User> getUsers() {
-        return users;
-    }
-
     public void setUsers(Set<User> users) {
         this.users = users;
+    }
+
+    public Set<User> getUsers() {
+        return users;
     }
 
     public Campaign(String name, CampaignType campaignType, FormationOrder formationOrder, int battleValue,
@@ -77,7 +71,7 @@ public class Campaign {
         this.battleValue = battleValue;
         this.startDate = startDate;
         isEnded = false;
-        if(formationOrder == FormationOrder.star){
+        if(formationOrder == FormationOrder.lance){
             numOfPilots = 4;
         }
         else{
@@ -88,5 +82,6 @@ public class Campaign {
     public Campaign() {
 
     }
+
 }
 

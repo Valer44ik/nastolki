@@ -15,8 +15,6 @@ public class Pilot {
 
     private String name, nickname, surname;
 
-    private boolean hasMech;
-
     @ManyToOne
     @JoinColumn(name = "pilotRank")
     private PilotRank pilotRank;
@@ -26,22 +24,11 @@ public class Pilot {
     private PilotStatus pilotStatus;
 
     @ManyToOne
-    @JoinColumn(name = "match1")
-    private Match1 match1;
+    @JoinColumn(name = "user")
+    private User user;
 
-    @ManyToOne
-    @JoinColumn(name = "campaign")
-    private Campaign campaign;
-
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "playerPilot",
-            joinColumns = @JoinColumn(name = "pilot_id", referencedColumnName = "pilot_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "user_id"))
-    private Set<User> users = new HashSet<>();
-
-    @OneToOne(mappedBy = "pilot", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Mech mech;
+    @ManyToMany(mappedBy = "pilots")
+    private Set<Match1> matches = new HashSet<>();
 
     public String getName() {
         return name;
@@ -51,34 +38,22 @@ public class Pilot {
         this.name = name;
     }
 
-    public void setHasMech(boolean hasMech) {
-        this.hasMech = hasMech;
-    }
-
-    public void setUser(User user) {
-        users.add(user);
-    }
-
-    public Mech getMech() {
-        return mech;
+    public User getUser() {
+        return user;
     }
 
     public Long getPilot_id() {
         return pilot_id;
     }
 
-    public void setMatch(Match1 match1) {
-        this.match1 = match1;
-    }
-
     public Pilot(String name, String pilotSurname, String pilotNickname , PilotRank pilotRank_id,
-                 PilotStatus pilotStatus_id) {
+                 PilotStatus pilotStatus_id, User user) {
         this.name = name;
         this.surname = pilotSurname;
         this.nickname = pilotNickname;
         this.pilotRank = pilotRank_id;
         this.pilotStatus = pilotStatus_id;
-        this.hasMech = false;
+        this.user = user;
     }
 
     public Pilot() {

@@ -9,15 +9,15 @@ public class MainTask {
     private Long mainTask_id;
 
     @ManyToOne
-    @JoinColumn(name = "match")
-    private Match1 match;
+    @JoinColumn(name = "match1")
+    private Match1 match1;
 
     private String text;
 
     private Boolean isCompleted;
 
-    public void setMatch(Match1 match) {
-        this.match = match;
+    public void setMatch1(Match1 match1) {
+        this.match1 = match1;
     }
 
     public String getText() {

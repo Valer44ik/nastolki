@@ -2,6 +2,9 @@ package com.example.Campaign.Calculator.models;
 
 import jakarta.persistence.*;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
 public class MechStatus {
     @Id
@@ -10,10 +13,8 @@ public class MechStatus {
 
     private String name;
 
-    @ManyToOne
-    @JoinColumn(name = "mechClass_id")
-    private MechClass mechClass;
-
+    @OneToMany(mappedBy = "mechStatus")
+    private Set<Mech> mechs = new HashSet<>();
     public MechStatus(String name) {
         this.name = name;
     }
@@ -30,13 +31,9 @@ public class MechStatus {
         return mechStatus_id;
     }
 
-    public MechClass getMechClass() {
-        return mechClass;
-    }
 
-    public MechStatus(Long mechStatus_id, String name, MechClass mechClass) {
+    public MechStatus(Long mechStatus_id, String name) {
         this.mechStatus_id = mechStatus_id;
         this.name = name;
-        this.mechClass = mechClass;
     }
 }

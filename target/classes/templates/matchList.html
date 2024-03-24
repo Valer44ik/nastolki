@@ -34,6 +34,8 @@
             <td th:text="${match.isEnded}"></td>
             <td>
               <form action="/match" method="get">
+                <input type="hidden" name="campaign_id" th:value="${campaign_id}">
+                <input type="hidden" name="match_id" th:value="${match.match_id}">
                 <button type="submit">Watch</button>
               </form>
             </td>

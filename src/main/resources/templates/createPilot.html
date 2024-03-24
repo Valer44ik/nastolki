@@ -22,6 +22,14 @@
                     <input type="text" name="pilotNickname" id="pilotNickname">
                 </label>
             </label>
+            <label>Choose user:
+                <select id="user_id" name="user_id">
+                    <option value="">Select User</option>
+                    <option th:each="user : ${users}"
+                            th:value="${user.user_id}"
+                            th:text="${user.nickname}"></option>
+                </select>
+            </label>
             <button type="submit">Submit</button>
         </form>
         <form action="/" method="get">

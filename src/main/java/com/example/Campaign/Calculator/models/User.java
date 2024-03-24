@@ -17,13 +17,13 @@ public class User {
     private UserStatistics userStatistics;
 
     @ManyToMany(mappedBy = "users")
-    private Set<Match1> matches = new HashSet<>();
+    private Set<Campaign> campaigns = new HashSet<>();
 
-    @ManyToMany(mappedBy = "users")
+    @OneToMany(mappedBy = "user")
     private Set<Pilot> pilots = new HashSet<>();
 
-    @ManyToMany(mappedBy = "users")
-    private Set<Campaign> campaigns = new HashSet<>();
+    @OneToMany(mappedBy = "user")
+    private Set<Mech> mechs = new HashSet<>();
 
     public Long getUser_id() {
         return user_id;

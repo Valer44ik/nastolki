@@ -2,15 +2,17 @@ package com.example.Campaign.Calculator.models;
 
 import jakarta.persistence.*;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
 public class MechChasis {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long mechChasis_id;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "mech")
-    private Mech mech;
+    @OneToMany(mappedBy = "mechChasis")
+    private Set<Mech> mechs = new HashSet<>();
 
     private String chasisName, description;
 
@@ -24,12 +26,8 @@ public class MechChasis {
         return chasisName;
     }
 
-    public void setMech(Mech mech) {
-        this.mech = mech;
-    }
-
-    public Mech getMech() {
-        return mech;
+    public int getChasisWeight() {
+        return chasisWeight;
     }
 
     public MechChasis(String chasisName, int chasisWeight) {

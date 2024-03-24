@@ -37,6 +37,9 @@ public class pilotMechController {
     @Autowired
     private PilotRepository pilotRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
     @GetMapping("/createMechChasis")
     public String createMechChasis(Model model)
     {
@@ -58,17 +61,25 @@ public class pilotMechController {
         model.addAttribute("title", "create mech");
         List<MechChasis> mechChases = (List<MechChasis>)mechChasisRepository.findAll();
         model.addAttribute("mechChases", mechChases);
+        List<User> users = (List<User>) userRepository.findAll();
+        model.addAttribute("users", users);
         return "createMech";
     }
 
     @PostMapping("/createMech")
-    public String createMech(@RequestParam Long mechChasis_id,@RequestParam int weight, @RequestParam String mechName,
-                             @RequestParam int battleValue, Model model) {
+    public String createMech(@RequestParam String mechName,
+                             @RequestParam int battleValue, @RequestParam Long mechChasis_id,
+                             @RequestParam Long user_id, Model model) {
         MechStatus mechStatus = mechStatusRepository.findByName("Ready");
         if (mechStatus == null) {
             mechStatus = new MechStatus("Ready");
             mechStatusRepository.save(mechStatus);
         }
+
+        MechChasis mechChasis = mechChasisRepository.findById(mechChasis_id).orElse(null);
+        assert mechChasis != null;
+
+        int weight = mechChasis.getChasisWeight();
 
         MechClass mechClass;
         if (weight >= 20 && weight <= 35) {
@@ -102,29 +113,29 @@ public class pilotMechController {
                     "\n40-55-Medium" +
                     "\n60-75-Heavy" +
                     "\n80-100-Assault\n");
-            return "createMech";
+            return "redirect:/createMech";
         }
-        Mech mech = new Mech(mechName, mechStatus, mechClass, battleValue, weight);
+
+        User user = userRepository.findById(user_id).orElse(null);
+
+        Mech mech = new Mech(mechName, mechStatus, mechClass, battleValue, user, mechChasis);
         mechRepository.save(mech);
 
-        MechChasis mechChasis = mechChasisRepository.findById(mechChasis_id).orElse(null);
-        assert mechChasis != null;
-        mechChasis.setMech(mech);
-        mechChasisRepository.save(mechChasis);
-
-        return "/createMech";
+        return "redirect:/createMech";
     }
 
     @GetMapping("/createPilot")
     public String createPilot(Model model)
     {
         model.addAttribute("title", "create pilot");
+        List<User> users = (List<User>) userRepository.findAll();
+        model.addAttribute("users", users);
         return "createPilot";
     }
 
     @PostMapping("/createPilot")
     public String createPilot(@RequestParam String pilotName, @RequestParam String pilotSurname,
-                              @RequestParam String pilotNickname,  Model model) {
+                              @RequestParam String pilotNickname, @RequestParam Long user_id,  Model model) {
         PilotStatus pilotStatus = pilotStatusRepository.findByName("Ready");
         if (pilotStatus == null) {
             pilotStatus = new PilotStatus("Ready");
@@ -137,7 +148,9 @@ public class pilotMechController {
             pilotRankRepository.save(pilotRank);
         }
 
-        Pilot pilot = new Pilot(pilotName, pilotSurname, pilotNickname, pilotRank, pilotStatus);
+        User user = userRepository.findById(user_id).orElse(null);
+
+        Pilot pilot = new Pilot(pilotName, pilotSurname, pilotNickname, pilotRank, pilotStatus, user);
         pilotRepository.save(pilot);
         return "createPilot";
     }

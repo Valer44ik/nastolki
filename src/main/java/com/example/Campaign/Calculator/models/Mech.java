@@ -2,6 +2,9 @@ package com.example.Campaign.Calculator.models;
 
 import jakarta.persistence.*;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
 public class Mech {
     @Id
@@ -10,31 +13,26 @@ public class Mech {
 
     private String name;
 
-    private int battleValue, weight;
+    private int battleValue;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "pilot")
-    private Pilot pilot;
-
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "mechStatus")
-    private MechStatus mechStatus;
-
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "mechChasis")
     private MechChasis mechChasis;
+
+    @ManyToOne
+    @JoinColumn(name = "user")
+    private User user;
 
     @ManyToOne
     @JoinColumn(name = "mechClass")
     private MechClass mechClass;
 
     @ManyToOne
-    @JoinColumn(name = "campaign")
-    private Campaign campaign;
+    @JoinColumn(name = "mechStatus")
+    private MechStatus mechStatus;
 
-    public void setPilot(Pilot pilot) {
-        this.pilot = pilot;
-    }
+    @ManyToMany(mappedBy = "mechs")
+    private Set<Match1> matches = new HashSet<>();
 
     public String getName() {
         return name;
@@ -56,12 +54,14 @@ public class Mech {
         return mechChasis;
     }
 
-    public Mech(String name, MechStatus mechStatus, MechClass mechClass, int battleValue, int weight) {
+    public Mech(String name, MechStatus mechStatus, MechClass mechClass,
+                int battleValue, User user, MechChasis mechChasis) {
         this.name = name;
         this.mechStatus = mechStatus;
         this.mechClass = mechClass;
         this.battleValue = battleValue;
-        this.weight = weight;
+        this.user = user;
+        this.mechChasis = mechChasis;
     }
 
     public Mech() {
