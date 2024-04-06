@@ -46,6 +46,22 @@ public class Pilot {
         return pilot_id;
     }
 
+    public PilotRank getPilotRank() {
+        return pilotRank;
+    }
+
+    public void setPilotRank(PilotRank pilotRank) {
+        this.pilotRank = pilotRank;
+    }
+
+    public PilotStatus getPilotStatus() {
+        return pilotStatus;
+    }
+
+    public void setPilotStatus(PilotStatus pilotStatus) {
+        this.pilotStatus = pilotStatus;
+    }
+
     public Pilot(String name, String pilotSurname, String pilotNickname , PilotRank pilotRank_id,
                  PilotStatus pilotStatus_id, User user) {
         this.name = name;

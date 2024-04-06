@@ -23,5 +23,12 @@ public interface MechRepository extends CrudRepository<Mech, Long> {
                     " WHERE m.match_id = :match_id " +
                     "  AND m.pilot_id = :pilot_id", nativeQuery = true)
     List<Long> findMechByMatchAndPilot_id(@Param("match_id") Long match_id, @Param("pilot_id") Long pilot_id);
+
+    @Modifying
+    @Transactional
+    @Query(value = "SELECT m.mech_id FROM mech m " +
+            "WHERE m.user = :user_id " +
+            "AND m.mech_status = 1 ", nativeQuery = true)
+    List<Long> findMechsReadyForMatch(@Param("user_id") Long user_id);
 }
 

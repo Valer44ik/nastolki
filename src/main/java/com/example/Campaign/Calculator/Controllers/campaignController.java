@@ -19,9 +19,12 @@ public class campaignController {
     private CampaignRepository campaignRepository;
 
     @Autowired
+    private MatchRepository matchRepository;
+
+    @Autowired
     private UserRepository userRepository;
 
-    @GetMapping("/")
+    @GetMapping("/mainPage")
     public String mainPage(Model model)
     {
         model.addAttribute("title", "CampaignList");
@@ -70,17 +73,34 @@ public class campaignController {
         return "startACampaign";
     }
 
-    @GetMapping("/createUser")
-    public String createUser(Model model) {
-        model.addAttribute("title", "createUser");
-        return "createUser";
-    }
+    @GetMapping("/endCampaign")
+    public String endCampaign(@RequestParam Long campaign_id, Model model) {
+        model.addAttribute("title", "endCampaign");
 
-    @PostMapping("/createUser")
-    public String createUser(@RequestParam String nickname, @RequestParam String login,
-                             @RequestParam String email, @RequestParam String password) {
-        User user = new User(nickname, email, login, password);
-        userRepository.save(user);
-        return "createUser";
+        Optional<Campaign> optionalCampaign = campaignRepository.findById(campaign_id);
+
+        if(optionalCampaign.isPresent()){
+            Campaign campaign = optionalCampaign.get();
+
+            List<Match1> matches = matchRepository.findByCampaign(campaign);
+            model.addAttribute("matches", matches);
+
+            List<User> users = campaignRepository.findUsersByCampaign(campaign);
+            User user1 = users.get(0);
+            User user2 = users.get(1);
+            if(user1.getUserStatistics().getGamesWon() > user2.getUserStatistics().getGamesWon())
+                model.addAttribute("user", user1);
+            else
+                model.addAttribute("user", user2);
+
+            model.addAttribute("campaign", campaign);
+
+            model.addAttribute("campaign_id", campaign_id);
+            return "endCampaign";
+        }
+        else {
+            model.addAttribute("errorMessage", "Campaign not found");
+            return "campaignList";
+        }
     }
 }

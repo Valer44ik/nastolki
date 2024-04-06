@@ -73,6 +73,11 @@ public class Match1 {
         this.campaign = campaign;
     }
 
+    public Match1(Campaign campaign) {
+        this.campaign = campaign;
+    }
+
+
     public Match1(){};
 
 }

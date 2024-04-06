@@ -33,7 +33,19 @@ public class User {
         return nickname;
     }
 
-    public User(String nickname, String email, String login, String password) {
+    public String getLogin() {
+        return login;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public UserStatistics getUserStatistics() {
+        return userStatistics;
+    }
+
+    public User(String nickname, String password, String login, String email) {
         this.nickname = nickname;
         this.email = email;
         this.login = login;

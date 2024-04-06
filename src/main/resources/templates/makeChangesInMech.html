@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Camapign calculator</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <header>
+        <h1>Make changes in mech</h1>
+    </header>
+    <table>
+        <thead>
+            <tr>
+                <th>Mech name</th>
+                <th>Mech rank</th>
+                <th>Mech status</th>
+                <th>Mech skills</th>
+                <th>Mech chasis</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td th:show="${mech.name}"></td>
+                <td>
+                    <select name="mechRank" id = "mechRank">
+                        <option value="">Select Pilot Rank</option>
+                        <option th:value="${mech.mechClass}"
+                                th:text="${mech.mechClass}"></option>
+                    </select>
+                </td>
+                <td>
+                    <select name="mechStatus" id="mechStatus">
+                        <option value="">Select Pilot Status</option>
+                        <option th:value="${mech.mechStatus}"
+                                th:text="${mech.mechStatus}"></option>
+                    </select>
+                </td>
+                <td>Gunnery</td>
+            </tr>
+        </tbody>
+    </table>
+    <form action="/makeChangesInMech" method="Post">
+        <input type="hidden" name="campaign_id" th:value="${campaign_id}">
+        <input type="hidden" name="mech_id" th:value="${mech.mech_id}">
+        <button type="submit">Make changes</button>
+    </form>
+</body>
+</html>

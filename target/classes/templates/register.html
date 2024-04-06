@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Campaign calculator</title>
+  <style>
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background-color: #f2f2f2;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: #333;
+      color: #fff;
+      text-align: center;
+      padding: 20px;
+    }
+
+    main {
+      max-width: 600px; /* Limiting width for better readability */
+      margin: 20px auto; /* Centering the form */
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 5px;
+      box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1); /* Adding a shadow effect */
+    }
+
+    label {
+      font-weight: bold;
+      display: block;
+      margin-bottom: 5px; /* Slightly reducing the margin for a more compact look */
+    }
+
+    input[type="text"],
+    input[type="password"] {
+      width: 100%;
+      padding: 8px; /* Adjusting padding for better input field appearance */
+      margin-bottom: 15px; /* Adding some space between input fields */
+      border: 1px solid #ccc; /* Adding a border for better distinction */
+      border-radius: 3px;
+    }
+
+    button[type="submit"] {
+      background-color: #ffd300;
+      color: #fff;
+      padding: 10px 20px; /* Increasing padding for better button appearance */
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-bottom: 10px;
+    }
+
+    button[type="submit"]:hover {
+      background-color: #005d85;
+    }
+
+    /* Adjusting the layout for better responsiveness */
+    .column {
+      float: left;
+      width: 50%;
+      padding: 5px;
+    }
+
+    .row::after {
+      content: "";
+      clear: both;
+      display: table;
+    }
+
+    @media (max-width: 600px) {
+      .column {
+        width: 100%;
+      }
+    }
+
+  </style>
+</head>
+<body>
+<header>
+  <h1>Register</h1>
+</header>
+<main>
+  <form action="/register" method="post">
+    <label>Create a user:
+      <label>Enter user nickname
+        <input type="text" name="nickname" id="nickname">
+      </label>
+      <label>Enter login
+        <input type="text" name="login" id="login">
+      </label>
+      <label>Enter email
+        <input type="text" name="email" id="email">
+      </label>
+      <label>Enter password
+        <input type="text" name="password" id="password">
+      </label>
+    </label>
+    <button type="submit">Submit</button>
+  </form>
+  <form action="/" method="get">
+    <button type="submit">return</button>
+  </form>
+</main>
+</body>
+</html>

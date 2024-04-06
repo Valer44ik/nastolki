@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -140,6 +141,12 @@ public class pilotMechController {
         if (pilotStatus == null) {
             pilotStatus = new PilotStatus("Ready");
             pilotStatusRepository.save(pilotStatus);
+            pilotStatus = new PilotStatus("Injured");
+            pilotStatusRepository.save(pilotStatus);
+            pilotStatus = new PilotStatus("Dead");
+            pilotStatusRepository.save(pilotStatus);
+            pilotStatus = new PilotStatus("Captured");
+            pilotStatusRepository.save(pilotStatus);
         }
 
         PilotRank pilotRank = pilotRankRepository.findByName("novice");
@@ -169,5 +176,43 @@ public class pilotMechController {
         model.addAttribute("campaign_id", campaign_id);
 
         return "mechInfoScreen";
+    }
+
+    @GetMapping("/makeChangesInPilot")
+    public String showPilot(@RequestParam Long campaign_id, @RequestParam Long pilot_id, Model model) {
+        model.addAttribute("title", "Pilot Info Screen");
+        model.addAttribute("campaign_id", campaign_id);
+
+        Pilot pilot = pilotRepository.findById(pilot_id).orElse(null);
+        model.addAttribute("pilot", pilot);
+
+        return "makeChangesInPilot";
+    }
+
+    @PostMapping("/makeChangesInPilot")
+    public String changePilot(@RequestParam PilotRank pilotRank,
+                              @RequestParam PilotStatus pilotStatus,
+                              @RequestParam Long campaign_id,
+                              @RequestParam Long pilot_id,
+                              RedirectAttributes redirectAttributes, Model model) {
+
+        Pilot pilot = pilotRepository.findById(pilot_id).orElse(null);
+        model.addAttribute("pilot", pilot);
+
+
+
+        redirectAttributes.addAttribute("campaign_id", campaign_id);
+        return "redirect:/makeChangesInPilot";
+    }
+
+    @GetMapping("/makeChangesInMech")
+    public String showMech(@RequestParam Long campaign_id, @RequestParam Long mech_id, Model model) {
+        model.addAttribute("title", "Pilot Info Screen");
+        model.addAttribute("campaign_id", campaign_id);
+
+        Mech mech = mechRepository.findById(mech_id).orElse(null);
+        model.addAttribute("mech", mech);
+
+        return "makeChangesInMech";
     }
 }

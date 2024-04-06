@@ -46,8 +46,24 @@ public class Mech {
         return mech_id;
     }
 
-    public MechStatus getMechStatus_id() {
+    public MechStatus getMechStatus() {
         return mechStatus;
+    }
+
+    public void setMechChasis(MechChasis mechChasis) {
+        this.mechChasis = mechChasis;
+    }
+
+    public MechClass getMechClass() {
+        return mechClass;
+    }
+
+    public void setMechClass(MechClass mechClass) {
+        this.mechClass = mechClass;
+    }
+
+    public void setMechStatus(MechStatus mechStatus) {
+        this.mechStatus = mechStatus;
     }
 
     public MechChasis getMechChasis() {

@@ -13,4 +13,8 @@ public class UserStatistics {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user_id;
+
+    public int getGamesWon() {
+        return gamesWon;
+    }
 }

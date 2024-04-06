@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Campaign calculator</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<header>
+    <h1>End match</h1>
+    <h2>Make all the changes happened during the match</h2>
+</header>
+<table>
+    <thead>
+        <tr>
+            <th>Pilot list</th>
+            <th>Pilot status</th>
+            <th>Make changes in pilot</th>
+            <th>Mech list</th>
+            <th>Mech status</th>
+            <th>Make changes in mech</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="object : ${firstUserMatchPilotsAndMechs}">
+            <td th:text="${object.pilot.name}"></td>
+            <td>512</td>
+            <td>
+                <form action="/makeChangesInPilot" method="get">
+                    <input type="hidden" name="campaign_id" th:value="${campaign_id}">
+                    <input type="hidden" name="pilot_id" th:value="${object.pilot.pilot_id}">
+                    <button type="submit">Make changes in pilot</button>
+                </form>
+            </td>
+            <td th:text="${object.mech.name}"></td>
+            <td th:text="${object.mech.battleValue}"></td>
+            <td>
+                <form action="/makeChangesInMech" method="get">
+                    <input type="hidden" name="campaign_id" th:value="${campaign_id}">
+                    <input type="hidden" name="mech_id" th:value="${object.mech.mech_id}">
+                    <button type="submit">Make changes in mech</button>
+                </form>
+            </td>
+        </tr>
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="4">Total battle value: TBV</td>
+        </tr>
+    </tfoot>
+</table>
+<table>
+    <thead>
+    <tr>
+        <th>Pilot list</th>
+        <th>Pilot battle value</th>
+        <th>Make changes in pilot</th>
+        <th>Mech list</th>
+        <th>Mech battle value</th>
+        <th>Make changes in mech</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="object : ${secondUserMatchPilotsAndMechs}">
+        <td th:text="${object.pilot.name}"></td>
+        <td>512</td>
+        <td>
+            <form action="/makeChangesInPilot" method="get">
+                <input type="hidden" name="campaign_id" th:value="${campaign_id}">
+                <input type="hidden" name="pilot_id" th:value="${object.pilot.pilot_id}">
+                <button type="submit">Make changes in pilot</button>
+            </form>
+        </td>
+        <td th:text="${object.mech.name}"></td>
+        <td th:text="${object.mech.battleValue}"></td>
+        <td>
+            <form action="/makeChangesInMech" method="get">
+                <input type="hidden" name="campaign_id" th:value="${campaign_id}">
+                <input type="hidden" name="mech_id" th:value="${object.mech.mech_id}">
+                <button type="submit">Make changes in mech</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+    <tfoot>
+    <tr>
+        <td colspan="4">Total battle value: TBV</td>
+    </tr>
+    </tfoot>
+</table>
+<form action="/match" method="post">
+    <input type="hidden" name="campaign_id" th:value="${campaign_id}">
+    <button type="submit">end match</button>
+</form>
+<form action="/matchList" method="get">
+    <input type="hidden" name="campaign_id" th:value="${campaign_id}">
+    <button type="submit">return</button>
+</form>
+</body>
+</html>

@@ -99,7 +99,9 @@
     <tr th:each="mainTask : ${mainTasks}">
       <td th:text="${mainTask.text}"></td>
       <td>
-        <input type="checkbox" th:checked="${mainTask.completed}"/>
+        <label>
+          <input type="checkbox" th:checked="${mainTask.completed}"/>
+        </label>
       </td>
     </tr>
   </tbody>
@@ -115,14 +117,16 @@
     <tr th:each="secondaryTask : ${secondaryTasks}">
       <td th:text="${secondaryTask.text}"></td>
       <td>
-        <input type="checkbox" th:checked="${secondaryTask.completed}"/>
+        <label>
+          <input type="checkbox" th:checked="${secondaryTask.completed}"/>
+        </label>
       </td>
     </tr>
   </tbody>
 </table>
-<form action="/startNewMatch" method="get">
+<form action="/endMatch" method="get">
   <input type="hidden" name="campaign_id" th:value="${campaign_id}">
-  <button type="submit">new match</button>
+  <button type="submit">end match</button>
 </form>
 <form action="/matchList" method="get">
   <input type="hidden" name="campaign_id" th:value="${campaign_id}">
