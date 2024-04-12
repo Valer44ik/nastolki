@@ -22,7 +22,7 @@
         </tr>
     </thead>
     <tbody>
-        <tr th:each="object : ${firstUserMatchPilotsAndMechs}">
+        <tr th:each="object : ${firstPlayerMatchPilotsAndMechs}">
             <td th:text="${object.pilot.name}"></td>
             <td>512</td>
             <td>
@@ -61,7 +61,7 @@
     </tr>
     </thead>
     <tbody>
-    <tr th:each="object : ${secondUserMatchPilotsAndMechs}">
+    <tr th:each="object : ${secondPlayerMatchPilotsAndMechs}">
         <td th:text="${object.pilot.name}"></td>
         <td>512</td>
         <td>
@@ -88,8 +88,18 @@
     </tr>
     </tfoot>
 </table>
-<form action="/match" method="post">
+<form action="/endMatch" method="post">
+    <label>
+        <h2>Choose the winning player: </h2>
+        <select id="winningPlayer_id" name="winningPlayer_id">
+            <option value="">Select player</option>
+            <option th:each="player : ${players}"
+                    th:value="${player.player_id}"
+                    th:text="${player.nickname}"></option>
+        </select>
+    </label>
     <input type="hidden" name="campaign_id" th:value="${campaign_id}">
+    <input type="hidden" name="match_id" th:value="${match_id}">
     <button type="submit">end match</button>
 </form>
 <form action="/matchList" method="get">

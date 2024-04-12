@@ -30,20 +30,20 @@
                   th:text="${formationOrder}"></option>
         </select>
       </label>
-      <label>Choose user1:
-        <select name="firstUser_id">
-          <option value="">Select user</option>
-          <option th:each="user : ${users}"
-                   th:value="${user.user_id}"
-                   th:text="${user.nickname}"></option>
+      <label>Choose player1:
+        <select name="firstPlayer_id">
+          <option value="">Select player</option>
+          <option th:each="player : ${players}"
+                   th:value="${player.player_id}"
+                   th:text="${player.nickname}"></option>
         </select>
       </label>
-      <label>Choose user2:
-        <select name="secondUser_id">
-          <option value="">Select user</option>
-          <option th:each="user : ${users}"
-                  th:value="${user.user_id}"
-                  th:text="${user.nickname}"></option>
+      <label>Choose player2:
+        <select name="secondPlayer_id">
+          <option value="">Select player</option>
+          <option th:each="player : ${players}"
+                  th:value="${player.player_id}"
+                  th:text="${player.nickname}"></option>
         </select>
       </label>
       <label>Start battle value:
@@ -51,7 +51,7 @@
       </label>
       <button type="submit">create</button>
     </form>
-    <form action="mainPage/" method="get">
+    <form action="/mainPage" method="get">
       <button type="submit">return</button>
     </form>
   </main>

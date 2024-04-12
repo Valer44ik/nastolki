@@ -74,44 +74,29 @@
         width: 100%;
       }
     }
-    .error-message {
-      background-color: #f8d7da; /* Light red background */
-      color: #721c24; /* Dark red text color */
-      padding: 10px; /* Padding around the error message */
-      margin-bottom: 15px; /* Margin to separate from other content */
-      border: 1px solid #f5c6cb; /* Border around the error message */
-      border-radius: 5px;
-      text-align: center;
-    }
 
   </style>
 </head>
 <body>
 <header>
-  <h1>Register</h1>
+  <h1>Create player</h1>
 </header>
 <main>
-  <div th:if="${error}" class="error-message">
-    <p th:text="${error}"></p>
-  </div>
-  <form action="/register" method="post">
-    <label>Create a user:
-      <label>Enter user nickname
+  <form action="/createPlayer" method="post">
+    <label>Create a player:
+      <label>Enter player nickname
         <input type="text" name="nickname" id="nickname">
       </label>
-      <label>Enter login
-        <input type="text" name="login" id="login">
+      <label>Enter first name
+        <input type="text" name="firstName" id="firstName">
       </label>
-      <label>Enter email
-        <input type="text" name="email" id="email">
-      </label>
-      <label>Enter password
-        <input type="text" name="password" id="password">
+      <label>Enter last name
+        <input type="text" name="lastName" id="lastName">
       </label>
     </label>
     <button type="submit">Submit</button>
   </form>
-  <form action="/" method="get">
+  <form action="/mainPage" method="get">
     <button type="submit">return</button>
   </form>
 </main>

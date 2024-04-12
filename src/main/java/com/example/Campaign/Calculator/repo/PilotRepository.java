@@ -1,8 +1,7 @@
 package com.example.Campaign.Calculator.repo;
 
-import com.example.Campaign.Calculator.models.Match1;
 import com.example.Campaign.Calculator.models.Pilot;
-import com.example.Campaign.Calculator.models.User;
+import com.example.Campaign.Calculator.models.Player;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -15,7 +14,7 @@ import java.util.Set;
 
 @Repository
 public interface PilotRepository extends CrudRepository<Pilot, Long> {
-    List<Pilot> findByUser(User user);
+    List<Pilot> findByPlayer(Player player);
 
     @Modifying
     @Transactional
@@ -37,8 +36,8 @@ public interface PilotRepository extends CrudRepository<Pilot, Long> {
     @Modifying
     @Transactional
     @Query(value = "SELECT p.pilot_id FROM pilot p " +
-            "WHERE p.user = :user_id " +
+            "WHERE p.player = :player_id " +
             "AND p.pilot_status = 1 ", nativeQuery = true)
-    List<Long> findPilotsReadyForMatch(@Param("user_id") Long user_id);
+    List<Long> findPilotsReadyForMatch(@Param("player_id") Long player_id);
 }
 

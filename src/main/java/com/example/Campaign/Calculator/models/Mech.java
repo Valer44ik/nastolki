@@ -20,8 +20,8 @@ public class Mech {
     private MechChasis mechChasis;
 
     @ManyToOne
-    @JoinColumn(name = "user")
-    private User user;
+    @JoinColumn(name = "player")
+    private Player player;
 
     @ManyToOne
     @JoinColumn(name = "mechClass")
@@ -71,12 +71,12 @@ public class Mech {
     }
 
     public Mech(String name, MechStatus mechStatus, MechClass mechClass,
-                int battleValue, User user, MechChasis mechChasis) {
+                int battleValue, Player player, MechChasis mechChasis) {
         this.name = name;
         this.mechStatus = mechStatus;
         this.mechClass = mechClass;
         this.battleValue = battleValue;
-        this.user = user;
+        this.player = player;
         this.mechChasis = mechChasis;
     }
 

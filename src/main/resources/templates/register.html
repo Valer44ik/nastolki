@@ -74,6 +74,15 @@
         width: 100%;
       }
     }
+    .error-message {
+      background-color: #f8d7da; /* Light red background */
+      color: #721c24; /* Dark red text color */
+      padding: 10px; /* Padding around the error message */
+      margin-bottom: 15px; /* Margin to separate from other content */
+      border: 1px solid #f5c6cb; /* Border around the error message */
+      border-radius: 5px;
+      text-align: center;
+    }
 
   </style>
 </head>
@@ -82,6 +91,9 @@
   <h1>Register</h1>
 </header>
 <main>
+  <div th:if="${error}" class="error-message">
+    <p th:text="${error}"></p>
+  </div>
   <form action="/register" method="post">
     <label>Create a user:
       <label>Enter user nickname

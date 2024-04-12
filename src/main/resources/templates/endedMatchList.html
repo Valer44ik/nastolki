@@ -33,34 +33,15 @@
             <td th:text="${match.startDate}"></td>
             <td th:text="${match.isEnded}"></td>
             <td>
-              <form th:if="${match.ended == true}" th:action="@{/watchMatch}" method="get">
+              <form action="/watchMatch" method="get">
                 <input type="hidden" name="campaign_id" th:value="${campaign_id}">
                 <input type="hidden" name="match_id" th:value="${match.match_id}">
                 <button type="submit">Watch match</button>
-              </form>
-              <form th:unless="${match.ended == true}" th:action="@{/playMatch}" method="get">
-                <input type="hidden" name="campaign_id" th:value="${campaign_id}">
-                <input type="hidden" name="match_id" th:value="${match.match_id}">
-                <button type="submit">Play match</button>
               </form>
             </td>
           </tr>
         </tbody>
       </table>
-      <form th:if="${matches.isEmpty()}" th:action="@{/startFirstMatch}" method="get">
-        <input type="hidden" name="campaign_id" th:value="${campaign_id}">
-        <button type="submit">Start first match</button>
-      </form>
-      <form th:unless="${matches.isEmpty()}" th:action="@{/startNewMatch}" method="get">
-        <input type="hidden" name="campaign_id" th:value="${campaign_id}">
-        <button type="submit">Start new match</button>
-      </form>
-      <form th:if="${matches.isEmpty()}" th:action="@{/endCampaign}" method="get">
-      </form>
-      <form th:unless="${matches.isEmpty()}" th:action="@{/endCampaign}" method="get">
-        <input type="hidden" name="campaign_id" th:value="${campaign_id}">
-        <button type="submit">End Campaign</button>
-      </form>
       <form action="/mainPage" method="get">
         <button type="submit">Return</button>
       </form>

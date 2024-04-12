@@ -27,7 +27,7 @@
                     <td>
                         <select name="firstUserPilots_id" id = "firstUserPilots_id">
                             <option value="">Select Pilot</option>
-                            <option th:each="pilot : ${firstUserPilots}"
+                            <option th:each="pilot : ${firstPlayerPilots}"
                                     th:value="${pilot.pilot_id}"
                                     th:text="${pilot.name}"></option>
                         </select>
@@ -35,7 +35,7 @@
                     <td>
                         <select name="firstUserMechs_id" id="firstUserMechs_id">
                             <option value="">Select Mech</option>
-                            <option th:each="mech : ${firstUserMechs}"
+                            <option th:each="mech : ${firstPlayerMechs}"
                                     th:value="${mech.mech_id}"
                                     th:text="${mech.name}"></option>
                         </select>
@@ -66,9 +66,23 @@
                 </tr>
             </thead>
             <tbody>
-                <tr th:each="pilot : ${secondUserPilots}">
-                    <td th:text="pilot.name"></td>
-                    <td th:text="pilot.mech.name"></td>
+                <tr th:each="pilot : ${secondPlayerPilots}">
+                    <td>
+                        <select name="firstUserPilots_id" id = "firstUserPilots_id">
+                            <option value="">Select Pilot</option>
+                            <option th:each="pilot : ${firstPlayerPilots}"
+                                    th:value="${pilot.pilot_id}"
+                                    th:text="${pilot.name}"></option>
+                        </select>
+                    </td>
+                    <td>
+                        <select name="firstUserMechs_id" id="firstUserMechs_id">
+                            <option value="">Select Mech</option>
+                            <option th:each="mech : ${firstPlayerMechs}"
+                                    th:value="${mech.mech_id}"
+                                    th:text="${mech.name}"></option>
+                        </select>
+                    </td>
                     <td>
                         <select name="mechChasis_id">
                             <option value="">Select Mech Chasis</option>

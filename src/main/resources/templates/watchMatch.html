@@ -124,11 +124,6 @@
     </tr>
   </tbody>
 </table>
-<form action="/endMatch" method="get">
-  <input type="hidden" name="campaign_id" th:value="${campaign_id}">
-  <input type="hidden" name="match_id" th:value="${match_id}">
-  <button type="submit">end match</button>
-</form>
 <form action="/matchList" method="get">
   <input type="hidden" name="campaign_id" th:value="${campaign_id}">
   <button type="submit">return</button>

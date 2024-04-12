@@ -2,6 +2,7 @@ package com.example.Campaign.Calculator.repo;
 
 import com.example.Campaign.Calculator.models.Mech;
 import com.example.Campaign.Calculator.models.Pilot;
+import com.example.Campaign.Calculator.models.Player;
 import com.example.Campaign.Calculator.models.User;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.Modifying;
@@ -15,7 +16,7 @@ import java.util.List;
 
 @Repository
 public interface MechRepository extends CrudRepository<Mech, Long> {
-    List<Mech> findByUser(User user);
+    List<Mech> findByPlayer(Player player);
 
     @Modifying
     @Transactional
@@ -27,8 +28,8 @@ public interface MechRepository extends CrudRepository<Mech, Long> {
     @Modifying
     @Transactional
     @Query(value = "SELECT m.mech_id FROM mech m " +
-            "WHERE m.user = :user_id " +
+            "WHERE m.player = :player_id " +
             "AND m.mech_status = 1 ", nativeQuery = true)
-    List<Long> findMechsReadyForMatch(@Param("user_id") Long user_id);
+    List<Long> findMechsReadyForMatch(@Param("player_id") Long player_id);
 }
 

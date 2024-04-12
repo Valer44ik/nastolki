@@ -37,6 +37,9 @@ public class matchController {
     @Autowired
     private SecondaryTaskRepository secondaryTaskRepository;
 
+    @Autowired
+    private PlayerRepository playerRepository;
+
     @GetMapping("/startFirstMatch")
     public String startFirstMatch(@RequestParam Long campaign_id, Model model) {
         model.addAttribute("title", "start first match");
@@ -46,19 +49,19 @@ public class matchController {
         int numOfPilots = campaign.getNumOfPilots();
         model.addAttribute("numOfPilots", numOfPilots);
 
-        List<User> users = campaignRepository.findUsersByCampaign(campaign);
-        User user1 = users.get(0);
-        User user2 = users.get(1);
+        List<Player> players = campaignRepository.findPlayersByCampaign(campaign);
+        Player player1 = players.get(0);
+        Player player2 = players.get(1);
 
-        List<Pilot> firstUserPilots = pilotRepository.findByUser(user1);
-        List<Pilot> secondUserPilots = pilotRepository.findByUser(user2);
-        model.addAttribute("firstUserPilots", firstUserPilots);
-        model.addAttribute("secondUserPilots", secondUserPilots);
+        List<Pilot> firstPlayerPilots = pilotRepository.findByPlayer(player1);
+        List<Pilot> secondPlayerPilots = pilotRepository.findByPlayer(player2);
+        model.addAttribute("firstPlayerPilots", firstPlayerPilots);
+        model.addAttribute("secondPlayerPilots", secondPlayerPilots);
 
-        List<Mech> firstUserMechs = mechRepository.findByUser(user1);
-        List<Mech> secondUserMechs = mechRepository.findByUser(user2);
-        model.addAttribute("firstUserMechs", firstUserMechs);
-        model.addAttribute("secondUserMechs", secondUserMechs);
+        List<Mech> firstPlayerMechs = mechRepository.findByPlayer(player1);
+        List<Mech> secondPlayerMechs = mechRepository.findByPlayer(player2);
+        model.addAttribute("firstPlayerMechs", firstPlayerMechs);
+        model.addAttribute("secondPlayerMechs", secondPlayerMechs);
 
         model.addAttribute("campaign_id", campaign_id);
 
@@ -66,10 +69,10 @@ public class matchController {
     }
 
     @PostMapping("/startFirstMatch")
-    public String createFirstMatch(@RequestParam String matchName, @RequestParam List<Long> firstUserPilots_id,
-                                   @RequestParam List<Long> firstUserMechs_id,
-                                   @RequestParam List<Long> secondUserPilots_id,
-                                   @RequestParam List<Long> secondUserMechs_id,
+    public String createFirstMatch(@RequestParam String matchName, @RequestParam List<Long> firstPlayerPilots_id,
+                                   @RequestParam List<Long> firstPlayerMechs_id,
+                                   @RequestParam List<Long> secondPlayerPilots_id,
+                                   @RequestParam List<Long> secondPlayerMechs_id,
                                    @RequestParam List<String> mainTasksTextForPlayer1,
                                    @RequestParam List<String> secondaryTasksTextForPlayer1,
                                    @RequestParam List<String> mainTasksTextForPlayer2,
@@ -78,9 +81,9 @@ public class matchController {
                                    Model model) {
         Campaign campaign = campaignRepository.findById(campaign_id).orElse(null);
         assert campaign != null;
-        List<User> users = campaignRepository.findUsersByCampaign(campaign);
-        User user1 = users.get(0);
-        User user2 = users.get(1);
+        List<Player> players = campaignRepository.findPlayersByCampaign(campaign);
+        Player player1 = players.get(0);
+        Player player2 = players.get(1);
 
         LocalDate startdate = LocalDate.now();
         boolean isEnded = false;
@@ -89,11 +92,11 @@ public class matchController {
         matchRepository.save(match);
         Long match_id = match.getMatch_id();
 
-        for(int i = 0; i < firstUserPilots_id.size(); i++) {
-            matchRepository.bindPilotsAndMechsToMatch(match_id, firstUserPilots_id.get(i), firstUserMechs_id.get(i));
+        for(int i = 0; i < firstPlayerPilots_id.size(); i++) {
+            matchRepository.bindPilotsAndMechsToMatch(match_id, firstPlayerPilots_id.get(i), firstPlayerMechs_id.get(i));
         }
-        for(int i = 0; i < secondUserPilots_id.size(); i++) {
-            matchRepository.bindPilotsAndMechsToMatch(match_id, secondUserPilots_id.get(i), secondUserMechs_id.get(i));
+        for(int i = 0; i < secondPlayerPilots_id.size(); i++) {
+            matchRepository.bindPilotsAndMechsToMatch(match_id, secondPlayerPilots_id.get(i), secondPlayerMechs_id.get(i));
         }
         /*
         List<MainTask> firstUserMainTasks = new ArrayList<>();
@@ -130,39 +133,39 @@ public class matchController {
         int numOfPilots = campaign.getNumOfPilots();
         model.addAttribute("numOfPilots", numOfPilots);
 
-        List<User> users = campaignRepository.findUsersByCampaign(campaign);
-        User user1 = users.get(0);
-        User user2 = users.get(1);
+        List<Player> players = campaignRepository.findPlayersByCampaign(campaign);
+        Player player1 = players.get(0);
+        Player player2 = players.get(1);
 
-        List<Long> firstUserPilots_ids = pilotRepository.findPilotsReadyForMatch(user1.getUser_id());
-        List<Long> secondUserPilots_ids = pilotRepository.findPilotsReadyForMatch(user2.getUser_id());
-        List<Pilot> firstUserPilots = new ArrayList<>();
-        List<Pilot> secondUserPilots = new ArrayList<>();
-        for(Long pilot_id : firstUserPilots_ids) {
+        List<Long> firstPlayerPilots_ids = pilotRepository.findPilotsReadyForMatch(player1.getPlayer_id());
+        List<Long> secondPlayerPilots_ids = pilotRepository.findPilotsReadyForMatch(player2.getPlayer_id());
+        List<Pilot> firstPlayerPilots = new ArrayList<>();
+        List<Pilot> secondPlayerPilots = new ArrayList<>();
+        for(Long pilot_id : firstPlayerPilots_ids) {
             Pilot pilot = pilotRepository.findById(pilot_id).orElse(null);
-            firstUserPilots.add(pilot);
+            firstPlayerPilots.add(pilot);
         }
-        for(Long pilot_id : secondUserPilots_ids) {
+        for(Long pilot_id : secondPlayerPilots_ids) {
             Pilot pilot = pilotRepository.findById(pilot_id).orElse(null);
-            secondUserPilots.add(pilot);
+            secondPlayerPilots.add(pilot);
         }
-        model.addAttribute("firstUserPilots", firstUserPilots);
-        model.addAttribute("secondUserPilots", secondUserPilots);
+        model.addAttribute("firstPlayerPilots", firstPlayerPilots);
+        model.addAttribute("secondPlayerPilots", secondPlayerPilots);
 
-        List<Long> firstUserMechs_ids = mechRepository.findMechsReadyForMatch(user1.getUser_id());
-        List<Long> secondUserMechs_ids = mechRepository.findMechsReadyForMatch(user2.getUser_id());
-        List<Mech> firstUserMechs = mechRepository.findByUser(user1);
-        List<Mech> secondUserMechs = mechRepository.findByUser(user2);
-        for(Long mech_id : firstUserMechs_ids) {
+        List<Long> firstPlayerMechs_ids = mechRepository.findMechsReadyForMatch(player1.getPlayer_id());
+        List<Long> secondPlayerMechs_ids = mechRepository.findMechsReadyForMatch(player2.getPlayer_id());
+        List<Mech> firstPlayerMechs = mechRepository.findByPlayer(player1);
+        List<Mech> secondPlayerMechs = mechRepository.findByPlayer(player2);
+        for(Long mech_id : firstPlayerMechs_ids) {
             Mech mech = mechRepository.findById(mech_id).orElse(null);
-            firstUserMechs.add(mech);
+            firstPlayerMechs.add(mech);
         }
-        for (Long mech_id : secondUserMechs_ids) {
+        for (Long mech_id : secondPlayerMechs_ids) {
             Mech mech = mechRepository.findById(mech_id).orElse(null);
-            secondUserMechs.add(mech);
+            secondPlayerMechs.add(mech);
         }
-        model.addAttribute("firstUserMechs", firstUserMechs);
-        model.addAttribute("secondUserMechs", secondUserMechs);
+        model.addAttribute("firstPlayerMechs", firstPlayerMechs);
+        model.addAttribute("secondPlayerMechs", secondPlayerMechs);
 
         List<MechChasis> mechChases = (List<MechChasis>) mechChasisRepository.findAll();
         model.addAttribute("mechChases", mechChases);
@@ -176,9 +179,9 @@ public class matchController {
     public String startNewMatch(@RequestParam Long campaign_id, Model model) {
         Campaign campaign = campaignRepository.findById(campaign_id).orElse(null);
         assert campaign != null;
-        List<User> users = campaignRepository.findUsersByCampaign(campaign);
-        User user1 = users.get(0);
-        User user2 = users.get(1);
+        List<Player> players = campaignRepository.findPlayersByCampaign(campaign);
+        Player player1 = players.get(0);
+        Player player2 = players.get(1);
 
         LocalDate startdate = LocalDate.now();
         boolean isEnded = false;
@@ -207,11 +210,30 @@ public class matchController {
         }
         else {
             model.addAttribute("errorMessage", "Campaign not found");
-            return "campaignList";
+            return "redirect:/mainPage";
         }
     }
 
-    @GetMapping("/match")
+    @GetMapping("/endedMatchList")
+    public String watchEndedMatchList(@RequestParam Long campaign_id, Model model) {
+        model.addAttribute("title", "match list");
+        Optional<Campaign> optionalCampaign = campaignRepository.findById(campaign_id);
+
+        if(optionalCampaign.isPresent()){
+            Campaign campaign = optionalCampaign.get();
+            List<Match1> matches = matchRepository.findByCampaign(campaign);
+            model.addAttribute("matches", matches);
+
+            model.addAttribute("campaign_id", campaign_id);
+            return "endedMatchList";
+        }
+        else {
+            model.addAttribute("errorMessage", "Campaign not found");
+            return "redirect:/mainPage";
+        }
+    }
+
+    @GetMapping("/playMatch")
     public String viewMatch(@RequestParam Long campaign_id, @RequestParam Long match_id, Model model) {
         model.addAttribute("title", "match");
         model.addAttribute("campaign_id", campaign_id);
@@ -223,47 +245,47 @@ public class matchController {
         model.addAttribute("numOfPilots", numOfPilots);
 
         Match1 match = matchRepository.findById(match_id).orElse(null);
-        List<User> users = new ArrayList<>(campaign.getUsers());
-        User user1 = users.get(0);
-        User user2 = users.get(1);
+        List<Player> players = new ArrayList<>(campaign.getPlayers());
+        Player player1 = players.get(0);
+        Player player2 = players.get(1);
 
         List<Long>pilots_ids = pilotRepository.findPilotsByMatchId(match.getMatch_id());
-        List<Pilot> firstUserPilots = new ArrayList<>();
-        List<Pilot> secondUserPilots = new ArrayList<>();
+        List<Pilot> firstPlayerPilots = new ArrayList<>();
+        List<Pilot> secondPlayerPilots = new ArrayList<>();
         for(Long pilot_id : pilots_ids) {
             Pilot pilot = pilotRepository.findById(pilot_id).orElse(null);
-            if(pilot.getUser() == user1) {
-                firstUserPilots.add(pilot);
+            if(pilot.getPlayer() == player1) {
+                firstPlayerPilots.add(pilot);
             }
             else {
-                secondUserPilots.add(pilot);
+                secondPlayerPilots.add(pilot);
             }
         }
 
-        model.addAttribute("firstUserPilots", firstUserPilots);
-        model.addAttribute("secondUserPilots", secondUserPilots);
+        model.addAttribute("firstPlayerPilots", firstPlayerPilots);
+        model.addAttribute("secondPlayerPilots", secondPlayerPilots);
 
-        List<MatchPilotAndMech> firstUserMatchPilotsAndMechs = new ArrayList<>();
-        List<MatchPilotAndMech> secondUserMatchPilotsAndMechs = new ArrayList<>();
-        for(int i = 0; i < firstUserPilots.size(); i++) {
+        List<MatchPilotAndMech> firstPlayerMatchPilotsAndMechs = new ArrayList<>();
+        List<MatchPilotAndMech> secondPlayerMatchPilotsAndMechs = new ArrayList<>();
+        for(int i = 0; i < firstPlayerPilots.size(); i++) {
             List<Long> mech_id = mechRepository.findMechByMatchAndPilot_id(match.getMatch_id(),
-                    firstUserPilots.get(i).getPilot_id());
+                    firstPlayerPilots.get(i).getPilot_id());
             Mech mech = mechRepository.findById(mech_id.get(0)).orElse(null);
-            MatchPilotAndMech matchPilotAndMech = new MatchPilotAndMech(firstUserPilots.get(i), mech);
+            MatchPilotAndMech matchPilotAndMech = new MatchPilotAndMech(firstPlayerPilots.get(i), mech);
             System.out.println("pilot " + matchPilotAndMech.getPilot());
-            firstUserMatchPilotsAndMechs.add(matchPilotAndMech);
+            firstPlayerMatchPilotsAndMechs.add(matchPilotAndMech);
         }
-        for(int i = 0; i < secondUserPilots.size(); i++) {
+        for(int i = 0; i < secondPlayerPilots.size(); i++) {
             List<Long> mech_id = mechRepository.findMechByMatchAndPilot_id(match.getMatch_id(),
-                    secondUserPilots.get(i).getPilot_id());
+                    secondPlayerPilots.get(i).getPilot_id());
             Mech mech = mechRepository.findById(mech_id.get(0)).orElse(null);
-            MatchPilotAndMech matchPilotAndMech = new MatchPilotAndMech(secondUserPilots.get(i), mech);
+            MatchPilotAndMech matchPilotAndMech = new MatchPilotAndMech(secondPlayerPilots.get(i), mech);
             System.out.println("pilot " + matchPilotAndMech.getPilot());
-            secondUserMatchPilotsAndMechs.add(matchPilotAndMech);
+            secondPlayerMatchPilotsAndMechs.add(matchPilotAndMech);
         }
 
-        model.addAttribute("firstUserMatchPilotsAndMechs", firstUserMatchPilotsAndMechs);
-        model.addAttribute("secondUserMatchPilotsAndMechs", secondUserMatchPilotsAndMechs);
+        model.addAttribute("firstPlayerMatchPilotsAndMechs", firstPlayerMatchPilotsAndMechs);
+        model.addAttribute("secondPlayerMatchPilotsAndMechs", secondPlayerMatchPilotsAndMechs);
 
         List<MainTask> mainTasks = mainTaskRepository.findByMatch1(match);
         List<SecondaryTask> secondaryTasks = secondaryTaskRepository.findByMatch1(match);
@@ -271,21 +293,20 @@ public class matchController {
         model.addAttribute("mainTasks", mainTasks);
         model.addAttribute("secondaryTasks", secondaryTasks);
 
-        return "match";
+        return "playMatch";
     }
 
-    @PostMapping("/match")
+    @PostMapping("/playMatch")
     public String submitMatch(@RequestParam Long campaign_id, RedirectAttributes redirectAttributes,Model model) {
         redirectAttributes.addAttribute("campaign_id", campaign_id);
         return "redirect:/matchList";
     }
 
-    @GetMapping("/endMatch")
-    public String endMatch(@RequestParam Long campaign_id, @RequestParam Long match_id, Model model) {
-        model.addAttribute("title", "end match");
-        model.addAttribute("match_id", match_id);
+    @GetMapping("/watchMatch")
+    public String viewMatchForm(@RequestParam Long campaign_id, @RequestParam Long match_id, Model model) {
+        model.addAttribute("title", "match");
         model.addAttribute("campaign_id", campaign_id);
-
+        model.addAttribute("match_id", match_id);
 
         Campaign campaign = campaignRepository.findById(campaign_id).orElse(null);
         assert campaign != null;
@@ -293,49 +314,138 @@ public class matchController {
         model.addAttribute("numOfPilots", numOfPilots);
 
         Match1 match = matchRepository.findById(match_id).orElse(null);
-        List<User> users = new ArrayList<>(campaign.getUsers());
-        User user1 = users.get(0);
-        User user2 = users.get(1);
+        List<Player> players = new ArrayList<>(campaign.getPlayers());
+        Player player1 = players.get(0);
+        Player player2 = players.get(1);
 
         List<Long>pilots_ids = pilotRepository.findPilotsByMatchId(match.getMatch_id());
-        List<Pilot> firstUserPilots = new ArrayList<>();
-        List<Pilot> secondUserPilots = new ArrayList<>();
+        List<Pilot> firstPlayerPilots = new ArrayList<>();
+        List<Pilot> secondPlayerPilots = new ArrayList<>();
         for(Long pilot_id : pilots_ids) {
             Pilot pilot = pilotRepository.findById(pilot_id).orElse(null);
-            if(pilot.getUser() == user1) {
-                firstUserPilots.add(pilot);
+            if(pilot.getPlayer() == player1) {
+                firstPlayerPilots.add(pilot);
             }
             else {
-                secondUserPilots.add(pilot);
+                secondPlayerPilots.add(pilot);
             }
         }
 
-        model.addAttribute("firstUserPilots", firstUserPilots);
-        model.addAttribute("secondUserPilots", secondUserPilots);
+        model.addAttribute("firstPlayerPilots", firstPlayerPilots);
+        model.addAttribute("secondPlayerPilots", secondPlayerPilots);
 
-        List<MatchPilotAndMech> firstUserMatchPilotsAndMechs = new ArrayList<>();
-        List<MatchPilotAndMech> secondUserMatchPilotsAndMechs = new ArrayList<>();
-        for(int i = 0; i < firstUserPilots.size(); i++) {
+        List<MatchPilotAndMech> firstPlayerMatchPilotsAndMechs = new ArrayList<>();
+        List<MatchPilotAndMech> secondPlayerMatchPilotsAndMechs = new ArrayList<>();
+        for(int i = 0; i < firstPlayerPilots.size(); i++) {
             List<Long> mech_id = mechRepository.findMechByMatchAndPilot_id(match.getMatch_id(),
-                    firstUserPilots.get(i).getPilot_id());
+                    firstPlayerPilots.get(i).getPilot_id());
             Mech mech = mechRepository.findById(mech_id.get(0)).orElse(null);
-            MatchPilotAndMech matchPilotAndMech = new MatchPilotAndMech(firstUserPilots.get(i), mech);
+            MatchPilotAndMech matchPilotAndMech = new MatchPilotAndMech(firstPlayerPilots.get(i), mech);
             System.out.println("pilot " + matchPilotAndMech.getPilot());
-            firstUserMatchPilotsAndMechs.add(matchPilotAndMech);
+            firstPlayerMatchPilotsAndMechs.add(matchPilotAndMech);
         }
-        for(int i = 0; i < secondUserPilots.size(); i++) {
+        for(int i = 0; i < secondPlayerPilots.size(); i++) {
             List<Long> mech_id = mechRepository.findMechByMatchAndPilot_id(match.getMatch_id(),
-                    secondUserPilots.get(i).getPilot_id());
+                    secondPlayerPilots.get(i).getPilot_id());
             Mech mech = mechRepository.findById(mech_id.get(0)).orElse(null);
-            MatchPilotAndMech matchPilotAndMech = new MatchPilotAndMech(secondUserPilots.get(i), mech);
+            MatchPilotAndMech matchPilotAndMech = new MatchPilotAndMech(secondPlayerPilots.get(i), mech);
             System.out.println("pilot " + matchPilotAndMech.getPilot());
-            secondUserMatchPilotsAndMechs.add(matchPilotAndMech);
+            secondPlayerMatchPilotsAndMechs.add(matchPilotAndMech);
         }
 
-        model.addAttribute("firstUserMatchPilotsAndMechs", firstUserMatchPilotsAndMechs);
-        model.addAttribute("secondUserMatchPilotsAndMechs", secondUserMatchPilotsAndMechs);
+        model.addAttribute("firstPlayerMatchPilotsAndMechs", firstPlayerMatchPilotsAndMechs);
+        model.addAttribute("secondPlayerMatchPilotsAndMechs", secondPlayerMatchPilotsAndMechs);
+
+        List<MainTask> mainTasks = mainTaskRepository.findByMatch1(match);
+        List<SecondaryTask> secondaryTasks = secondaryTaskRepository.findByMatch1(match);
+
+        model.addAttribute("mainTasks", mainTasks);
+        model.addAttribute("secondaryTasks", secondaryTasks);
+
+        return "watchMatch";
+    }
+
+    @GetMapping("/endMatch")
+    public String showEndMatchForm(@RequestParam Long campaign_id, @RequestParam Long match_id, Model model) {
+        model.addAttribute("title", "end match");
+        model.addAttribute("match_id", match_id);
+        model.addAttribute("campaign_id", campaign_id);
+
+        Campaign campaign = campaignRepository.findById(campaign_id).orElse(null);
+        assert campaign != null;
+        int numOfPilots = campaign.getNumOfPilots();
+        model.addAttribute("numOfPilots", numOfPilots);
+
+        Match1 match = matchRepository.findById(match_id).orElse(null);
+        List<Player> players = new ArrayList<>(campaign.getPlayers());
+        Player player1 = players.get(0);
+        Player player2 = players.get(1);
+
+        model.addAttribute("players", players);
+
+        List<Long>pilots_ids = pilotRepository.findPilotsByMatchId(match.getMatch_id());
+        List<Pilot> firstPlayerPilots = new ArrayList<>();
+        List<Pilot> secondPlayerPilots = new ArrayList<>();
+        for(Long pilot_id : pilots_ids) {
+            Pilot pilot = pilotRepository.findById(pilot_id).orElse(null);
+            if(pilot.getPlayer() == player1) {
+                firstPlayerPilots.add(pilot);
+            }
+            else {
+                secondPlayerPilots.add(pilot);
+            }
+        }
+
+        model.addAttribute("firstPlayerPilots", firstPlayerPilots);
+        model.addAttribute("secondPlayerPilots", secondPlayerPilots);
+
+        List<MatchPilotAndMech> firstPlayerMatchPilotsAndMechs = new ArrayList<>();
+        List<MatchPilotAndMech> secondPlayerMatchPilotsAndMechs = new ArrayList<>();
+        for(int i = 0; i < firstPlayerPilots.size(); i++) {
+            List<Long> mech_id = mechRepository.findMechByMatchAndPilot_id(match.getMatch_id(),
+                    firstPlayerPilots.get(i).getPilot_id());
+            Mech mech = mechRepository.findById(mech_id.get(0)).orElse(null);
+            MatchPilotAndMech matchPilotAndMech = new MatchPilotAndMech(firstPlayerPilots.get(i), mech);
+            System.out.println("pilot " + matchPilotAndMech.getPilot());
+            firstPlayerMatchPilotsAndMechs.add(matchPilotAndMech);
+        }
+        for(int i = 0; i < secondPlayerPilots.size(); i++) {
+            List<Long> mech_id = mechRepository.findMechByMatchAndPilot_id(match.getMatch_id(),
+                    secondPlayerPilots.get(i).getPilot_id());
+            Mech mech = mechRepository.findById(mech_id.get(0)).orElse(null);
+            MatchPilotAndMech matchPilotAndMech = new MatchPilotAndMech(secondPlayerPilots.get(i), mech);
+            System.out.println("pilot " + matchPilotAndMech.getPilot());
+            secondPlayerMatchPilotsAndMechs.add(matchPilotAndMech);
+        }
+
+        model.addAttribute("firstPlayerMatchPilotsAndMechs", firstPlayerMatchPilotsAndMechs);
+        model.addAttribute("secondPlayerMatchPilotsAndMechs", secondPlayerMatchPilotsAndMechs);
 
         return "endMatch";
     }
 
+    @PostMapping("/endMatch")
+    public String endMatch(@RequestParam Long winningPlayer_id,
+                           @RequestParam Long campaign_id,
+                           @RequestParam Long match_id, Model model){
+        Match1 match = matchRepository.findById(match_id).orElse(null);
+        match.setEnded(true);
+
+        Campaign campaign = campaignRepository.findById(campaign_id).orElse(null);
+
+        List<Player> players = campaignRepository.findPlayersByCampaign(campaign);
+        Player lostPlayer;
+        if(Objects.equals(players.get(0).getPlayer_id(), winningPlayer_id)) {
+            lostPlayer = players.get(1);
+        }
+        else {
+            lostPlayer = players.get(0);
+        }
+
+        playerRepository.incrementWinMatchByOne(winningPlayer_id);
+
+        playerRepository.incrementMatchByOne(lostPlayer.getPlayer_id());
+
+        return "redirect:/mainPage";
+    }
 }

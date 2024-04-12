@@ -9,37 +9,39 @@
     <header>
         <h1>Make changes in pilot</h1>
     </header>
-    <table>
-        <thead>
-        <tr>
-            <th>Pilot name</th>
-            <th>Pilot rank</th>
-            <th>Pilot status</th>
-            <th>Pilot skills</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td th:show="${pilot.name}"></td>
-            <td>
-                <select name="pilotRank" id = "pilotRank">
-                    <option value="">Select Pilot Rank</option>
-                    <option th:value="${pilot.pilotRank}"
-                            th:text="${pilot.pilotRank}"></option>
-                </select>
-            </td>
-            <td>
-                <select name="pilotStatus" id="pilotStatus">
-                    <option value="">Select Pilot Status</option>
-                    <option th:value="${pilot.pilotStatus}"
-                            th:text="${pilot.pilotStatus}"></option>
-                </select>
-            </td>
-            <td>Gunnery</td>
-        </tr>
-        </tbody>
-    </table>
     <form action="/makeChangesInPilot" method="Post">
+        <table>
+            <thead>
+            <tr>
+                <th>Pilot name</th>
+                <th>Pilot rank</th>
+                <th>Pilot status</th>
+                <th>Pilot skills</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td th:text="${pilot.name}"></td>
+                <td>
+                    <select name="pilotRank_id" id ="pilotRank_id">
+                        <option value="">Select Pilot Rank</option>
+                        <option th:each="pilotRank : ${pilotRanks}"
+                                th:value="${pilotRank.pilotRank_id}"
+                                th:text="${pilotRank.name}"></option>
+                    </select>
+                </td>
+                <td>
+                    <select name="pilotStatus_id" id="pilotStatus_id">
+                        <option value="">Select Pilot Status</option>
+                        <option th:each="pilotStatus : ${pilotStatuses}"
+                                th:value="${pilotStatus.pilotStatus_id}"
+                                th:text="${pilotStatus.name}"></option>
+                    </select>
+                </td>
+                <td>Gunnery</td>
+            </tr>
+            </tbody>
+        </table>
         <input type="hidden" name="campaign_id" th:value="${campaign_id}">
         <input type="hidden" name="pilot_id" th:value="${pilot.pilot_id}">
         <button type="submit">Make changes</button>

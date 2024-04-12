@@ -1,6 +1,8 @@
 package com.example.Campaign.Calculator.Controllers;
 
+import com.example.Campaign.Calculator.models.Player;
 import com.example.Campaign.Calculator.models.User;
+import com.example.Campaign.Calculator.repo.PlayerRepository;
 import com.example.Campaign.Calculator.repo.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,7 +16,6 @@ import jakarta.servlet.http.HttpSession;
 
 import org.springframework.ui.Model;
 
-
 @Controller
 @SessionAttributes("loggedInUser")
 public class userController {
@@ -22,19 +23,23 @@ public class userController {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private PlayerRepository playerRepository;
+
     @GetMapping("/")
     public String login(Model model) {
         model.addAttribute("title", "login");
         return "login"; // Display login page
     }
 
-    @PostMapping("/login")
+    @PostMapping("/")
     public String login(@RequestParam String login,
                         @RequestParam String password,
                         Model model){
 
         if (login == null || login.isEmpty() || password == null || password.isEmpty()) {
-            return "/login";
+            model.addAttribute("error", "You have to enter both login and password");
+            return "login";
         }
 
         User logged_user = userRepository.findByLoginAndPassword(login, password);
@@ -66,7 +71,8 @@ public class userController {
                 || password == null || password.isEmpty()
                 || login == null || login.isEmpty()
                 || email == null || email.isEmpty()) {
-            return "redirect:/register";
+            model.addAttribute("error", "You have to provide all the necessary information");
+            return "/register";
         }
 
         // Check if user with such username already exists
@@ -75,13 +81,13 @@ public class userController {
         if (existingUser != null) {
             // add error atributte to the model
             model.addAttribute("error", "Username already exists");
-            return "register";
+            return "/register";
         }
 
         // Create a new user object
         User user = new User(nickname, password, login, email);
         userRepository.save(user);
-        return "redirect:/login"; // Redirect to login page after registration
+        return "redirect:/"; // Redirect to login page after registration
     }
 
     @GetMapping("/logout")
@@ -96,8 +102,8 @@ public class userController {
         return "redirect:/"; // Redirect to the login page after logging out
     }
 
-    @GetMapping("/users")
-    public String users(Model model, HttpSession session) {
+    @GetMapping("/userStatistics")
+    public String userStatistics(Model model, HttpSession session) {
         User loggedInUser = (User) session.getAttribute("loggedInUser");
         if (loggedInUser == null) {
             return "redirect:/login"; // Redirect to login page if user not authenticated
@@ -106,6 +112,39 @@ public class userController {
         // Get the logged-in user's information
         model.addAttribute("user", loggedInUser);
 
-        return "users"; // Display user info page
+        return "userStatistics"; // Display user info page
+    }
+
+    @GetMapping("/createPlayer")
+    public String showCreatePlayerPage(Model model) {
+        model.addAttribute("title", "create player");
+        return "createPlayer";
+    }
+
+    @PostMapping("/createPlayer")
+    public String register(@RequestParam String nickname,
+                           @RequestParam String firstName,
+                           @RequestParam String lastName,
+                           Model model) {
+        // if any field is null or empty, return to the registration page
+        if (nickname == null || nickname.isEmpty()
+                || firstName == null || firstName.isEmpty()
+                || lastName == null || lastName.isEmpty()) {
+            return "/createPlayer";
+        }
+
+        // Check if user with such username already exists
+        Player existingPlayer = playerRepository.findByNickname(nickname);
+
+        if (existingPlayer != null) {
+            // add error atributte to the model
+            model.addAttribute("error", "Username already exists");
+            return "createPlayer";
+        }
+
+        // Create a new user object
+        Player player = new Player(nickname, firstName, lastName);
+        playerRepository.save(player);
+        return "createPlayer"; // Redirect to login page after registration
     }
 }

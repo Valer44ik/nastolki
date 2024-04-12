@@ -76,11 +76,14 @@
     </style>
 </head>
 <body>
+<div th:if="${error}" class="error-message">
+    <p th:text="${error}"></p>
+</div>
 <div class="login-container">
     <div class="login-header">
         <h2>Login</h2>
     </div>
-    <form action="/login" method="Post">
+    <form action="/" method="Post">
         <div class="input-group">
             <label for="login">Username</label>
             <input type="text" name="login" id="login" placeholder="Enter your username">

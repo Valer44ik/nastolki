@@ -66,6 +66,10 @@ public class Match1 {
         this.mechs = mechs;
     }
 
+    public void setEnded(boolean ended) {
+        isEnded = ended;
+    }
+
     public Match1(LocalDate startDate, String name, boolean isEnded, Campaign campaign) {
         this.startDate = startDate;
         this.name = name;

@@ -24,17 +24,17 @@
           <tbody>
           <tr th:each="i : ${#numbers.sequence(1, numOfPilots)}">
             <td>
-              <select name="firstUserPilots_id" id = "firstUserPilots_id">
+              <select name="firstPlayerPilots_id" id = "firstPlayerPilots_id">
                 <option value="">Select Pilot</option>
-                <option th:each="pilot : ${firstUserPilots}"
+                <option th:each="pilot : ${firstPlayerPilots}"
                         th:value="${pilot.pilot_id}"
                         th:text="${pilot.name}"></option>
               </select>
             </td>
             <td>
-              <select name="firstUserMechs_id" id="firstUserMechs_id">
+              <select name="firstPlayerMechs_id" id="firstPlayerMechs_id">
                 <option value="">Select Mech</option>
-                <option th:each="mech : ${firstUserMechs}"
+                <option th:each="mech : ${firstPlayerMechs}"
                         th:value="${mech.mech_id}"
                         th:text="${mech.name}"></option>
               </select>
@@ -58,17 +58,17 @@
           <tbody>
           <tr th:each="i : ${#numbers.sequence(1, numOfPilots)}">
             <td>
-              <select name="secondUserPilots_id" id="secondUserPilots_id">
+              <select name="secondPlayerPilots_id" id="secondPlayerPilots_id">
                 <option value="">Select Pilot</option>
-                <option th:each="pilot : ${secondUserPilots}"
+                <option th:each="pilot : ${secondPlayerPilots}"
                         th:value="${pilot.pilot_id}"
                         th:text="${pilot.name}"></option>
               </select>
             </td>
             <td>
-              <select id="secondUserMechs_id" name="secondUserMechs_id">
+              <select id="secondPlayerMechs_id" name="secondPlayerMechs_id">
                 <option value="">Select Mech</option>
-                <option th:each="mech : ${secondUserMechs}"
+                <option th:each="mech : ${secondPlayerMechs}"
                         th:value="${mech.mech_id}"
                         th:text="${mech.name}"></option>
               </select>

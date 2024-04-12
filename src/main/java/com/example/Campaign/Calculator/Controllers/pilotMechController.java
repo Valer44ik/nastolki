@@ -39,7 +39,7 @@ public class pilotMechController {
     private PilotRepository pilotRepository;
 
     @Autowired
-    private UserRepository userRepository;
+    private PlayerRepository playerRepository;
 
     @GetMapping("/createMechChasis")
     public String createMechChasis(Model model)
@@ -62,15 +62,15 @@ public class pilotMechController {
         model.addAttribute("title", "create mech");
         List<MechChasis> mechChases = (List<MechChasis>)mechChasisRepository.findAll();
         model.addAttribute("mechChases", mechChases);
-        List<User> users = (List<User>) userRepository.findAll();
-        model.addAttribute("users", users);
+        List<Player> players = (List<Player>) playerRepository.findAll();
+        model.addAttribute("players", players);
         return "createMech";
     }
 
     @PostMapping("/createMech")
     public String createMech(@RequestParam String mechName,
                              @RequestParam int battleValue, @RequestParam Long mechChasis_id,
-                             @RequestParam Long user_id, Model model) {
+                             @RequestParam Long player_id, Model model) {
         MechStatus mechStatus = mechStatusRepository.findByName("Ready");
         if (mechStatus == null) {
             mechStatus = new MechStatus("Ready");
@@ -117,9 +117,9 @@ public class pilotMechController {
             return "redirect:/createMech";
         }
 
-        User user = userRepository.findById(user_id).orElse(null);
+        Player player = playerRepository.findById(player_id).orElse(null);
 
-        Mech mech = new Mech(mechName, mechStatus, mechClass, battleValue, user, mechChasis);
+        Mech mech = new Mech(mechName, mechStatus, mechClass, battleValue, player, mechChasis);
         mechRepository.save(mech);
 
         return "redirect:/createMech";
@@ -129,14 +129,14 @@ public class pilotMechController {
     public String createPilot(Model model)
     {
         model.addAttribute("title", "create pilot");
-        List<User> users = (List<User>) userRepository.findAll();
-        model.addAttribute("users", users);
+        List<Player> players = (List<Player>) playerRepository.findAll();
+        model.addAttribute("players", players);
         return "createPilot";
     }
 
     @PostMapping("/createPilot")
     public String createPilot(@RequestParam String pilotName, @RequestParam String pilotSurname,
-                              @RequestParam String pilotNickname, @RequestParam Long user_id,  Model model) {
+                              @RequestParam String pilotNickname, @RequestParam Long player_id,  Model model) {
         PilotStatus pilotStatus = pilotStatusRepository.findByName("Ready");
         if (pilotStatus == null) {
             pilotStatus = new PilotStatus("Ready");
@@ -155,11 +155,11 @@ public class pilotMechController {
             pilotRankRepository.save(pilotRank);
         }
 
-        User user = userRepository.findById(user_id).orElse(null);
+        Player player = playerRepository.findById(player_id).orElse(null);
 
-        Pilot pilot = new Pilot(pilotName, pilotSurname, pilotNickname, pilotRank, pilotStatus, user);
+        Pilot pilot = new Pilot(pilotName, pilotSurname, pilotNickname, pilotRank, pilotStatus, player);
         pilotRepository.save(pilot);
-        return "createPilot";
+        return "redirect:/createPilot";
     }
 
     @GetMapping("/pilotInfoScreen")
@@ -186,12 +186,18 @@ public class pilotMechController {
         Pilot pilot = pilotRepository.findById(pilot_id).orElse(null);
         model.addAttribute("pilot", pilot);
 
+        List<PilotStatus> pilotStatuses = (List<PilotStatus>) pilotStatusRepository.findAll();
+        model.addAttribute("pilotStatuses", pilotStatuses);
+
+        List<PilotRank> pilotRanks = (List<PilotRank>) pilotRankRepository.findAll();
+        model.addAttribute("pilotRanks", pilotRanks);
+
         return "makeChangesInPilot";
     }
 
     @PostMapping("/makeChangesInPilot")
-    public String changePilot(@RequestParam PilotRank pilotRank,
-                              @RequestParam PilotStatus pilotStatus,
+    public String changePilot(@RequestParam Long pilotRank_id,
+                              @RequestParam Long pilotStatus_id,
                               @RequestParam Long campaign_id,
                               @RequestParam Long pilot_id,
                               RedirectAttributes redirectAttributes, Model model) {
@@ -199,10 +205,16 @@ public class pilotMechController {
         Pilot pilot = pilotRepository.findById(pilot_id).orElse(null);
         model.addAttribute("pilot", pilot);
 
+        PilotStatus pilotStatus = pilotStatusRepository.findById(pilotStatus_id).orElse(null);
+        pilot.setPilotStatus(pilotStatus);
 
+        PilotRank pilotRank = pilotRankRepository.findById(pilotRank_id).orElse(null);
+        pilot.setPilotRank(pilotRank);
+
+        pilotRepository.save(pilot);
 
         redirectAttributes.addAttribute("campaign_id", campaign_id);
-        return "redirect:/makeChangesInPilot";
+        return "redirect:/endCampaign";
     }
 
     @GetMapping("/makeChangesInMech")

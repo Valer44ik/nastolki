@@ -2,13 +2,14 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="utf-8">
-  <title th:text="${title} ?: 'Default Title'"></title>
+    <title th:text="${title} ?: 'Default Title'"></title>
   <link rel="stylesheet" href="/style.css">
 </head>
 <body>
 <header>
-  <h1 th:text="Campaign ${campaign.getCampaignName()} has ended"></h1>
-  <h1 th:text="Player ${campaign.getCampaignName()} has ended"></h1>
+  <h1 th:text="'Campaign ' + ${campaign.campaignName} + ' has ended'"></h1>
+  <h1 th:if="${player != null}" th:text="'Player ' + ${player.nickname} + ' has won'"></h1>
+  <h1 th:unless="${player != null}" th:text="'It is a tie'"></h1>
 </header>
 <main>
   <table>
@@ -36,21 +37,12 @@
       <td>
         <form action="/match" method="get">
           <input type="hidden" name="campaign_id" th:value="${campaign_id}">
-          <input type="hidden" name="match_id" th:value="${match.match_id}">
           <button type="submit">Watch</button>
         </form>
       </td>
     </tr>
     </tbody>
   </table>
-  <form th:if="${matches.isEmpty()}" th:action="@{/startFirstMatch}" method="get">
-    <input type="hidden" name="campaign_id" th:value="${campaign_id}">
-    <button type="submit">Start first match</button>
-  </form>
-  <form th:unless="${matches.isEmpty()}" th:action="@{/startNewMatch}" method="get">
-    <input type="hidden" name="campaign_id" th:value="${campaign_id}">
-    <button type="submit">Start new match</button>
-  </form>
   <form action="/mainPage" method="get">
     <button type="submit">Return</button>
   </form>

@@ -24,8 +24,8 @@ public class Pilot {
     private PilotStatus pilotStatus;
 
     @ManyToOne
-    @JoinColumn(name = "user")
-    private User user;
+    @JoinColumn(name = "player")
+    private Player player;
 
     @ManyToMany(mappedBy = "pilots")
     private Set<Match1> matches = new HashSet<>();
@@ -38,8 +38,8 @@ public class Pilot {
         this.name = name;
     }
 
-    public User getUser() {
-        return user;
+    public Player getPlayer() {
+        return player;
     }
 
     public Long getPilot_id() {
@@ -63,13 +63,13 @@ public class Pilot {
     }
 
     public Pilot(String name, String pilotSurname, String pilotNickname , PilotRank pilotRank_id,
-                 PilotStatus pilotStatus_id, User user) {
+                 PilotStatus pilotStatus_id, Player player) {
         this.name = name;
         this.surname = pilotSurname;
         this.nickname = pilotNickname;
         this.pilotRank = pilotRank_id;
         this.pilotStatus = pilotStatus_id;
-        this.user = user;
+        this.player = player;
     }
 
     public Pilot() {

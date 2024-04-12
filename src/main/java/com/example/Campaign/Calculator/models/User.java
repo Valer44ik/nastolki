@@ -11,19 +11,10 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long user_id;
 
-    private String nickname, email, login, password;
-
-    @OneToOne(mappedBy = "user_id", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private UserStatistics userStatistics;
-
-    @ManyToMany(mappedBy = "users")
+    @OneToMany(mappedBy = "user")
     private Set<Campaign> campaigns = new HashSet<>();
 
-    @OneToMany(mappedBy = "user")
-    private Set<Pilot> pilots = new HashSet<>();
-
-    @OneToMany(mappedBy = "user")
-    private Set<Mech> mechs = new HashSet<>();
+    private String nickname, email, login, password;
 
     public Long getUser_id() {
         return user_id;
@@ -39,10 +30,6 @@ public class User {
 
     public String getPassword() {
         return password;
-    }
-
-    public UserStatistics getUserStatistics() {
-        return userStatistics;
     }
 
     public User(String nickname, String password, String login, String email) {
