@@ -9,41 +9,51 @@
     <header>
         <h1>Make changes in mech</h1>
     </header>
-    <table>
-        <thead>
-            <tr>
-                <th>Mech name</th>
-                <th>Mech rank</th>
-                <th>Mech status</th>
-                <th>Mech skills</th>
-                <th>Mech chasis</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td th:show="${mech.name}"></td>
-                <td>
-                    <select name="mechRank" id = "mechRank">
-                        <option value="">Select Pilot Rank</option>
-                        <option th:value="${mech.mechClass}"
-                                th:text="${mech.mechClass}"></option>
-                    </select>
-                </td>
-                <td>
-                    <select name="mechStatus" id="mechStatus">
-                        <option value="">Select Pilot Status</option>
-                        <option th:value="${mech.mechStatus}"
-                                th:text="${mech.mechStatus}"></option>
-                    </select>
-                </td>
-                <td>Gunnery</td>
-            </tr>
-        </tbody>
-    </table>
+    <div th:if="${error}" class="error-message">
+        <p th:text="${error}"></p>
+    </div>
     <form action="/makeChangesInMech" method="Post">
+        <table>
+            <thead>
+                <tr>
+                    <th>Mech name</th>
+                    <th>Mech chasis</th>
+                    <th>Mech status</th>
+                    <th>Mech skills</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td th:show="${mech.name}"></td>
+                    <td>
+                        <select id="mechChasis_id" name="mechChasis_id">
+                            <option value="">Select Chasis</option>
+                            <option th:each="mechChasis : ${mechChases}"
+                                    th:value="${mechChasis.mechChasis_id}"
+                                    th:text="${mechChasis.chasisName}"></option>
+                        </select>
+                    </td>
+                    <td>
+                        <select name="mechStatus_id" id="mechStatus_id">
+                            <option value="">Select mech status</option>
+                            <option th:each="mechStatus : ${mechStatuses}"
+                                    th:value="${mechStatus.mechStatus_id}"
+                                    th:text="${mechStatus.name}"></option>
+                        </select>
+                    </td>
+                    <td>Gunnery</td>
+                </tr>
+            </tbody>
+        </table>
         <input type="hidden" name="campaign_id" th:value="${campaign_id}">
         <input type="hidden" name="mech_id" th:value="${mech.mech_id}">
+        <input type="hidden" name="match_id" th:value="${match_id}">
         <button type="submit">Make changes</button>
+    </form>
+    <form action="/endMatch" method="get">
+        <input type="hidden" name="campaign_id" th:value="${campaign_id}">
+        <input type="hidden" name="match_id" th:value="${match_id}">
+        <button type="submit">Return</button>
     </form>
 </body>
 </html>

@@ -6,46 +6,50 @@
   <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-<header>
-  <h1 th:text="'Campaign ' + ${campaign.campaignName} + ' has ended'"></h1>
-  <h1 th:if="${player != null}" th:text="'Player ' + ${player.nickname} + ' has won'"></h1>
-  <h1 th:unless="${player != null}" th:text="'It is a tie'"></h1>
-</header>
-<main>
-  <table>
-    <thead>
-    <tr>
-      <th>
-        <label>Match name</label>
-      </th>
-      <th>
-        <label>Date</label>
-      </th>
-      <th>
-        <label>isEnded</label>
-      </th>
-      <th>
-        <label>Continue match</label>
-      </th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="match : ${matches}">
-      <td th:text="${match.name}"></td>
-      <td th:text="${match.startDate}"></td>
-      <td th:text="${match.isEnded}"></td>
-      <td>
-        <form action="/match" method="get">
-          <input type="hidden" name="campaign_id" th:value="${campaign_id}">
-          <button type="submit">Watch</button>
-        </form>
-      </td>
-    </tr>
-    </tbody>
-  </table>
-  <form action="/mainPage" method="get">
-    <button type="submit">Return</button>
-  </form>
-</main>
+  <header>
+    <h1 th:text="'Campaign ' + ${campaign.campaignName} + ' has ended'"></h1>
+    <h1 th:if="${player != null}" th:text="'Player ' + ${player.nickname} + ' has won'"></h1>
+    <h1 th:unless="${player != null}" th:text="'It is a tie'"></h1>
+  </header>
+  <main>
+    <table>
+      <thead>
+      <tr>
+        <th>
+          <label>Match name</label>
+        </th>
+        <th>
+          <label>Date</label>
+        </th>
+        <th>
+          <label>isEnded</label>
+        </th>
+        <th>
+          <label>Continue match</label>
+        </th>
+      </tr>
+      </thead>
+      <tbody>
+        <tr th:each="match : ${matches}">
+          <td th:text="${match.name}"></td>
+          <td th:text="${match.startDate}"></td>
+          <td th:text="${match.isEnded}"></td>
+          <td>
+            <form action="/match" method="get">
+              <input type="hidden" name="campaign_id" th:value="${campaign_id}">
+              <button type="submit">Watch</button>
+            </form>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <form action="/endCampaign" method="post">
+      <input type="hidden" name="campaign_id" th:value="${campaign_id}">
+      <button type="submit">endCampaign</button>
+    </form>
+    <form action="/matchList" method="get">
+      <button type="submit">Return</button>
+    </form>
+  </main>
 </body>
 </html>

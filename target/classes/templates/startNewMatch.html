@@ -10,6 +10,9 @@
     <h1>Start new match</h1>
 </header>
 <main>
+    <div th:if="${error}" class="error-message">
+        <p th:text="${error}"></p>
+    </div>
     <form action="/startNewMatch" method="post">
         <label>Enter match name:
             <input type="text" name="matchName" placeholder="Enter match name">
@@ -17,123 +20,167 @@
         <table>
             <thead>
             <tr>
-                <th>Your pilots</th>
-                <th>Your mechs</th>
-                <th>Choose chassis you want to change</th>
+                <th>Choose a pilot</th>
+                <th>Choose mech for pilot</th>
             </tr>
             </thead>
             <tbody>
-                <<tr th:each="i : ${#numbers.sequence(1, numOfPilots)}">
-                    <td>
-                        <select name="firstUserPilots_id" id = "firstUserPilots_id">
-                            <option value="">Select Pilot</option>
-                            <option th:each="pilot : ${firstPlayerPilots}"
-                                    th:value="${pilot.pilot_id}"
-                                    th:text="${pilot.name}"></option>
-                        </select>
-                    </td>
-                    <td>
-                        <select name="firstUserMechs_id" id="firstUserMechs_id">
-                            <option value="">Select Mech</option>
-                            <option th:each="mech : ${firstPlayerMechs}"
-                                    th:value="${mech.mech_id}"
-                                    th:text="${mech.name}"></option>
-                        </select>
-                    </td>
-                    <td>
-                        <select name="mechChasis_id">
-                            <option value="">Select Mech Chasis</option>
-                            <option th:each="mechChasis : ${mechsChases}"
-                                    th:value="${mechChasis.mechChasis_id}"
-                                    th:text="${mechChasis.chasisName}"></option>
-                        </select>
-                    </td>
-                </tr>
+            <tr th:each="i : ${#numbers.sequence(1, numOfPilots)}">
+                <td>
+                    <select name="firstPlayerPilots_id" id = "firstPlayerPilots_id">
+                        <option value="">Select Pilot</option>
+                        <option th:each="pilot : ${firstPlayerPilots}"
+                                th:value="${pilot.pilot_id}"
+                                th:text="${pilot.name}"></option>
+                    </select>
+                </td>
+                <td>
+                    <select name="firstPlayerMechs_id" id="firstPlayerMechs_id">
+                        <option value="">Select Mech</option>
+                        <option th:each="mech : ${firstPlayerMechs}"
+                                th:value="${mech.mech_id}"
+                                th:text="${mech.name}"></option>
+                    </select>
+                </td>
+            </tr>
             </tbody>
             <tfoot>
-                <tr>
-                    <td>303</td>
-                    <td>490</td>
-                </tr>
-            </tfoot>
-        </table>
-        <table>
-            <thead>
-                <tr>
-                    <th>Your pilots</th>
-                    <th>Your mechs</th>
-                    <th>Choose chasis you want to change</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each="pilot : ${secondPlayerPilots}">
-                    <td>
-                        <select name="firstUserPilots_id" id = "firstUserPilots_id">
-                            <option value="">Select Pilot</option>
-                            <option th:each="pilot : ${firstPlayerPilots}"
-                                    th:value="${pilot.pilot_id}"
-                                    th:text="${pilot.name}"></option>
-                        </select>
-                    </td>
-                    <td>
-                        <select name="firstUserMechs_id" id="firstUserMechs_id">
-                            <option value="">Select Mech</option>
-                            <option th:each="mech : ${firstPlayerMechs}"
-                                    th:value="${mech.mech_id}"
-                                    th:text="${mech.name}"></option>
-                        </select>
-                    </td>
-                    <td>
-                        <select name="mechChasis_id">
-                            <option value="">Select Mech Chasis</option>
-                            <option th:each="mechChasis : ${mechsChases}"
-                                    th:value="${mechChasis.mechChasis_id}"
-                                    th:text="${mechChasis.chasisName}"></option>
-                        </select>
-                    </td>
-                </tr>
-            </tbody>
-            <tfoot>
-                <tr>
-                    <td>303</td>
-                    <td>490</td>
-                </tr>
+            <tr>
+                <td>303</td>
+                <td>490</td>
+            </tr>
             </tfoot>
         </table>
         <table>
             <thead>
             <tr>
-                <th>Main tasks</th>
-                <th>Secondary tasks</th>
+                <th>Choose a pilot</th>
+                <th>Choose mech for pilot</th>
             </tr>
             </thead>
             <tbody>
-            <tr>
+            <tr th:each="i : ${#numbers.sequence(1, numOfPilots)}">
                 <td>
-                    <label>
-                        <input type="text" name="mainTasks" placeholder="Enter task">
-                    </label>
+                    <select name="secondPlayerPilots_id" id="secondPlayerPilots_id">
+                        <option value="">Select Pilot</option>
+                        <option th:each="pilot : ${secondPlayerPilots}"
+                                th:value="${pilot.pilot_id}"
+                                th:text="${pilot.name}"></option>
+                    </select>
                 </td>
                 <td>
-                    <label>
-                        <input type="text" name="mainTasks" placeholder="Enter task">
-                    </label>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <label>
-                        <input type="text" name="secondaryTasks" placeholder="Enter task">
-                    </label>
-                </td>
-                <td>
-                    <label>
-                        <input type="text" name="secondaryTasks" placeholder="Enter task">
-                    </label>
+                    <select id="secondPlayerMechs_id" name="secondPlayerMechs_id">
+                        <option value="">Select Mech</option>
+                        <option th:each="mech : ${secondPlayerMechs}"
+                                th:value="${mech.mech_id}"
+                                th:text="${mech.name}"></option>
+                    </select>
                 </td>
             </tr>
             </tbody>
+            <tfoot>
+            <tr>
+                <td>303</td>
+                <td>490</td>
+            </tr>
+            </tfoot>
         </table>
+        <div class="row">
+            <div class="column">
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Main tasks for player 1</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>
+                            <label>
+                                <input type="text" name="mainTasksTextForPlayer1" placeholder="Enter task">
+                            </label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>
+                                <input type="text" name="mainTasksTextForPlayer1" placeholder="Enter task">
+                            </label>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="column">
+                <table>
+                    <thead>
+                    <th>Secondary tasks for player 1</th>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>
+                            <label>
+                                <input type="text" name="secondaryTasksTextForPlayer1" placeholder="Enter task">
+                            </label>
+                        </td>
+                    <tr>
+                        <td>
+                            <label>
+                                <input type="text" name="secondaryTasksTextForPlayer1" placeholder="Enter task">
+                            </label>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="column">
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Main tasks for player 2</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>
+                            <label>
+                                <input type="text" name="mainTasksTextForPlayer2" placeholder="Enter task">
+                            </label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label>
+                                <input type="text" name="mainTasksTextForPlayer2" placeholder="Enter task">
+                            </label>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="column">
+                <table>
+                    <thead>
+                    <th>Secondary tasks for player 2</th>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>
+                            <label>
+                                <input type="text" name="secondaryTasksTextForPLayer2" placeholder="Enter task">
+                            </label>
+                        </td>
+                    <tr>
+                        <td>
+                            <label>
+                                <input type="text" name="secondaryTasksTextForPLayer2" placeholder="Enter task">
+                            </label>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
         <input type="hidden" name="campaign_id" th:value="${campaign_id}">
         <button type="submit">Submit</button>
     </form>

@@ -10,13 +10,16 @@
   <h1>Create Mech Chasis</h1>
 </header>
 <main>
+  <div th:if="${error}" class="error-message">
+    <p th:text="${error}"></p>
+  </div>
   <form action="/createMechChasis" method="post">
     <label>Create a mech chasis:
       <label>Enter Chasis name:
         <input type="text" name="chasisName" placeholder="Enter chasis name">
       </label>
       <label>Enter chasis weight:
-        <input type="text" name="chasisWeight" placeholder="Enter chasis weight">
+        <input type="number" name="chasisWeight" placeholder="Enter chasis weight">
       </label>
       <button type="submit">Submit chasis</button>
     </label>

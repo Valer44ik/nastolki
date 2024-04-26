@@ -22,6 +22,12 @@ public class Player {
     @OneToMany(mappedBy = "player")
     private Set<Mech> mechs = new HashSet<>();
 
+    @OneToMany(mappedBy = "player")
+    private Set<MainTask> mainTasks = new HashSet<>();
+
+    @OneToMany(mappedBy = "player")
+    private Set<SecondaryTask> secondaryTasks = new HashSet<>();
+
     public Long getPlayer_id() {
         return player_id;
     }
@@ -74,4 +80,8 @@ public class Player {
 
     public Player() {
     }
+
+    //public static int calculateWinMatches(){
+
+   // }
 }

@@ -39,7 +39,7 @@ public class userController {
 
         if (login == null || login.isEmpty() || password == null || password.isEmpty()) {
             model.addAttribute("error", "You have to enter both login and password");
-            return "login";
+            return "/login";
         }
 
         User logged_user = userRepository.findByLoginAndPassword(login, password);
@@ -50,7 +50,7 @@ public class userController {
         } else {
             // add error atributte to the model
             model.addAttribute("error", "Invalid username or password");
-            return "login";
+            return "/login";
         }
     }
 

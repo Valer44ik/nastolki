@@ -29,7 +29,31 @@ public interface MechRepository extends CrudRepository<Mech, Long> {
     @Transactional
     @Query(value = "SELECT m.mech_id FROM mech m " +
             "WHERE m.player = :player_id " +
-            "AND m.mech_status = 1 ", nativeQuery = true)
+            "AND m.mech_status = 1 " +
+            "AND m.currently_in_campaign = 0", nativeQuery = true)
     List<Long> findMechsReadyForMatch(@Param("player_id") Long player_id);
+
+    @Query(value = "SELECT DISTINCT m.mech_id FROM mech m " +
+            " WHERE m.mech_id IN " +
+            "   (SELECT DISTINCT mpm.mech_id FROM match_pilot_mech mpm " +
+            "   WHERE mpm.match_id IN " +
+            "       (SELECT DISTINCT m.match_id FROM match1 m " +
+            "       WHERE m.campaign = :campaign_id " +
+            "       ) " +
+            "   ) " +
+            "AND m.mech_status = 1 " +
+            "AND m.player = :player_id", nativeQuery = true)
+    List<Long> findReadyMechsParticipatingInCampaign(@Param("campaign_id") Long campaign_id,
+                                                 @Param("player_id") Long player_id);
+
+    @Query(value = "SELECT DISTINCT m.mech_id FROM mech m " +
+            " WHERE m.mech_id IN " +
+            "   (SELECT DISTINCT mpm.mech_id FROM match_pilot_mech mpm " +
+            "   WHERE mpm.match_id IN " +
+            "       (SELECT DISTINCT m.match_id FROM match1 m " +
+            "       WHERE m.campaign = :campaign_id " +
+            "       ) " +
+            "   ) ", nativeQuery = true)
+    List<Long> findMechsParticipatingInCampaign(@Param("campaign_id") Long campaign_id);
 }
 

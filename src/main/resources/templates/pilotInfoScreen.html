@@ -11,107 +11,27 @@
         </header>
         <table>
             <thead>
-                  <tr>
-                      <th>Pilot name</th>
-                      <th>Pilot rank</th>
-                      <th>Pilot status</th>
-                      <th>Pilot skills</th>
-                      <th>Battle participant</th>
+                <tr>
+                    <th>Pilot name</th>
+                    <th>Pilot rank</th>
+                    <th>Pilot status</th>
+                    <th>Pilot skills</th>
                   </tr>
             </thead>
             <tbody>
-                  <tr>
-                      <td>Hans Bekker</td>
-                      <td>Regular</td>
-                      <td>
-                          <select name="status">
-                              <option value="Ready">Ready</option>
-                              <option value="Injured">Injured</option>
-                              <option value="Dead">Dead</option>
-                              <option value="Captured">Captured</option>
-                          </select>
-                      </td>
-                      <td>Gunnery</td>
-                      <td>
-                          <select name="participant">
-                              <option value="yes">yes</option>
-                              <option value="no">no</option>
-                          </select>
-                      </td>
-                  </tr>
+                <tr>
+                    <td th:text="${pilot.name}"></td>
+                    <td th:text="${pilot.pilotRank.name}"></td>
+                    <td th:text="${pilot.pilotStatus.name}"></td>
+                    <td>Gunnery</td>
+                </tr>
             </tbody>
-          </table>
-          <table>
-              <thead>
-                  <tr>
-                      <th>Mech type</th>
-                      <th>Available</th>
-                  </tr>
-              </thead>
-              <tbody>
-                  <tr>
-                      <td>Light</td>
-                      <td>
-                          <select name="Light">
-                              <option value="Available">Available</option>
-                              <option value="Not Available">Not Available</option>
-                          </select>
-                      </td>
-                  </tr>
-                  <tr>
-                      <td>Medium</td>
-                      <td>
-                          <select name="Medium">
-                              <option value="Available">Available</option>
-                              <option value="Not Available">Not Available</option>
-                          </select>
-                      </td>
-                  </tr>
-                  <tr>
-                      <td>Heavy</td>
-                      <td>
-                          <select name="Heavy">
-                              <option value="Available">Available</option>
-                              <option value="Not Available">Not Available</option>
-                          </select>
-                      </td>
-                  </tr>
-                  <tr>
-                      <td>Assault</td>
-                      <td>
-                          <select name="Assault">
-                              <option value="Available">Available</option>
-                              <option value="Not Available">Not Available</option>
-                          </select>
-                      </td>
-                  </tr>
-              </tbody>
-          </table>
-          <table>
-              <thead>
-                  <tr>
-                      <th>Ability</th>
-                      <th>Available</th>
-                      <th>Combat status</th>
-                  </tr>
-              </thead>
-              <tbody>
-                  <tr>
-                      <td>Recon Master</td>
-                      <td>
-                          <select name="Recon Master">
-                              <option value="Available">Available</option>
-                              <option value="Not Available">Not Available</option>
-                          </select>
-                      </td>
-                      <td>
-                          <select name="Recon Master" id="pilot1">
-                              <option value="Active">Active</option>
-                              <option value="Passive">Passive</option>
-                          </select>
-                      </td>
-                  </tr>
-              </tbody>
-          </table>
+        </table>
+        <form action="/playMatch" method="get">
+            <input type="hidden" name="campaign_id" th:value="${campaign_id}">
+            <input type="hidden" name="match_id" th:value="${match_id}">
+            <button type="submit">Play match</button>
+        </form>
+    </body>
     </body>
 </html>

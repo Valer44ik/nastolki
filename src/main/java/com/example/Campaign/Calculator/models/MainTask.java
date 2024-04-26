@@ -12,6 +12,10 @@ public class MainTask {
     @JoinColumn(name = "match1")
     private Match1 match1;
 
+    @ManyToOne
+    @JoinColumn(name = "player")
+    private Player player;
+
     private String text;
 
     private Boolean isCompleted;
@@ -32,12 +36,21 @@ public class MainTask {
         isCompleted = completed;
     }
 
-    public MainTask(String text) {
-        this.text = text;
-        this.isCompleted = false;
+    public Player getPlayer() {
+        return player;
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
     }
 
     public MainTask() {
     }
 
+    public MainTask(String text, Match1 match, Player player) {
+        this.text = text;
+        this.isCompleted = false;
+        this.match1 = match;
+        this.player = player;
+    }
 }

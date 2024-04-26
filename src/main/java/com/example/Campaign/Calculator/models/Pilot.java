@@ -13,6 +13,10 @@ public class Pilot {
     @Column(name = "pilot_id")
     private Long pilot_id;
 
+    private short inactiveCount;
+
+    private boolean currentlyInCampaign;
+
     private String name, nickname, surname;
 
     @ManyToOne
@@ -62,6 +66,22 @@ public class Pilot {
         this.pilotStatus = pilotStatus;
     }
 
+    public short getInactiveCount() {
+        return inactiveCount;
+    }
+
+    public void setInactiveCount(short inactiveCount) {
+        this.inactiveCount = inactiveCount;
+    }
+
+    public boolean isCurrentlyInCampaign() {
+        return currentlyInCampaign;
+    }
+
+    public void setCurrentlyInCampaign(boolean currentlyInCampaign) {
+        this.currentlyInCampaign = currentlyInCampaign;
+    }
+
     public Pilot(String name, String pilotSurname, String pilotNickname , PilotRank pilotRank_id,
                  PilotStatus pilotStatus_id, Player player) {
         this.name = name;
@@ -70,6 +90,8 @@ public class Pilot {
         this.pilotRank = pilotRank_id;
         this.pilotStatus = pilotStatus_id;
         this.player = player;
+        this.inactiveCount = 0;
+        this.currentlyInCampaign = false;
     }
 
     public Pilot() {

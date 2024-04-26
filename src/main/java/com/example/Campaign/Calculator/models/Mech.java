@@ -13,6 +13,8 @@ public class Mech {
 
     private String name;
 
+    private boolean currentlyInCampaign;
+
     private int battleValue;
 
     @ManyToOne
@@ -66,6 +68,14 @@ public class Mech {
         this.mechStatus = mechStatus;
     }
 
+    public boolean isCurrentlyInCampaign() {
+        return currentlyInCampaign;
+    }
+
+    public void setCurrentlyInCampaign(boolean currentlyInCampaign) {
+        this.currentlyInCampaign = currentlyInCampaign;
+    }
+
     public MechChasis getMechChasis() {
         return mechChasis;
     }
@@ -78,6 +88,7 @@ public class Mech {
         this.battleValue = battleValue;
         this.player = player;
         this.mechChasis = mechChasis;
+        this.currentlyInCampaign = false;
     }
 
     public Mech() {

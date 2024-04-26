@@ -14,6 +14,8 @@ public class Match1 {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long match_id;
 
+    private Long winningPlayer_id;
+
     private LocalDate startDate, endDate;
 
     private String notes, name;
@@ -66,6 +68,14 @@ public class Match1 {
         this.mechs = mechs;
     }
 
+    public Long getWinningPlayer_id() {
+        return winningPlayer_id;
+    }
+
+    public void setWinningPlayer_id(Long winningPlayer_id) {
+        this.winningPlayer_id = winningPlayer_id;
+    }
+
     public void setEnded(boolean ended) {
         isEnded = ended;
     }
@@ -75,10 +85,12 @@ public class Match1 {
         this.name = name;
         this.isEnded = isEnded;
         this.campaign = campaign;
+        winningPlayer_id = null;
     }
 
     public Match1(Campaign campaign) {
         this.campaign = campaign;
+        winningPlayer_id = null;
     }
 
 

@@ -10,6 +10,9 @@
       <h1>Create mech</h1>
     </header>
     <main>
+      <div th:if="${error}" class="error-message">
+        <p th:text="${error}"></p>
+      </div>
       <form action="/createMech" method="post">
         <label>Create a mech:</label>
         <label>Enter a mech name

@@ -9,28 +9,27 @@
         <table>
             <thead>
                 <tr>
-                    <th>Chasis</th>
-                    <th>Model</th>
-                    <th>Status</th>
-                    <th>Battle value</th>
+                    <th>Mech name</th>
+                    <th>Mech chasis</th>
+                    <th>Mech status</th>
+                    <th>Mech skills</th>
+                    <th>Mech battle value</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td>Raven</td>
-                    <td>RVN-1X</td>
-                    <td>
-                        <select name="Status" id="mech1">
-                            <option value="Available">Available</option>
-                            <option value="Repair">Repair</option>
-                            <option value="Modified">Modified</option>
-                            <option value="Destroyed">Destroyed</option>
-                            <option value="Not ready">Not ready</option>
-                        </select>
-                        <td>556</td>
-                    </td>
+                    <td th:text="${mech.name}"></td>
+                    <td th:text="${mech.mechChasis.chasisName}"></td>
+                    <td th:text="${mech.mechStatus.name}"></td>
+                    <td>Gunnery</td>
+                    <td th:text="${mech.battleValue}"></td>
                 </tr>
             </tbody>
         </table>
+        <form action="/playMatch" method="get">
+            <input type="hidden" name="campaign_id" th:value="${campaign_id}">
+            <input type="hidden" name="match_id" th:value="${match_id}">
+            <button type="submit">Play match</button>
+        </form>
     </body>
 </html>
