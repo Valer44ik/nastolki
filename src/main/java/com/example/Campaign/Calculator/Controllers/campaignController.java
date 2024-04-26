@@ -167,10 +167,6 @@ public class campaignController {
         Campaign campaign = campaignRepository.findById(campaign_id).orElse(null);
         campaign.setEnded(true);
 
-        List<Player> players = campaignRepository.findPlayersByCampaign(campaign);
-        Player player1 = players.get(0);
-        Player player2 = players.get(1);
-
         List<Map<String, Long>> playerStats = matchRepository.countWinsForPlayer(campaign_id);
 
             Long winningPlayer_id = null;
