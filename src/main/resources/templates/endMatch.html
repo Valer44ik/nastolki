@@ -28,6 +28,7 @@
             <td>
                 <form action="/makeChangesInPilot" method="get">
                     <input type="hidden" name="campaign_id" th:value="${campaign_id}">
+                    <input type="hidden" name="match_id" th:value="${match_id}">
                     <input type="hidden" name="pilot_id" th:value="${object.pilot.pilot_id}">
                     <button type="submit">Make changes in pilot</button>
                 </form>
@@ -37,6 +38,7 @@
             <td>
                 <form action="/makeChangesInMech" method="get">
                     <input type="hidden" name="campaign_id" th:value="${campaign_id}">
+                    <input type="hidden" name="match_id" th:value="${match_id}">
                     <input type="hidden" name="mech_id" th:value="${object.mech.mech_id}">
                     <button type="submit">Make changes in mech</button>
                 </form>
@@ -67,6 +69,7 @@
         <td>
             <form action="/makeChangesInPilot" method="get">
                 <input type="hidden" name="campaign_id" th:value="${campaign_id}">
+                <input type="hidden" name="match_id" th:value="${match_id}">
                 <input type="hidden" name="pilot_id" th:value="${object.pilot.pilot_id}">
                 <button type="submit">Make changes in pilot</button>
             </form>
@@ -76,6 +79,7 @@
         <td>
             <form action="/makeChangesInMech" method="get">
                 <input type="hidden" name="campaign_id" th:value="${campaign_id}">
+                <input type="hidden" name="match_id" th:value="${match_id}">
                 <input type="hidden" name="mech_id" th:value="${object.mech.mech_id}">
                 <button type="submit">Make changes in mech</button>
             </form>

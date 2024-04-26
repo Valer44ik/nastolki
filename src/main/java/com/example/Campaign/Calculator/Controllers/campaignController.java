@@ -2,8 +2,10 @@ package com.example.Campaign.Calculator.Controllers;
 
 import com.example.Campaign.Calculator.models.*;
 import com.example.Campaign.Calculator.repo.*;
+import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.annotation.Id;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,6 +28,18 @@ public class campaignController {
 
     @Autowired
     private PlayerRepository playerRepository;
+
+    @Autowired
+    private PilotRepository pilotRepository;
+
+    @Autowired
+    private PilotStatusRepository pilotStatusRepository;
+
+    @Autowired
+    private MechRepository mechRepository;
+
+    @Autowired
+    private MechStatusRepository mechStatusRepository;
 
     @GetMapping("/mainPage")
     public String mainPage(HttpSession session, Model model)
@@ -60,12 +74,19 @@ public class campaignController {
 
     @PostMapping("/startACampaign")
     public String createCampaign(@RequestParam String campaignName, @RequestParam CampaignType campaignType,
-                                 @RequestParam FormationOrder formationOrder, @RequestParam Long firstPlayer_id,
-                                 @RequestParam Long secondPlayer_id, @RequestParam int battleValue,
+                                 @RequestParam FormationOrder formationOrder,
+                                 @RequestParam(defaultValue = "0") Long firstPlayer_id,
+                                 @RequestParam(defaultValue = "0") Long secondPlayer_id,
+                                 @RequestParam(defaultValue = "0") int battleValue,
                                  HttpSession session,
                                  Model model)
     {
-        model.addAttribute("title", "start a campaign");
+        if(campaignName == null || campaignName.isEmpty() ||
+                campaignType == null || formationOrder == null ||
+                firstPlayer_id < 1 || secondPlayer_id < 1 || battleValue < 1) {
+            model.addAttribute("error", "incorrect details, please try again");
+            return "redirect:/startACampaign";
+        }
 
         User loggedInUser = (User) session.getAttribute("loggedInUser");
 
@@ -92,23 +113,44 @@ public class campaignController {
 
         if(optionalCampaign.isPresent()){
             Campaign campaign = optionalCampaign.get();
-
             model.addAttribute("campaign", campaign);
-
-            System.out.println("Campaign: " + campaign);
 
             List<Match1> matches = matchRepository.findByCampaign(campaign);
             model.addAttribute("matches", matches);
 
-            List<Player> players = campaignRepository.findPlayersByCampaign(campaign);
-            Player player1 = players.get(0);
-            Player player2 = players.get(1);
-            if(player1.getGamesWon() > player2.getGamesWon())
-                model.addAttribute("player", player1);
-            else if (player1.getGamesWon() < player2.getGamesWon())
-                model.addAttribute("player", player2);
-            else
+            List<Map<String, Long>> playerStats = matchRepository.countWinsForPlayer(campaign_id);
+
+            Long winningPlayer_id = null;
+            Long maxWinCount = (long) -1;
+
+            Long lostPlayer_id = null;
+            Long minWinCount = 999999L;
+
+            for(Map<String, Long> playerStat : playerStats) {
+                Long player_id = Long.valueOf(playerStat.get("winning_player_id"));
+                Long playerWinMatches = Long.valueOf(playerStat.get("cnt"));
+
+                if(maxWinCount < playerWinMatches && winningPlayer_id != null) {
+                    minWinCount = maxWinCount;
+                    maxWinCount = playerWinMatches;
+                    winningPlayer_id = Long.valueOf(player_id);
+                } else if (maxWinCount < playerWinMatches) {
+                    maxWinCount = playerWinMatches;
+                    winningPlayer_id = Long.valueOf(player_id);
+                }else  if(maxWinCount > playerWinMatches) {
+                    minWinCount = playerWinMatches;
+                }else if(maxWinCount == playerWinMatches) {
+                    minWinCount = maxWinCount;
+                }
+            }
+
+            if(maxWinCount.equals(minWinCount)) {
                 model.addAttribute("player", null);
+            }
+            else {
+                Player winningPlayer = playerRepository.findById(winningPlayer_id).orElse(null);
+                model.addAttribute("player", winningPlayer);
+            }
 
             model.addAttribute("campaign_id", campaign_id);
 
@@ -126,21 +168,67 @@ public class campaignController {
         campaign.setEnded(true);
 
         List<Player> players = campaignRepository.findPlayersByCampaign(campaign);
-        Player winningPlayer;
-        Player lostPlayer;
-        if(players.get(0).getGamesWon() < players.get(1).getGamesWon()) {
-            lostPlayer = players.get(0);
-            winningPlayer = players.get(1);
+        Player player1 = players.get(0);
+        Player player2 = players.get(1);
+
+        List<Map<String, Long>> playerStats = matchRepository.countWinsForPlayer(campaign_id);
+
+            Long winningPlayer_id = null;
+            Long maxWinCount = (long) -1;
+
+            Long lostPlayer_id = null;
+            Long minWinCount = 999999L;
+
+            for(Map<String, Long> playerStat : playerStats) {
+                Long player_id = Long.valueOf(playerStat.get("winning_player_id"));
+                Long playerWinMatches = Long.valueOf(playerStat.get("cnt"));
+
+                if(maxWinCount < playerWinMatches && winningPlayer_id != null) {
+                    lostPlayer_id = winningPlayer_id;
+                    minWinCount = maxWinCount;
+                    maxWinCount = playerWinMatches;
+                    winningPlayer_id = Long.valueOf(player_id);
+                } else if (maxWinCount < playerWinMatches) {
+                    maxWinCount = playerWinMatches;
+                    winningPlayer_id = Long.valueOf(player_id);
+                }else  if(maxWinCount > playerWinMatches) {
+                    lostPlayer_id = Long.valueOf(player_id);
+                    minWinCount = playerWinMatches;
+                }else if(maxWinCount == playerWinMatches) {
+                    minWinCount = maxWinCount;
+                    lostPlayer_id = Long.valueOf(player_id);
+                }
+            }
+
+        if(maxWinCount == minWinCount) {
+            playerRepository.incrementCampaignByOne(winningPlayer_id);
+            playerRepository.incrementCampaignByOne(lostPlayer_id);
         }
         else {
-            lostPlayer = players.get(1);
-            winningPlayer = players.get(0);
+            playerRepository.incrementWinCampaignByOne(winningPlayer_id);
+            playerRepository.incrementCampaignByOne(lostPlayer_id);
         }
 
-        playerRepository.incrementWinCampaignByOne(winningPlayer.getPlayer_id());
+        List<Long> pilots_id = pilotRepository.findPilotsParticipatingInCampaign(campaign_id);
+        for (long pilot_id : pilots_id) {
+            Pilot pilot = pilotRepository.findById(pilot_id).orElse(null);
 
-        playerRepository.incrementCampaignByOne(lostPlayer.getPlayer_id());
+            PilotStatus pilotStatus = pilotStatusRepository.findByName("Ready");
 
+            pilot.setPilotStatus(pilotStatus);
+            pilot.setInactiveCount((short) 0);
+            pilot.setCurrentlyInCampaign(false);
+        }
+
+        List<Long> mechs_id = mechRepository.findMechsParticipatingInCampaign(campaign_id);
+        for(long mech_id : mechs_id) {
+            Mech mech = mechRepository.findById(mech_id).orElse(null);
+
+            MechStatus mechStatus = mechStatusRepository.findByName("Ready");
+
+            mech.setMechStatus(mechStatus);
+            mech.setCurrentlyInCampaign(false);
+        }
         return "redirect:/mainPage";
     }
 }

@@ -9,6 +9,9 @@
     <header>
         <h1>Make changes in pilot</h1>
     </header>
+    <div th:if="${error}" class="error-message">
+        <p th:text="${error}"></p>
+    </div>
     <form action="/makeChangesInPilot" method="Post">
         <table>
             <thead>
@@ -44,7 +47,13 @@
         </table>
         <input type="hidden" name="campaign_id" th:value="${campaign_id}">
         <input type="hidden" name="pilot_id" th:value="${pilot.pilot_id}">
+        <input type="hidden" name="match_id" th:value="${match_id}">
         <button type="submit">Make changes</button>
+    </form>
+    <form action="/endMatch" method="Get">
+        <input type="hidden" name="campaign_id" th:value="${campaign_id}">
+        <input type="hidden" name="match_id" th:value="${match_id}">
+        <button type="submit">Return</button>
     </form>
 </body>
 </html>

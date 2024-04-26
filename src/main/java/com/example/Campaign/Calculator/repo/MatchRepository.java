@@ -23,7 +23,12 @@ public interface MatchRepository extends CrudRepository<Match1, Long> {
     @Query(value = "INSERT INTO match_pilot_mech(match_id, pilot_id, mech_id) VALUES (?, ?, ?)", nativeQuery = true)
     void bindPilotsAndMechsToMatch(Long match_id, Long pilot_id, Long mech_id);
 
-    @Modifying
+    @Transactional
+    @Query(value = "SELECT winning_player_id, COUNT(1) cnt " +
+            "FROM match1 m WHERE m.campaign = :campaign_id " +
+            "GROUP BY winning_player_id", nativeQuery = true)
+    List<Map<String, Long>> countWinsForPlayer(@Param("campaign_id") Long campaign_id);
+
     @Transactional
     @Query(value =  "SELECT m.pilot_id, m.mech_id FROM match_pilot_mech m " +
                     " WHERE m.match_id = :match_id", nativeQuery = true)

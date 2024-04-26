@@ -33,13 +33,13 @@
                 <td th:text="${campaign.startDate}"></td>
                 <td th:text="${campaign.isEnded}"></td>
                 <td>
-                    <form th:if="${campaign.ended == true}" th:action="@{/matchList}" method="get">
-                        <input type="hidden" name="campaign_id" th:value="${campaign.campaign_id}">
-                        <button type="submit">Watch campaign</button>
-                    </form>
-                    <form th:unless="${campaign.ended == true}" th:action="@{/endedMatchList}" method="get">
+                    <form th:if="${campaign.ended == false}" th:action="@{/matchList}" method="get">
                         <input type="hidden" name="campaign_id" th:value="${campaign.campaign_id}">
                         <button type="submit">Play campaign</button>
+                    </form>
+                    <form th:unless="${campaign.ended == false}" th:action="@{/endedMatchList}" method="get">
+                        <input type="hidden" name="campaign_id" th:value="${campaign.campaign_id}">
+                        <button type="submit">Watch campaign</button>
                     </form>
                 </td>
             </tr>
@@ -56,6 +56,9 @@
     </form>
     <form action="/createPlayer" method="get">
         <button type="submit">Create player</button>
+    </form>
+    <form action="/logout" method="get">
+        <button type="submit">Logout</button>
     </form>
 </main>
 </body>

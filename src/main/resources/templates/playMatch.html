@@ -28,6 +28,7 @@
     <td>
       <form action="/pilotInfoScreen" method="get">
         <input type="hidden" name="campaign_id" th:value="${campaign_id}">
+        <input type="hidden" name="match_id" th:value="${match_id}">
         <input type="hidden" name="pilot_id" th:value="${object.pilot.pilot_id}">
         <button type="submit">View Pilot</button>
       </form>
@@ -37,6 +38,7 @@
     <td>
       <form action="/mechInfoScreen" method="get">
         <input type="hidden" name="campaign_id" th:value="${campaign_id}">
+        <input type="hidden" name="match_id" th:value="${match_id}">
         <input type="hidden" name="mech_id" th:value="${object.mech.mech_id}">
         <button type="submit">View mech</button>
       </form>
@@ -67,6 +69,7 @@
     <td>
       <form action="/pilotInfoScreen" method="get">
         <input type="hidden" name="campaign_id" th:value="${campaign_id}">
+        <input type="hidden" name="match_id" th:value="${match_id}">
         <input type="hidden" name="pilot_id" th:value="${obj.pilot.pilot_id}">
         <button type="submit">View Pilot</button>
       </form>
@@ -76,6 +79,7 @@
     <td>
       <form action="/mechInfoScreen" method="get">
         <input type="hidden" name="campaign_id" th:value="${campaign_id}">
+        <input type="hidden" name="match_id" th:value="${match_id}">
         <input type="hidden" name="mech_id" th:value="${obj.mech.mech_id}">
         <button type="submit">View mech</button>
       </form>
@@ -88,42 +92,96 @@
   </tr>
   </tfoot>
 </table>
-<table>
-  <thead>
-    <tr>
-      <th>Main Tasks</th>
-      <th>Completed</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr th:each="mainTask : ${mainTasks}">
-      <td th:text="${mainTask.text}"></td>
-      <td>
-        <label>
-          <input type="checkbox" th:checked="${mainTask.completed}"/>
-        </label>
-      </td>
-    </tr>
-  </tbody>
-</table>
-<table>
-  <thead>
-    <tr>
-      <th>Secondary Tasks</th>
-      <th>Completed</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr th:each="secondaryTask : ${secondaryTasks}">
-      <td th:text="${secondaryTask.text}"></td>
-      <td>
-        <label>
-          <input type="checkbox" th:checked="${secondaryTask.completed}"/>
-        </label>
-      </td>
-    </tr>
-  </tbody>
-</table>
+<div class="row">
+  <div class="column">
+    <table>
+      <thead>
+        <tr>
+          <th>Main Tasks for player 1</th>
+          <!--<th>Completed</th>-->
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="mainTask : ${firstPlayerMainTasks}">
+          <td th:text="${mainTask.text}"></td>
+          <!--
+          <td>
+            <label>
+              <input type="checkbox" th:checked="${mainTask.completed}"/>
+            </label>
+          </td>
+          -->
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="column">
+    <table>
+      <thead>
+        <tr>
+          <th>Secondary Tasks for player 1</th>
+          <!--<th>Completed</th>-->
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="secondaryTask : ${firstPlayerSecondaryTasks}">
+          <td th:text="${secondaryTask.text}"></td>
+          <!--
+          <td>
+            <label>
+              <input type="checkbox" th:checked="${secondaryTask.completed}"/>
+            </label>
+          </td>
+          -->
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="column">
+    <table>
+      <thead>
+      <tr>
+        <th>Main Tasks for player 2</th>
+        <!--<th>Completed</th>-->
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="mainTask : ${secondPlayerMainTasks}">
+        <td th:text="${mainTask.text}"></td>
+        <!--
+        <td>
+          <label>
+            <input type="checkbox" th:checked="${mainTask.completed}"/>
+          </label>
+        </td>
+        -->
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="column">
+    <table>
+      <thead>
+      <tr>
+        <th>Secondary Tasks for player 2</th>
+        <!--<th>Completed</th>-->
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="secondaryTask : ${secondPlayerSecondaryTasks}">
+        <td th:text="${secondaryTask.text}"></td>
+        <!--
+        <td>
+          <label>
+            <input type="checkbox" th:checked="${secondaryTask.completed}"/>
+          </label>
+        </td>
+        -->
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
 <form action="/endMatch" method="get">
   <input type="hidden" name="campaign_id" th:value="${campaign_id}">
   <input type="hidden" name="match_id" th:value="${match_id}">

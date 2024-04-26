@@ -10,6 +10,9 @@
       <h1>Start first match</h1>
     </header>
     <main>
+      <div th:if="${error}" class="error-message">
+        <p th:text="${error}"></p>
+      </div>
       <form action="/startFirstMatch" method="post">
         <label>Enter match name:
           <input type="text" name="matchName" placeholder="Enter match name">
