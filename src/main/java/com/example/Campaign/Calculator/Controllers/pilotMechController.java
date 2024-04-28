@@ -322,7 +322,45 @@ public class pilotMechController {
         model.addAttribute("mech", mech);
 
         MechChasis mechChasis = mechChasisRepository.findById(mechChasis_id).orElse(null);
-        mech.setMechChasis(mechChasis);
+        assert mechChasis != null;
+
+        int weight = mechChasis.getChasisWeight();
+
+        MechClass mechClass;
+        if (weight >= 20 && weight <= 35) {
+            mechClass = mechClassRepository.findByClassName("Light");
+            if (mechClass == null) {
+                mechClass = new MechClass("Light", 20, 35);
+                mechClassRepository.save(mechClass);
+            }
+        } else if (weight >= 40 && weight <= 55) {
+            mechClass = mechClassRepository.findByClassName("Medium");
+            if (mechClass == null) {
+                mechClass = new MechClass("Medium", 40, 55);
+                mechClassRepository.save(mechClass);
+            }
+        } else if (weight >= 60 && weight <= 75) {
+            mechClass = mechClassRepository.findByClassName("Heavy");
+            if (mechClass == null) {
+                mechClass = new MechClass("Heavy", 60, 75);
+                mechClassRepository.save(mechClass);
+            }
+        } else if (weight >= 80 && weight <= 100) {
+            mechClass = mechClassRepository.findByClassName("Assault");
+            if (mechClass == null) {
+                mechClass = new MechClass("Assault", 80, 100);
+                mechClassRepository.save(mechClass);
+            }
+        } else {
+            model.addAttribute("error", "Incorrect weight input. " +
+                    "The correct examples are:" +
+                    "\n20-35/Light" +
+                    "\n40-55-Medium" +
+                    "\n60-75-Heavy" +
+                    "\n80-100-Assault\n");
+            return "redirect:/makeChangesInMech";
+        }
+        mech.setMechClass(mechClass);
 
         MechStatus mechStatus = mechStatusRepository.findById(mechStatus_id).orElse(null);
         mech.setMechStatus(mechStatus);
