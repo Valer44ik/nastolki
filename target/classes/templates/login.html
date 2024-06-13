@@ -74,6 +74,28 @@
             text-decoration: underline;
         }
     </style>
+    <script>
+        function validateForm() {
+            var username = document.getElementById("login").value;
+            var password = document.getElementById("password").value;
+            var errorMessage = "";
+
+            if (username === "") {
+                errorMessage += "Username is required. ";
+            }
+
+            if (password === "") {
+                errorMessage += "Password is required.";
+            }
+
+            if (errorMessage !== "") {
+                document.getElementById("error").innerText = errorMessage;
+                return false;
+            }
+
+            return true;
+        }
+    </script>
 </head>
 <body>
 <div th:if="${error}" class="error-message">
@@ -83,7 +105,7 @@
     <div class="login-header">
         <h2>Login</h2>
     </div>
-    <form action="/" method="Post">
+    <form action="/" method="Post" onsubmit="return validateForm()">
         <div class="input-group">
             <label for="login">Username</label>
             <input type="text" name="login" id="login" placeholder="Enter your username">

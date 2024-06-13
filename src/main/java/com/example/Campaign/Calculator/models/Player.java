@@ -64,8 +64,16 @@ public class Player {
         return campaignsWon;
     }
 
+    public Set<Campaign> getCampaigns() {
+        return campaigns;
+    }
+
     public void setCampaignsWon(int campaignsWon) {
         this.campaignsWon = campaignsWon;
+    }
+
+    public void setCampaigns(Set<Campaign> campaigns) {
+        this.campaigns = campaigns;
     }
 
     public Player(String nickname, String firstName, String lastName) {
@@ -81,7 +89,8 @@ public class Player {
     public Player() {
     }
 
-    //public static int calculateWinMatches(){
-
-   // }
+    public void removeCampaign(Campaign campaign) {
+        this.campaigns.remove(campaign);
+        campaign.getPlayers().remove(this);
+    }
 }

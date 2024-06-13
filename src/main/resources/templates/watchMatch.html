@@ -6,127 +6,127 @@
   <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-<header>
-  <h1>Campaign sheet: Match No. X</h1>
-  <h2>Player: nickname</h2>
-</header>
-<table>
-  <thead>
-    <tr>
-      <th>Pilot list</th>
-      <th>Pilot battle value</th>
-      <th>View pilot</th>
-      <th>Mech list</th>
-      <th>Mech battle value</th>
-      <th>View Mech</th>
-    </tr>
-  </thead>
-  <tbody>
-  <tr th:each="object : ${firstPlayerMatchPilotsAndMechs}">
-    <td th:text="${object.pilot.name}"></td>
-    <td>512</td>
-    <td>
-      <form action="/pilotInfoScreen" method="get">
-        <input type="hidden" name="campaign_id" th:value="${campaign_id}">
-        <input type="hidden" name="pilot_id" th:value="${object.pilot.pilot_id}">
-        <button type="submit">View Pilot</button>
-      </form>
-    </td>
-    <td th:text="${object.mech.name}"></td>
-    <td th:text="${object.mech.battleValue}"></td>
-    <td>
-      <form action="/mechInfoScreen" method="get">
-        <input type="hidden" name="campaign_id" th:value="${campaign_id}">
-        <input type="hidden" name="mech_id" th:value="${object.mech.mech_id}">
-        <button type="submit">View mech</button>
-      </form>
-    </td>
-  </tr>
-  </tbody>
-  <tfoot>
-  <tr>
-    <td colspan="4">Total battle value: TBV</td>
-  </tr>
-  </tfoot>
-</table>
-<table>
-  <thead>
-  <tr>
-    <th>Pilot list</th>
-    <th>Pilot battle value</th>
-    <th>View pilot</th>
-    <th>Mech list</th>
-    <th>Mech battle value</th>
-    <th>View Mech</th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr th:each="obj : ${secondPlayerMatchPilotsAndMechs}">
-    <td th:text="${obj.pilot.name}"></td>
-    <td>512</td>
-    <td>
-      <form action="/pilotInfoScreen" method="get">
-        <input type="hidden" name="campaign_id" th:value="${campaign_id}">
-        <input type="hidden" name="pilot_id" th:value="${obj.pilot.pilot_id}">
-        <button type="submit">View Pilot</button>
-      </form>
-    </td>
-    <td th:text="${obj.mech.name}"></td>
-    <td th:text="${obj.mech.battleValue}"></td>
-    <td>
-      <form action="/mechInfoScreen" method="get">
-        <input type="hidden" name="campaign_id" th:value="${campaign_id}">
-        <input type="hidden" name="mech_id" th:value="${obj.mech.mech_id}">
-        <button type="submit">View mech</button>
-      </form>
-    </td>
-  </tr>
-  </tbody>
-  <tfoot>
-  <tr>
-    <td colspan="4">Total battle value: TBV</td>
-  </tr>
-  </tfoot>
-</table>
-<table>
-  <thead>
-    <tr>
-      <th>Main Tasks</th>
-      <th>Completed</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr th:each="mainTask : ${mainTasks}">
-      <td th:text="${mainTask.text}"></td>
-      <td>
-        <label>
-          <input type="checkbox" th:checked="${mainTask.completed}"/>
-        </label>
-      </td>
-    </tr>
-  </tbody>
-</table>
-<table>
-  <thead>
-    <tr>
-      <th>Secondary Tasks</th>
-      <th>Completed</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr th:each="secondaryTask : ${secondaryTasks}">
-      <td th:text="${secondaryTask.text}"></td>
-      <td>
-        <label>
-          <input type="checkbox" th:checked="${secondaryTask.completed}"/>
-        </label>
-      </td>
-    </tr>
-  </tbody>
-</table>
-<form action="/endedMatchList" method="get">
-  <input type="hidden" name="campaign_id" th:value="${campaign_id}">
-  <button type="submit">return</button>
-</form>
+  <header>
+    <h1>Campaign sheet: Match No. X</h1>
+    <h2>Player: nickname</h2>
+  </header>
+  <table>
+    <thead>
+      <tr>
+        <th>Pilot list</th>
+        <th>Pilot battle value</th>
+        <th>View pilot</th>
+        <th>Mech list</th>
+        <th>Mech battle value</th>
+        <th>View Mech</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr th:each="object : ${firstPlayerMatchPilotsAndMechs}">
+        <td th:text="${object.pilot.name}"></td>
+        <td>512</td>
+        <td>
+          <form action="/pilotInfoScreen" method="get">
+            <input type="hidden" name="campaign_id" th:value="${campaign_id}">
+            <input type="hidden" name="pilot_id" th:value="${object.pilot.pilot_id}">
+            <button type="submit">View Pilot</button>
+          </form>
+        </td>
+        <td th:text="${object.mech.name}"></td>
+        <td th:text="${object.mech.battleValue}"></td>
+        <td>
+          <form action="/mechInfoScreen" method="get">
+            <input type="hidden" name="campaign_id" th:value="${campaign_id}">
+            <input type="hidden" name="mech_id" th:value="${object.mech.mech_id}">
+            <button type="submit">View mech</button>
+          </form>
+        </td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr>
+        <td colspan="4">Total battle value: TBV</td>
+      </tr>
+    </tfoot>
+  </table>
+  <table>
+    <thead>
+      <tr>
+        <th>Pilot list</th>
+        <th>Pilot battle value</th>
+        <th>View pilot</th>
+        <th>Mech list</th>
+        <th>Mech battle value</th>
+        <th>View Mech</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr th:each="obj : ${secondPlayerMatchPilotsAndMechs}">
+        <td th:text="${obj.pilot.name}"></td>
+        <td>512</td>
+        <td>
+          <form action="/pilotInfoScreen" method="get">
+            <input type="hidden" name="campaign_id" th:value="${campaign_id}">
+            <input type="hidden" name="pilot_id" th:value="${obj.pilot.pilot_id}">
+            <button type="submit">View Pilot</button>
+          </form>
+        </td>
+        <td th:text="${obj.mech.name}"></td>
+        <td th:text="${obj.mech.battleValue}"></td>
+        <td>
+          <form action="/mechInfoScreen" method="get">
+            <input type="hidden" name="campaign_id" th:value="${campaign_id}">
+            <input type="hidden" name="mech_id" th:value="${obj.mech.mech_id}">
+            <button type="submit">View mech</button>
+          </form>
+        </td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr>
+        <td colspan="4">Total battle value: TBV</td>
+      </tr>
+    </tfoot>
+  </table>
+  <table>
+    <thead>
+      <tr>
+        <th>Main Tasks</th>
+        <th>Completed</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr th:each="mainTask : ${mainTasks}">
+        <td th:text="${mainTask.text}"></td>
+        <td>
+          <label>
+            <input type="checkbox" th:checked="${mainTask.completed}"/>
+          </label>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <table>
+    <thead>
+      <tr>
+        <th>Secondary Tasks</th>
+        <th>Completed</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr th:each="secondaryTask : ${secondaryTasks}">
+        <td th:text="${secondaryTask.text}"></td>
+        <td>
+          <label>
+            <input type="checkbox" th:checked="${secondaryTask.completed}"/>
+          </label>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <form action="/endedMatchList" method="get">
+    <input type="hidden" name="campaign_id" th:value="${campaign_id}">
+    <button type="submit">return</button>
+  </form>
 </body>
 </html>

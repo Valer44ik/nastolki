@@ -74,15 +74,39 @@
         width: 100%;
       }
     }
-
   </style>
+  <script>
+    function validateForm() {
+      var nickname = document.getElementById("nickname").value;
+      var firstName = document.getElementById("firstName").value;
+      var lastName = document.getElementById("lastName").value;
+      var errorMessage = "";
+
+      if (nickname === "") {
+        errorMessage += "Nickname is required.\n";
+      }
+      if (firstName === "") {
+        errorMessage += "First name is required.\n";
+      }
+      if (lastName === "") {
+        errorMessage += "Last name is required.\n";
+      }
+
+      if (errorMessage !== "") {
+        alert(errorMessage);
+        return false;
+      }
+
+      return true;
+    }
+  </script>
 </head>
 <body>
 <header>
   <h1>Create player</h1>
 </header>
 <main>
-  <form action="/createPlayer" method="post">
+  <form action="/createPlayer" method="post" onsubmit="return validateForm()">
     <label>Create a player:
       <label>Enter player nickname
         <input type="text" name="nickname" id="nickname">

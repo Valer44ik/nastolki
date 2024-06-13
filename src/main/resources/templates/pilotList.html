@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Campaign Calculator</title>
+  <link rel="stylesheet" href="/style.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f9;
+      color: #333;
+      margin: 0;
+      padding: 20px;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 10px;
+      text-align: left;
+    }
+    th {
+      background-color: #eaeaea;
+    }
+    tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+    input[type="text"] {
+      width: calc(100% - 120px);
+      padding: 10px;
+      margin-right: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      background-color: #4CAF50;
+      color: white;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    form {
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+<header>
+  <h1>Pilot List</h1>
+</header>
+<table id="pilotTable">
+  <thead>
+  <tr>
+    <th>Pilot Name</th>
+    <th>Pilot Rank</th>
+    <th>Pilot Status</th>
+    <th>Pilot Skills</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="pilot : ${pilots}">
+    <td th:text="${pilot.name}"></td>
+    <td th:text="${pilot.pilotRank.name}"></td>
+    <td th:text="${pilot.pilotStatus.name}"></td>
+    <td>Gunnery</td>
+  </tr>
+  </tbody>
+</table>
+
+<input type="text" id="filterInput" placeholder="Enter rank to filter">
+<button id="filterButton">Filter by Rank</button>
+
+<form action="/playMatch" method="get">
+  <input type="hidden" name="campaign_id" th:value="${campaign_id}">
+  <input type="hidden" name="match_id" th:value="${match_id}">
+  <button type="submit">Play Match</button>
+</form>
+
+<script>
+  // Function to filter table rows by rank
+  function filterTableByRank() {
+    const filterValue = document.getElementById("filterInput").value.toLowerCase();
+    const table = document.getElementById("pilotTable");
+    const tbody = table.querySelector("tbody");
+    const rows = Array.from(tbody.querySelectorAll("tr"));
+
+    rows.forEach(row => {
+      const rank = row.cells[1].innerText.toLowerCase();
+      if (rank.includes(filterValue)) {
+        row.style.display = ""; // Show row
+      } else {
+        row.style.display = "none"; // Hide row
+      }
+    });
+  }
+
+  // Bind the filter function to the button click event
+  document.getElementById("filterButton").addEventListener("click", filterTableByRank);
+</script>
+</body>
+</html>

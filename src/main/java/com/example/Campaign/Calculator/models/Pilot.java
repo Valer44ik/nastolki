@@ -82,6 +82,10 @@ public class Pilot {
         this.currentlyInCampaign = currentlyInCampaign;
     }
 
+    public Set<Match1> getMatches() {
+        return matches;
+    }
+
     public Pilot(String name, String pilotSurname, String pilotNickname , PilotRank pilotRank_id,
                  PilotStatus pilotStatus_id, Player player) {
         this.name = name;
@@ -95,5 +99,10 @@ public class Pilot {
     }
 
     public Pilot() {
+    }
+
+    public void removeMatch(Match1 match) {
+        this.matches.remove(match);
+        match.getMechs().remove(this);
     }
 }

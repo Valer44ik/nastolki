@@ -80,6 +80,10 @@ public class Mech {
         return mechChasis;
     }
 
+    public Set<Match1> getMatches() {
+        return matches;
+    }
+
     public Mech(String name, MechStatus mechStatus, MechClass mechClass,
                 int battleValue, Player player, MechChasis mechChasis) {
         this.name = name;
@@ -93,5 +97,10 @@ public class Mech {
 
     public Mech() {
 
+    }
+
+    public void removeMatch(Match1 match) {
+        this.matches.remove(match);
+        match.getMechs().remove(this);
     }
 }

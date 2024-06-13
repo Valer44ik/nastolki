@@ -4,6 +4,58 @@
     <meta charset="utf-8">
     <title>Campaign calculator</title>
     <link rel="stylesheet" href="/style.css">
+    <script>
+      function validateForm() {
+        var firstPlayerPilots = document.getElementsByName("firstPlayerPilots_id");
+        var firstPlayerMechs = document.getElementsByName("firstPlayerMechs_id");
+        var secondPlayerPilots = document.getElementsByName("secondPlayerPilots_id");
+        var secondPlayerMechs = document.getElementsByName("secondPlayerMechs_id");
+
+        // Check if any pilot or mech is not selected for any player
+        if (!checkSelection(firstPlayerPilots, "first player pilots") ||
+          !checkSelection(firstPlayerMechs, "first player mechs") ||
+          !checkSelection(secondPlayerPilots, "second player pilots") ||
+          !checkSelection(secondPlayerMechs, "second player mechs")) {
+          return false;
+        }
+
+        // Check for duplicate pilot selection for each player
+        if (hasDuplicateSelection(firstPlayerPilots) || hasDuplicateSelection(secondPlayerPilots)) {
+          alert("The same pilot cannot be selected in different columns for a player.");
+          return false;
+        }
+
+        // Check for duplicate mech selection for each player
+        if (hasDuplicateSelection(firstPlayerMechs) || hasDuplicateSelection(secondPlayerMechs)) {
+          alert("The same mech cannot be selected in different columns for a player.");
+          return false;
+        }
+
+        return true;
+      }
+
+        function checkSelection(elements, playerName) {
+          for (var i = 0; i < elements.length; i++) {
+            if (elements[i].value === "") {
+              alert("Please select a " + playerName + " for all rows.");
+              return false;
+            }
+          }
+          return true;
+        }
+
+        function hasDuplicateSelection(elements) {
+          var selectedValues = [];
+          for (var i = 0; i < elements.length; i++) {
+            var value = elements[i].value;
+            if (selectedValues.includes(value) && value !== "") {
+              return true;
+            }
+            selectedValues.push(value);
+          }
+          return false;
+      }
+    </script>
   </head>
   <body>
     <header>
@@ -13,7 +65,7 @@
       <div th:if="${error}" class="error-message">
         <p th:text="${error}"></p>
       </div>
-      <form action="/startFirstMatch" method="post">
+      <form action="/startFirstMatch" method="post" onsubmit="return validateForm()">
         <label>Enter match name:
           <input type="text" name="matchName" placeholder="Enter match name">
         </label>
@@ -167,7 +219,7 @@
               <tr>
                 <td>
                   <label>
-                    <input type="text" name="secondaryTasksTextForPLayer2" placeholder="Enter task">
+                    <input type="text" name="secondaryTasksTextForPlayer2" placeholder="Enter task">
                   </label>
                 </td>
               <tr>

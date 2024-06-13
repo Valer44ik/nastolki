@@ -6,10 +6,7 @@ import com.example.Campaign.Calculator.repo.PlayerRepository;
 import com.example.Campaign.Calculator.repo.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.annotation.*;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -35,22 +32,24 @@ public class userController {
     @PostMapping("/")
     public String login(@RequestParam String login,
                         @RequestParam String password,
-                        Model model){
+                        Model model) {
 
+        // Check if either login or password is empty
         if (login == null || login.isEmpty() || password == null || password.isEmpty()) {
             model.addAttribute("error", "You have to enter both login and password");
-            return "/login";
+            return "login"; // Corrected the view name to "login" without a leading slash
         }
 
+        // Fetch the user by login and password
         User logged_user = userRepository.findByLoginAndPassword(login, password);
 
-        if(logged_user != null){
+        // Check if the user exists
+        if (logged_user != null) {
             model.addAttribute("loggedInUser", logged_user);
             return "redirect:/mainPage"; // Redirect to main page after successful login
         } else {
-            // add error atributte to the model
             model.addAttribute("error", "Invalid username or password");
-            return "/login";
+            return "login"; // Corrected the view name to "login" without a leading slash
         }
     }
 
@@ -72,7 +71,7 @@ public class userController {
                 || login == null || login.isEmpty()
                 || email == null || email.isEmpty()) {
             model.addAttribute("error", "You have to provide all the necessary information");
-            return "/register";
+            return "register";
         }
 
         // Check if user with such username already exists
@@ -81,7 +80,7 @@ public class userController {
         if (existingUser != null) {
             // add error atributte to the model
             model.addAttribute("error", "Username already exists");
-            return "/register";
+            return "register";
         }
 
         // Create a new user object
@@ -130,7 +129,7 @@ public class userController {
         if (nickname == null || nickname.isEmpty()
                 || firstName == null || firstName.isEmpty()
                 || lastName == null || lastName.isEmpty()) {
-            return "/createPlayer";
+            return "redirect:/createPlayer";
         }
 
         // Check if user with such username already exists
@@ -139,7 +138,7 @@ public class userController {
         if (existingPlayer != null) {
             // add error atributte to the model
             model.addAttribute("error", "Username already exists");
-            return "createPlayer";
+            return "redirect:/createPlayer";
         }
 
         // Create a new user object

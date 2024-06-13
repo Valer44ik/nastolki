@@ -5,9 +5,7 @@ import com.example.Campaign.Calculator.repo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
@@ -16,6 +14,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 @Controller
+@SessionAttributes("loggedInUser")
 public class pilotMechController {
 
     @Autowired
@@ -54,7 +53,7 @@ public class pilotMechController {
                                @RequestParam(defaultValue = "0") int chasisWeight, Model model){
         if (chasisName == null || chasisName.isEmpty()) {
             model.addAttribute("error", "Incorrect chasis detail, please try again");
-            return "/createMechChasis";
+            return "createMechChasis";
         }
 
         if(chasisWeight < 20 || (chasisWeight > 35 && chasisWeight < 40) ||
@@ -67,12 +66,12 @@ public class pilotMechController {
                                                                 "\n40-55-Medium" +
                                                                 "\n60-75-Heavy" +
                                                                 "\n80-100-Assault\n");
-            return "/createMechChasis";
+            return "createMechChasis";
         }
 
         MechChasis mechChasis = new MechChasis(chasisName, chasisWeight);
         mechChasisRepository.save(mechChasis);
-        return "/createMechChasis";
+        return "createMechChasis";
     }
 
     @GetMapping("/createMech")
@@ -91,9 +90,9 @@ public class pilotMechController {
                              @RequestParam(defaultValue = "0") int battleValue,
                              @RequestParam(defaultValue = "0") Long mechChasis_id,
                              @RequestParam(defaultValue = "0") Long player_id,
-                             Model model) {
+                             RedirectAttributes redirectAttributes, Model model) {
         if (battleValue < 1 || mechName == null || mechName.isEmpty() || mechChasis_id < 1 || player_id < 1) {
-            model.addAttribute("error", "Incorrect mech details, please try again");
+            redirectAttributes.addFlashAttribute("error", "Incorrect mech details, please try again");
             return "redirect:/createMech";
         }
 
@@ -134,7 +133,7 @@ public class pilotMechController {
                 mechClassRepository.save(mechClass);
             }
         } else {
-            model.addAttribute("error", "Incorrect weight input. " +
+            redirectAttributes.addFlashAttribute("error", "Incorrect weight input. " +
                     "The correct examples are:" +
                     "\n20-35/Light" +
                     "\n40-55-Medium" +
@@ -165,11 +164,11 @@ public class pilotMechController {
                               @RequestParam String pilotSurname,
                               @RequestParam String pilotNickname,
                               @RequestParam(defaultValue = "0") Long player_id,
-                              Model model) {
+                              RedirectAttributes redirectAttributes, Model model) {
 
         if (pilotName == null || pilotName.isEmpty() || pilotSurname == null || pilotSurname.isEmpty()
                 || pilotNickname == null || pilotNickname.isEmpty() || player_id < 1) {
-            model.addAttribute("error", "Incorrect pilot details, please try again");
+            redirectAttributes.addFlashAttribute("error", "Incorrect pilot details, please try again");
             return "redirect:/createPilot";
         }
 
@@ -259,7 +258,7 @@ public class pilotMechController {
                               @RequestParam(defaultValue = "0") Long match_id,
                               RedirectAttributes redirectAttributes, Model model) {
         if(pilot_id < 1 || pilotRank_id < 1 || pilotStatus_id < 1 || campaign_id < 1 || match_id < 1) {
-            model.addAttribute("error", "Incorrect details, please try again");
+            redirectAttributes.addFlashAttribute("error", "Incorrect details, please try again");
             return "redirect:/makeChangesInPilot";
         }
 
@@ -314,7 +313,7 @@ public class pilotMechController {
                               @RequestParam Long match_id,
                               RedirectAttributes redirectAttributes, Model model) {
         if(mechChasis_id < 1 || mechStatus_id < 1 || campaign_id < 1 || mech_id < 1 || match_id < 1) {
-            model.addAttribute("error", "Incorrect details, please try again");
+            redirectAttributes.addFlashAttribute("error", "Incorrect details, please try again");
             return "redirect:/makeChasngesInMech";
         }
 
@@ -352,7 +351,7 @@ public class pilotMechController {
                 mechClassRepository.save(mechClass);
             }
         } else {
-            model.addAttribute("error", "Incorrect weight input. " +
+            redirectAttributes.addFlashAttribute("error", "Incorrect weight input. " +
                     "The correct examples are:" +
                     "\n20-35/Light" +
                     "\n40-55-Medium" +
@@ -370,5 +369,16 @@ public class pilotMechController {
         redirectAttributes.addAttribute("campaign_id", campaign_id);
         redirectAttributes.addAttribute("match_id", match_id);
         return "redirect:/endMatch";
+    }
+
+    @GetMapping("/pilotList")
+    public String viewAllPilots(Model model) {
+        model.addAttribute("title", "Pilot List");
+
+        List<Pilot> pilots = (List<Pilot>)pilotRepository.findAll();
+
+        model.addAttribute("pilots", pilots);
+
+        return "pilotList";
     }
 }

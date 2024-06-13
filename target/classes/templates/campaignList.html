@@ -25,6 +25,9 @@
                 <th>
                     <label>Continue campaign</label>
                 </th>
+                <th>
+                    <label>Delete campaign</label>
+                </th>
             </tr>
         </thead>
         <tbody>
@@ -40,6 +43,15 @@
                     <form th:unless="${campaign.ended == false}" th:action="@{/endedMatchList}" method="get">
                         <input type="hidden" name="campaign_id" th:value="${campaign.campaign_id}">
                         <button type="submit">Watch campaign</button>
+                    </form>
+                </td>
+                <td>
+                    <form th:if="${campaign.ended == true}" th:action="@{/delete/{campaign_id}(campaign_id=${campaign.campaign_id})}" method="post">
+                        <input type="hidden" name="_method" value="delete">
+                        <button type="submit">Delete campaign</button>
+                    </form>
+                    <form th:unless="${campaign.ended == true}">
+                        <label th:text="unavailable"></label>
                     </form>
                 </td>
             </tr>

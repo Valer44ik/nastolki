@@ -1,6 +1,5 @@
 package com.example.Campaign.Calculator.models;
 
-import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -71,6 +70,14 @@ public class Campaign {
         return players;
     }
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     public Campaign(String name, CampaignType campaignType, FormationOrder formationOrder, int battleValue,
                     LocalDate startDate, User user) {
         this.campaignName = name;
@@ -90,6 +97,16 @@ public class Campaign {
 
     public Campaign() {
 
+    }
+
+    public void removeMatch(Match1 match) {
+        matches.remove(match);
+        match.setCampaign(null);
+    }
+
+    public void removePlayer(Player player) {
+        this.players.remove(player);
+        player.getCampaigns().remove(this);
     }
 }
 

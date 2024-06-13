@@ -28,6 +28,10 @@ public class SecondaryTask {
         return text;
     }
 
+    public Long getSecondaryTask_id() {
+        return secondaryTask_id;
+    }
+
     public boolean isCompleted() {
         return isCompleted;
     }

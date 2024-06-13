@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDate;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -80,6 +81,18 @@ public class Match1 {
         isEnded = ended;
     }
 
+    public void setCampaign(Campaign campaign) {
+        this.campaign = campaign;
+    }
+
+    public Set<Pilot> getPilots() {
+        return pilots;
+    }
+
+    public Set<Mech> getMechs() {
+        return mechs;
+    }
+
     public Match1(LocalDate startDate, String name, boolean isEnded, Campaign campaign) {
         this.startDate = startDate;
         this.name = name;
@@ -93,7 +106,25 @@ public class Match1 {
         winningPlayer_id = null;
     }
 
-
     public Match1(){};
 
+    public void removeMainTasks(MainTask mainTask){
+        mainTasks.remove(mainTask);
+        mainTask.setMatch1(null);
+    }
+
+    public void removeSecondaryTasks(SecondaryTask secondaryTask) {
+        secondaryTasks.remove(secondaryTask);
+        secondaryTask.setMatch1(null);
+    }
+
+    public void removePilot(Pilot pilot) {
+        this.pilots.remove(pilot);
+        pilot.getMatches().remove(this);
+    }
+
+    public void removeMech(Mech mech) {
+        this.mechs.remove(mech);
+        mech.getMatches().remove(this);
+    }
 }

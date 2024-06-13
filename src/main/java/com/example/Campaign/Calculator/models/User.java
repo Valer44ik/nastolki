@@ -41,4 +41,9 @@ public class User {
 
     public User() {
     }
+
+    public void removeCampaign(Campaign campaign) {
+        campaigns.remove(campaign);
+        campaign.setUser(null);
+    }
 }

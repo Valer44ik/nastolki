@@ -28,6 +28,10 @@ public class MainTask {
         return text;
     }
 
+    public Long getMainTask_id() {
+        return mainTask_id;
+    }
+
     public Boolean getCompleted() {
         return isCompleted;
     }
