@@ -2,6 +2,7 @@ package com.example.Campaign.Calculator.repo;
 
 import com.example.Campaign.Calculator.models.Pilot;
 import com.example.Campaign.Calculator.models.Player;
+import com.example.Campaign.Calculator.models.User;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -14,6 +15,8 @@ import java.util.Set;
 
 @Repository
 public interface PilotRepository extends CrudRepository<Pilot, Long> {
+    List<Player> findByUser(User user);
+
     @Modifying
     @Transactional
     @Query(value = "SELECT m.pilot_id FROM match_pilot_mech m WHERE m.match_id = :match_id", nativeQuery = true)

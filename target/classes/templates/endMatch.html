@@ -4,6 +4,16 @@
     <meta charset="utf-8">
     <title>Campaign calculator</title>
     <link rel="stylesheet" href="/style.css">
+    <script>
+        function validateForm() {
+            const selectElement = document.getElementById('winningPlayer_id');
+            if (selectElement.value === "") {
+                alert("Please select a winning player.");
+                return false;
+            }
+            return true;
+        }
+    </script>
 </head>
 <body>
 <header>
@@ -92,9 +102,9 @@
     </tr>
     </tfoot>
 </table>
-<form action="/endMatch" method="post">
+<form action="/endMatch" method="post" onsubmit="return validateForm()">
     <label>
-        <h2>Choose the winning player: </h2>
+        <h2>Choose the winning player:</h2>
         <select id="winningPlayer_id" name="winningPlayer_id">
             <option value="">Select player</option>
             <option th:each="player : ${players}"

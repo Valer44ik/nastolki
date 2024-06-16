@@ -48,6 +48,7 @@
       <button type="submit">endCampaign</button>
     </form>
     <form action="/matchList" method="get">
+      <input type="hidden" name="campaign_id" th:value="${campaign_id}">
       <button type="submit">Return</button>
     </form>
   </main>

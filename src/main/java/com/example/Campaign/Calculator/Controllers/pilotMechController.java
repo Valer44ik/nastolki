@@ -100,6 +100,14 @@ public class pilotMechController {
         if (mechStatus == null) {
             mechStatus = new MechStatus("Ready");
             mechStatusRepository.save(mechStatus);
+            mechStatus = new MechStatus("Damaged");
+            mechStatusRepository.save(mechStatus);
+            mechStatus = new MechStatus("Broken");
+            mechStatusRepository.save(mechStatus);
+            mechStatus = new MechStatus("Captured");
+            mechStatusRepository.save(mechStatus);
+
+            mechStatus = mechStatusRepository.findByName("Ready");
         }
 
         MechChasis mechChasis = mechChasisRepository.findById(mechChasis_id).orElse(null);

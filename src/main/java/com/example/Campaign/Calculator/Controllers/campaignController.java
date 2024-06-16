@@ -228,6 +228,8 @@ public class campaignController {
             pilot.setPilotStatus(pilotStatus);
             pilot.setInactiveCount((short) 0);
             pilot.setCurrentlyInCampaign(false);
+
+            pilotRepository.save(pilot);
         }
 
         List<Long> mechs_id = mechRepository.findMechsParticipatingInCampaign(campaign_id);
@@ -238,6 +240,8 @@ public class campaignController {
 
             mech.setMechStatus(mechStatus);
             mech.setCurrentlyInCampaign(false);
+
+            mechRepository.save(mech);
         }
         return "redirect:/mainPage";
     }
