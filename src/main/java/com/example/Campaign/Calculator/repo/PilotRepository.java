@@ -15,8 +15,6 @@ import java.util.Set;
 
 @Repository
 public interface PilotRepository extends CrudRepository<Pilot, Long> {
-    List<Player> findByUser(User user);
-
     @Modifying
     @Transactional
     @Query(value = "SELECT m.pilot_id FROM match_pilot_mech m WHERE m.match_id = :match_id", nativeQuery = true)
