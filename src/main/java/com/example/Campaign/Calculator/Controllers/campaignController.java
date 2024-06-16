@@ -323,6 +323,6 @@ public class campaignController {
 
         campaignRepository.deleteById(campaign_id);
 
-        return "redirect:/campaignList";
+        return "campaignList";
     }
 }
