@@ -121,9 +121,7 @@ public class MatchTests {
                         .param("secondaryTasksTextForPlayer2", "Task1", "Task2")
                         .param("campaign_id", campaignId.toString()))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/playMatch"))
-                .andExpect(flash().attributeExists("campaign_id"))
-                .andExpect(flash().attribute("campaign_id", campaignId));
+                .andExpect(redirectedUrl("/playMatch?campaign_id=1"));
 
         // Verify repository interactions
         Mockito.verify(matchRepository).save(Mockito.any(Match1.class));
@@ -136,7 +134,6 @@ public class MatchTests {
         Mockito.verify(mechRepository).save(mech3);
         Mockito.verify(mechRepository).save(mech4);
     }
-
     @Test
     public void testEndMatch_withInvalidData() throws Exception {
         mockMvc.perform(post("/endMatch")

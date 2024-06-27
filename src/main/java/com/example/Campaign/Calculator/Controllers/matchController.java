@@ -180,8 +180,8 @@ public class matchController {
             secondUserSecondaryTasks.add(secondaryTask);
         }
 
-        redirectAttributes.addFlashAttribute("campaign_id", campaign_id);
-        redirectAttributes.addFlashAttribute("match_id", match_id);
+        redirectAttributes.addAttribute("campaign_id", campaign_id);
+        redirectAttributes.addAttribute("match_id", match_id);
         return "redirect:/playMatch";
     }
 

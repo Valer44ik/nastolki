@@ -157,11 +157,7 @@ class PilotMechTests {
 						.param("pilot_id", pilotId.toString())
 						.param("match_id", matchId.toString()))
 				.andExpect(status().is3xxRedirection())
-				.andExpect(redirectedUrl("/endMatch"))
-				.andExpect(flash().attributeExists("campaign_id"))
-				.andExpect(flash().attribute("campaign_id", campaignId))
-				.andExpect(flash().attributeExists("match_id"))
-				.andExpect(flash().attribute("match_id", matchId));
+				.andExpect(redirectedUrl("/endMatch?campaign_id=1&match_id=1"));
 
 		// Verify interactions
 		Mockito.verify(pilotRepository).findById(pilotId);
@@ -216,11 +212,7 @@ class PilotMechTests {
 						.param("mech_id", mechId.toString())
 						.param("match_id", matchId.toString()))
 				.andExpect(status().is3xxRedirection())
-				.andExpect(redirectedUrl("/endMatch"))
-				.andExpect(flash().attributeExists("campaign_id"))
-				.andExpect(flash().attribute("campaign_id", campaignId))
-				.andExpect(flash().attributeExists("match_id"))
-				.andExpect(flash().attribute("match_id", matchId));
+				.andExpect(redirectedUrl("/endMatch?campaign_id=1&match_id=1"));
 
 		// Verify interactions
 		Mockito.verify(mechRepository).findById(mechId);
