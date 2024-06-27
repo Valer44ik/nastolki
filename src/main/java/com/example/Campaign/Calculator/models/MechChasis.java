@@ -30,6 +30,10 @@ public class MechChasis {
         return chasisWeight;
     }
 
+    public void setChasisWeight(int chasisWeight) {
+        this.chasisWeight = chasisWeight;
+    }
+
     public MechChasis(String chasisName, int chasisWeight) {
         this.chasisName = chasisName;
         this.chasisWeight = chasisWeight;

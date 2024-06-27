@@ -78,6 +78,10 @@ public class Campaign {
         this.user = user;
     }
 
+    public void setCampaign_id(Long campaign_id) {
+        this.campaign_id = campaign_id;
+    }
+
     public Campaign(String name, CampaignType campaignType, FormationOrder formationOrder, int battleValue,
                     LocalDate startDate, User user) {
         this.campaignName = name;

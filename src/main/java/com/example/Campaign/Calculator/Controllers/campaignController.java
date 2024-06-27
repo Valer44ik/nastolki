@@ -173,9 +173,17 @@ public class campaignController {
     }
 
     @PostMapping("/endCampaign")
-    public String endCampaign(@RequestParam Long campaign_id, Model model) {
+    public String endCampaign(@RequestParam Long campaign_id, RedirectAttributes redirectAttributes, Model model) {
         Campaign campaign = campaignRepository.findById(campaign_id).orElse(null);
+
+        if(campaign == null) {
+            redirectAttributes.addFlashAttribute("error", "error, " +
+                    "campaign does not exist in the current scope, please try again.");
+            return "redirect:/mainPage";
+        }
+
         campaign.setEnded(true);
+        campaignRepository.save(campaign);
 
         List<Map<String, Long>> playerStats = matchRepository.countWinsForPlayer(campaign_id);
 
@@ -265,8 +273,6 @@ public class campaignController {
         user = userRepository.findById(user.getUser_id())
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        //User user = campaign.getUser();
-
         List<Match1> matches = matchRepository.findByCampaign(campaign);
 
         List<Match1> matchesCopy = new ArrayList<>(matches);
@@ -323,6 +329,12 @@ public class campaignController {
 
         campaignRepository.deleteById(campaign_id);
 
-        return "campaignList";
+        return "redirect:/campaignList";
+    }
+
+    @ExceptionHandler(RuntimeException.class)
+    public String handleException(RuntimeException e, RedirectAttributes redirectAttributes) {
+        redirectAttributes.addFlashAttribute("error", e.getMessage());
+        return "redirect:/";
     }
 }

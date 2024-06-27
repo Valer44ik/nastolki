@@ -135,6 +135,9 @@ public class matchController {
 
             Mech mech = mechRepository.findById(firstPlayerMechs_id.get(i)).orElse(null);
             mech.setCurrentlyInCampaign(true);
+
+            pilotRepository.save(pilot);
+            mechRepository.save(mech);
         }
         for(int i = 0; i < secondPlayerPilots_id.size(); i++) {
             matchRepository.bindPilotsAndMechsToMatch(match_id, secondPlayerPilots_id.get(i), secondPlayerMechs_id.get(i));
@@ -143,6 +146,9 @@ public class matchController {
 
             Mech mech = mechRepository.findById(secondPlayerMechs_id.get(i)).orElse(null);
             mech.setCurrentlyInCampaign(true);
+
+            pilotRepository.save(pilot);
+            mechRepository.save(mech);
         }
 
         List<MainTask> firstUserMainTasks = new ArrayList<>();
@@ -174,8 +180,8 @@ public class matchController {
             secondUserSecondaryTasks.add(secondaryTask);
         }
 
-        redirectAttributes.addAttribute("campaign_id", campaign_id);
-        redirectAttributes.addAttribute("match_id", match_id);
+        redirectAttributes.addFlashAttribute("campaign_id", campaign_id);
+        redirectAttributes.addFlashAttribute("match_id", match_id);
         return "redirect:/playMatch";
     }
 

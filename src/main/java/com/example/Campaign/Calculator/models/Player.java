@@ -32,6 +32,10 @@ public class Player {
         return player_id;
     }
 
+    public void setPlayer_id(Long player_id) {
+        this.player_id = player_id;
+    }
+
     public String getNickname() {
         return nickname;
     }

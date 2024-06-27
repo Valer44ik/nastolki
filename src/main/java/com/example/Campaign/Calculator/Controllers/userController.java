@@ -12,6 +12,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
 import org.springframework.ui.Model;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @SessionAttributes("loggedInUser")
@@ -32,7 +33,7 @@ public class userController {
     @PostMapping("/")
     public String login(@RequestParam String login,
                         @RequestParam String password,
-                        Model model) {
+                        RedirectAttributes redirectAttributes, Model model) {
 
         // Check if either login or password is empty
         if (login == null || login.isEmpty() || password == null || password.isEmpty()) {
@@ -45,7 +46,7 @@ public class userController {
 
         // Check if the user exists
         if (logged_user != null) {
-            model.addAttribute("loggedInUser", logged_user);
+            redirectAttributes.addFlashAttribute("loggedInUser", logged_user);
             return "redirect:/mainPage"; // Redirect to main page after successful login
         } else {
             model.addAttribute("error", "Invalid username or password");
@@ -124,7 +125,7 @@ public class userController {
     public String register(@RequestParam String nickname,
                            @RequestParam String firstName,
                            @RequestParam String lastName,
-                           Model model) {
+                           RedirectAttributes redirectAttributes, Model model) {
         // if any field is null or empty, return to the registration page
         if (nickname == null || nickname.isEmpty()
                 || firstName == null || firstName.isEmpty()
@@ -137,7 +138,7 @@ public class userController {
 
         if (existingPlayer != null) {
             // add error atributte to the model
-            model.addAttribute("error", "Username already exists");
+            redirectAttributes.addFlashAttribute("error", "Username already exists");
             return "redirect:/createPlayer";
         }
 

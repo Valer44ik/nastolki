@@ -289,8 +289,8 @@ public class pilotMechController {
 
         pilotRepository.save(pilot);
 
-        redirectAttributes.addAttribute("campaign_id", campaign_id);
-        redirectAttributes.addAttribute("match_id", match_id);
+        redirectAttributes.addFlashAttribute("campaign_id", campaign_id);
+        redirectAttributes.addFlashAttribute("match_id", match_id);
         return "redirect:/endMatch";
     }
 
@@ -322,7 +322,7 @@ public class pilotMechController {
                               RedirectAttributes redirectAttributes, Model model) {
         if(mechChasis_id < 1 || mechStatus_id < 1 || campaign_id < 1 || mech_id < 1 || match_id < 1) {
             redirectAttributes.addFlashAttribute("error", "Incorrect details, please try again");
-            return "redirect:/makeChasngesInMech";
+            return "redirect:/makeChangesInMech";
         }
 
         Mech mech = mechRepository.findById(mech_id).orElse(null);
@@ -374,8 +374,8 @@ public class pilotMechController {
 
         mechRepository.save(mech);
 
-        redirectAttributes.addAttribute("campaign_id", campaign_id);
-        redirectAttributes.addAttribute("match_id", match_id);
+        redirectAttributes.addFlashAttribute("campaign_id", campaign_id);
+        redirectAttributes.addFlashAttribute("match_id", match_id);
         return "redirect:/endMatch";
     }
 
